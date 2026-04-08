@@ -5,13 +5,15 @@
 //  Created by Алексей Езерский on 17.12.2025.
 //
 
-//MARK: - Отрисовка изолиний с надписями и указателями направления потока (для ψ)
+//MARK: - Изолинии с надписями и указателями направления потока для ψ)
 
 import SwiftUI
 extension Visualizator {
     /// Отрисовка изолиний с надписями (и указателями направления потока для ψ)
-    func drawLines(for field: [[Double]], in context: inout GraphicsContext, size: CGSize, scale: CGFloat, rx: [Double]) {
-        let (vMin, vMax) = fieldValueLimits(field)
+    func drawLines(for field: [Double], in context: inout GraphicsContext, size: CGSize, scale: CGFloat, rx: [Double]) {
+        let nx = solver.nx, ny = solver.ny
+        let x = solver.x, y = solver.y
+        let (vMin, vMax) = fieldLimits(field)
         let nLines = 10
         let levels = (0...nLines).map { vMin + (vMax - vMin) * Double($0) / Double(nLines) }
         
@@ -23,16 +25,18 @@ extension Visualizator {
             var path = Path()
             var labelDrawnInZone = [false, false, false]
             
-            for j in 0..<field.count - 1 {
-                for i in 0..<field[0].count - 1 {
+            for j in 0..<ny-1 {
+                let row = nx*j
+                for i in 0..<nx-1 {
+                    let idx = row + i
                     
                     /// код поиска segments через Marching Squares
-                    let f = [field[j][i], field[j][i+1], field[j+1][i+1], field[j+1][i]]
+                    let f = [field[idx], field[idx+1], field[idx+nx+1], field[idx+nx]]
                     let p = [
-                        CGPoint(x: (solver.x[i] * rx[j] - halfLx),     y: solver.y[j] - halfLy),
-                        CGPoint(x: (solver.x[i+1] * rx[j] - halfLx),   y: solver.y[j] - halfLy),
-                        CGPoint(x: (solver.x[i+1] * rx[j+1] - halfLx), y: solver.y[j+1] - halfLy),
-                        CGPoint(x: (solver.x[i] * rx[j+1] - halfLx),   y: solver.y[j+1] - halfLy)
+                        CGPoint(x: (x[i]*rx[j] - halfLx), y: y[j] - halfLy),
+                        CGPoint(x: (x[i+1]*rx[j] - halfLx), y: y[j] - halfLy),
+                        CGPoint(x: (x[i+1]*rx[j+1] - halfLx), y: y[j+1] - halfLy),
+                        CGPoint(x: (x[i]*rx[j+1] - halfLx), y: y[j+1] - halfLy)
                     ]
                     var segments: [CGPoint] = []
                     for k in 0..<4 {
@@ -51,7 +55,7 @@ extension Visualizator {
                         path.addLine(to: p1)
                         
                         /// Надписи на изолиниях
-                        inscriptions(field, i, &labelDrawnInZone, &segments, relativeField, context)
+                        inscriptions(nx, i, &labelDrawnInZone, &segments, relativeField, context)
                         ///  Указатели направления  потока (стрелки)
                         flowDirection(i, j, p0, p1, field, &context)
                     }
@@ -63,8 +67,9 @@ extension Visualizator {
     }
     
     /// Отрисовка стрелок, указывающих направление потока (только для ψ)
-    fileprivate func flowDirection(_ i: Int, _ j: Int, _ p0: CGPoint, _ p1: CGPoint, _ field: [[Double]], _ context: inout GraphicsContext) {
-        if i % (solver.nx/5) == 0 && j % (solver.ny/10) == 0 /// частота отрисовки
+    fileprivate func flowDirection(_ i: Int, _ j: Int, _ p0: CGPoint, _ p1: CGPoint, _ field: [Double], _ context: inout GraphicsContext) {
+        let nx = solver.nx; let ny = solver.ny
+        if i % (nx/5) == 0 && j % (ny/10) == 0 /// частота отрисовки
             && selectedVisualization > 1 { /// условие отрисовки (только для ψ)
             let mid = CGPoint(x: (p0.x + p1.x) / 2, y: (p0.y + p1.y) / 2)
             
@@ -77,9 +82,9 @@ extension Visualizator {
             /// Это гарантирует идеальное соответствие стрелки линии u = dPsi/dy, v = -dPsi/dx
             
             /// Центральные разности для производных psi в узле (j, i)
-            let jMax = field.count - 1; let iMax = field[0].count - 1
-            let dPsiDy = (field[min(j+1, jMax)][i] - field[max(j-1, 0)][i])
-            let dPsiDx = (field[j][min(i+1, iMax)] - field[j][max(i-1, 0)])
+            let jMax = ny - 1; let iMax = nx - 1
+            let dPsiDy = field[solver.idx(i, min(j+1, jMax))] - field[solver.idx(i, max(j-1, 0))]
+            let dPsiDx = field[solver.idx(min(i+1, iMax), j)] - field[solver.idx(max(i-1, 0), j)]
             
             /// Перевод в экранные координаты:  u -> screenDX; v -> -screenDY (инверсия Y в iOS)
             /// Поскольку v = -dPsi/dx, то screenDY = -(-dPsi/dx) = dPsi/dx
@@ -97,7 +102,7 @@ extension Visualizator {
         }
     }
 
-    /// Отрисовка "усиков" стрелки
+    /// Отрисовка наконечников ("усиков") стрелки
     fileprivate func drawArrowHead(in context: inout GraphicsContext, at point: CGPoint, angle: CGFloat) {
         let arrowLength: CGFloat = 5.0
         let wingAngle: CGFloat = .pi / 7 // Острый наконечник
@@ -113,9 +118,9 @@ extension Visualizator {
     }
     
     /// Отрисовка относительных величин, соответствующих линии (от 0.0 до 1.0)
-    fileprivate func inscriptions(_ field: [[Double]], _ i: Int, _ labelDrawnInZone: inout [Bool], _ segments: inout [CGPoint], _ relativeField: Double, _ context: GraphicsContext) {
+    fileprivate func inscriptions(_ nx: Int, _ i: Int, _ labelDrawnInZone: inout [Bool], _ segments: inout [CGPoint], _ relativeField: Double, _ context: GraphicsContext) {
         // Надписи (оставляем логику по зонам)
-        let cF = field[0].count
+        let cF = nx
         let zones = [cF/4, cF/2, 3*cF/4]
         for (idx, zoneIndex) in zones.enumerated() {
             if i == zoneIndex && !labelDrawnInZone[idx] {

@@ -17,10 +17,9 @@ struct HistoryFrame: Identifiable {
     let rx_avg: Double, rx_avg_old: Double
     let V_melt_avg: Double
     let gravityAngle: Double
-    let temperature: [[Double]]
-    let velocityX: [[Double]]
-    let velocityY: [[Double]]
-//    let pressure: [[Double]]
+    let temperature: [Double]
+    let velocityX: [Double]
+    let velocityY: [Double]
     let pressure: [Double]
     let liquidFraction: [Double]
     let isStone: [UInt8]

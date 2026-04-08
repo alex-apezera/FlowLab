@@ -21,37 +21,31 @@ extension Visualizator {
             var centralContext = context
             centralContext.translateBy(x: size.width/2, y: size.height/2)
             
-            var field: [[Double]]
+            var field: [Double]
             switch selectedVisualization {
             case 0: field = frame.temperature
-//            case 1: field = frame.pressure
-            case 1: field = unflattenIdiomatic(flatArray: frame.pressure, nx: solver.nx, ny: solver.ny)
+            case 1: field = frame.pressure
             case 2: field = solver.streamFunction(u: frame.velocityX, v: frame.velocityY, rx: frame.rx, fl: frame.liquidFraction)
-            case 6: /// функция тока на основе решения уравнения Пуассона
-                if needsStream { /// при необходимости пересчета
+            case 6: if needsStream { /// функция тока на основе  уравнения Пуассона
                     solver.updateStreamFunctionAsync(u: frame.velocityX, v: frame.velocityY, rx: frame.rx)
-                    DispatchQueue.main.async {self.needsStream = false}
-                }
+                    DispatchQueue.main.async {self.needsStream = false} }
                 field = solver.psi
-            default: return
-            }
+            default: return }
             
             // 1. Отрисовка фонового поля (Heatmap)
             drawField(field, in: &centralContext, scale: scale, rx: frame.rx)
             
             // 2. Отрисовка вектора скорости (и наложение если нужно)
             if addVelocityField {
-                drawFluxes(for: frame, in: &centralContext, size: size, scale: scale)
-            }
+                drawVelocity(for: frame, in: &centralContext, size: size, scale: scale) }
             
             // 3. Отрисовка и наложение изолиний
                 drawLines(for: field, in: &centralContext, size: size, scale: scale, rx: frame.rx)
             
             // 4. Отрисовка и наложение фронта плавления
             if solver.useEnthalpyMethod && showFrontLine {
-                drawSingleLine(for: frame.liquidFraction, level: 0.5, in: &context, size: size, scale: scale)
-            }
-            
+                drawSingleLine(for: frame.liquidFraction, level: 0.5, in: &context, size: size, scale: scale) }
         }
+        .drawingGroup() // Включает Metal-акселерацию для Canvas
     }
 }

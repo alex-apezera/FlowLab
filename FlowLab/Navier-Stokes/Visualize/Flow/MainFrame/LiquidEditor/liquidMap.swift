@@ -39,20 +39,20 @@ extension LiquidFractionEditor {
                     }
                 }
                 .gesture( DragGesture(minimumDistance: 0).onChanged { value in
-                        let cellW = geo.size.width / CGFloat(cols)
-                        let cellH = geo.size.height / CGFloat(rows)
-                        
-                        if (currentTool == .circle || currentTool == .rectangle) {
-                            // ПЕРЕМЕЩЕНИЕ: Привязываем центр фантома к курсору
-                            let newCol = value.location.x / cellW
-                            let newRow = (rows - 1) - Int(value.location.y / cellH)
-                            solver.activeObjectPos = CGPoint(x: newCol, y: CGFloat(newRow))
-                        } else {
-                            // РИСОВАНИЕ: Стандартная логика freehand/eraser
-                            handleInput(at: value.location, in: geo.size)
-                        }
+                    let cellW = geo.size.width / CGFloat(cols)
+                    let cellH = geo.size.height / CGFloat(rows)
+                    
+                    if (currentTool == .circle || currentTool == .rectangle) {
+                        // ПЕРЕМЕЩЕНИЕ: Привязываем центр фантома к курсору
+                        let newCol = value.location.x / cellW
+                        let newRow = (rows - 1) - Int(value.location.y / cellH)
+                        solver.activeObjectPos = CGPoint(x: newCol, y: CGFloat(newRow))
+                    } else {
+                        // РИСОВАНИЕ: Стандартная логика freehand/eraser
+                        handleInput(at: value.location, in: geo.size)
                     }
-                 )
+                })
+                .drawingGroup() // Включает Metal-акселерацию для Canvas
             }
             .aspectRatio(CGFloat(cols)/CGFloat(rows), contentMode: .fit)
             .border(Color.black)

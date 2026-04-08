@@ -4,10 +4,10 @@
 //
 //  Created by Алексей Езерский on 06.11.2025.
 //
-//MARK: - Управление свойствами отслеживания хода решения
+//MARK: - Управление свойствами, влияющими на ход решения
 
 extension NavierStokesSolver {
-    
+    ///Вычисление адаптивного шага dt с учетом конвекции и диффузии.
     func applyStability(_ maxVelocityValue: Double, _ currentCourant: inout Double) {
         
         // 1. Вычисляем текущее число Куранта
@@ -15,7 +15,6 @@ extension NavierStokesSolver {
         currentCourant = dt * maxVelocityValue / minCellSize
         
         if useHybridScheme {
-            
             // Схема 2 порядка - учитывается конвекция и диффузия
             /// 2. Вычисляем "Теоретически идеальный dt" (Target DT)
             /// Мы хотим, чтобы Курант был где-то посередине между вашими лимитами
@@ -41,24 +40,22 @@ extension NavierStokesSolver {
                     dt = targetDt /// Мы достигли оптимума
                 }
             }
-            
             if iterations >= params.maxIterations {
                 dt *= 0.9 /// Экстренно снижаем шаг, если давление "буксует"
             }
-            
-            /// Ограничение по глобальным настройкам пользователя
-            dt = min(dt, params.timeGap)
         } else {
             
             // Схема 1 порядка - учитывается только конвекция
             /// Корректировка шага по времени для устойчивости решения
-            /// чем больше параметр, тем меньше должно быть прирашение по времени
+            /// чем больше параметр, тем меньше должно быть приращение по времени
             if currentCourant > params.hiStabLimit {
                 dt *= 1 - 0.03
             } else if currentCourant < params.lowStabLimit {
                 dt *= 1 + 0.02
             }
         }
+        /// Ограничение по глобальным настройкам пользователя
+        dt = min(dt, params.timeGap)
     }
 
 }

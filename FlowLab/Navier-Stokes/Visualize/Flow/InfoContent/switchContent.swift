@@ -81,7 +81,7 @@ extension Visualizator {
                 if solver.latentHeat >= 1e6 { solver.params.allowMelt = false }
                 else { solver.params.startMeltingStep = 0 }
             } else {
-                solver.params.startMeltingStep =  10000
+                solver.params.startMeltingStep =  1000000
             }
         }
         .contentShape(Rectangle())  /// зона кликабельности

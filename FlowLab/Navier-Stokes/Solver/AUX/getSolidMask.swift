@@ -6,9 +6,12 @@
 //
 extension NavierStokesSolver {
     
-    /// Получение условий твердости:
+    /// Метод EPM. Получение условий твердости:
     /// либо камень, либо застывшая фаза, включая границы
-    @inline(__always) func getSolidMask() {
+    func getSolidMask() {
+        let nx = self.nx
+        let ny = self.ny
+
         for j in 0..<ny {
             let offset = j * nx
             for i in 0..<nx {

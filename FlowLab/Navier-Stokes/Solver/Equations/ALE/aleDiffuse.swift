@@ -1,5 +1,5 @@
 //
-//  thomasSolve.swift
+//  aleDiffuse.swift
 //  Navier-Stokes
 //
 //  Created by Алексей Езерский on 18.07.2025.
@@ -7,31 +7,30 @@
 
 extension NavierStokesSolver {
     
-    // Неявная диффузия с алгоритмом Томаса для НЕРАВНОМЕРНОЙ сетки
-    
-    func diffuse(quantity: inout [[Double]], isMomentum: Bool = false) {
-        let maxInd: Int = max(nx, ny)
-        var a = [Double](repeating: 0.0, count: maxInd)
-        var b = [Double](repeating: 0.0, count: maxInd)
-        var c = [Double](repeating: 0.0, count: maxInd)
-        var d = [Double](repeating: 0.0, count: maxInd)
+    /// Неявная диффузия с алгоритмом Томаса для НЕРАВНОМЕРНОЙ сетки
+    func aleDiffuse(quantity: inout [Double], isMomentum: Bool = false) {
+        let nx = self.nx, ny = self.ny
         
         // X-направление (внутренние точки по j)
         for j in 1..<ny-1 {
-            
+            let row = j * nx
+            let rxJ = rx[j]
             // Заполняем коэффициенты для КАЖДОЙ точки i
             for i in 0..<nx {
+                let idx = i + row
                 if i == 0 || i == nx-1 {
                     a[i] = 0.0; b[i] = 1.0 /// Граничные условия
-                    c[i] = 0.0; d[i] = quantity[j][i]
+                    c[i] = 0.0; d[i] = quantity[idx]
                 } else {
                     // ВНУТРЕННИЕ ТОЧКИ
-                    let dx_west = (x[i] - x[i-1]) * rx[j] /// dx до западного узла
-                    let dx_east = (x[i+1] - x[i]) * rx[j] /// dx до восточного узла
-                    let dx_center = 0.5 * (dx_west + dx_east) /// средний  шаг
-                    
+                    /// dx[i] = x[i+1] - x[i]   see generateGrid()
+                    let dx_west = dx[i-1] * rxJ /// dx до западного узла
+                    let dx_east = dx[i] * rxJ /// dx до восточного узла
+                    let dx_center = 0.5 * (dx_west + dx_east)///средний  шаг
+
                     // Коэффициент диффузии (может зависеть от T)
-                    let currentDiff = isMomentum ? nu(T[j][i]) : alpha(T[j][i])
+                    let T = T[idx]
+                    let currentDiff = isMomentum ? nu(T) : alpha(T)
                     let diff_dt_current = currentDiff * dt
                     
                     let alpha_west = diff_dt_current / (dx_west * dx_center)
@@ -39,15 +38,15 @@ extension NavierStokesSolver {
                     
                     a[i] = -alpha_west; c[i] = -alpha_east
                     b[i] = 1.0 + alpha_west + alpha_east
-                    d[i] = quantity[j][i]
+                    d[i] = quantity[idx]
                 }
             }
             // Решаем прогонкой для ряда j
-            let solution = thomasSolve(a, b, c, d, count: nx)
-            
+            thomasSolveInPlace(a: a, b: b, c: c, d: d, count: nx, solution: &sol, cPrime: &cP, dPrime: &dP)
+
             // Обновляем ВСЕ точки (включая границы)
             for i in 0..<nx {
-                quantity[j][i] = solution[i]
+                quantity[row+i] = sol[i]
             }
         }
         
@@ -56,17 +55,19 @@ extension NavierStokesSolver {
             
             // Заполняем коэффициенты для КАЖДОЙ точки j
             for j in 0..<ny {
+                let idx = j*nx + i
                 if j == 0 || j == ny-1 {
                     // Граничные точки
-                    a[j] = 0.0; b[j] = 1.0; c[j] = 0.0; d[j] = quantity[j][i]
+                    a[j] = 0.0; b[j] = 1.0; c[j] = 0.0; d[j] = quantity[idx]
                 } else {
                     // ВНУТРЕННИЕ ТОЧКИ - учитываем неравномерность по Y
-                    let dy_south = y[j] - y[j-1] /// dy до южного узла
-                    let dy_north = y[j+1] - y[j] /// dy до северного узла
+                    let dy_south = dy[j-1] /// dy до южного узла
+                    let dy_north = dy[j] /// dy до северного узла
                     let dy_center = 0.5 * (dy_south + dy_north) /// средний шаг
                     
                     // Коэффициент диффузии (может зависеть от T)
-                    let currentDiff = isMomentum ? nu(T[j][i]) : alpha(T[j][i])
+                    let T = T[idx]
+                    let currentDiff = isMomentum ? nu(T) : alpha(T)
                     let diff_dt_current = currentDiff * dt
 
                     // Коэффициенты диффузии с учетом неравномерной сетки
@@ -75,15 +76,15 @@ extension NavierStokesSolver {
                     
                     a[j] = -alpha_south; c[j] = -alpha_north
                     b[j] = 1.0 + alpha_south + alpha_north
-                    d[j] = quantity[j][i]
+                    d[j] = quantity[idx]
                 }
             }
-            
-            let solution = thomasSolve(a, b, c, d, count: ny)
-            
+            // Решаем прогонкой для строки i
+            thomasSolveInPlace(a: a, b: b, c: c, d: d, count: ny, solution: &sol, cPrime: &cP, dPrime: &dP)
+
             // Обновляем ВСЕ точки
             for j in 0..<ny {
-                quantity[j][i] = solution[j]
+                quantity[j*nx+i] = sol[j]
             }
         }
     }

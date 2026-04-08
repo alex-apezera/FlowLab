@@ -9,10 +9,7 @@
 
 struct SolverState {
     let t: Double
-    let u, v : [[Double]]
-    let p: [Double]
-    let T: [[Double]]
-    let liquidFraction: [Double]
+    let u, v, p, T, liquidFraction : [Double]
     let isStone: [UInt8]
     let rx: [Double]
     let dt: Double

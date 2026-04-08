@@ -25,11 +25,11 @@ extension NavierStokesSolver {
         // Проход по внутренним узлам
         for j in 1..<(ny - 1) {
             
-            // Определение удельных (на метр в глубину) тепловых потоков на стенках 
-            let lambda_hot = self.lambda(T[j][1])/// [W/m•K]
-            let lambda_cold = self.lambda(T[j][nx-1])
-            let dTdx_hot = frontDerivative(T[j][0], T[j][1], T[j][2], dx_inv2)
-            let dTdx_cold = frontDerivative(T[j][nx-1], T[j][nx-2], T[j][nx-3], dx_inv2)
+            // Определение удельных тепловых потоков на стенках
+            let lambda_hot = self.lambda(T[idx(1,j)])/// [W/m•K]
+            let lambda_cold = self.lambda(T[idx(nx-1,j)])
+            let dTdx_hot = frontDerivative(T[idx(0,j)], T[idx(1,j)], T[idx(2,j)], dx_inv2)
+            let dTdx_cold = frontDerivative(T[idx(nx-1,j)], T[idx(nx-2,j)], T[idx(nx-3,j)], dx_inv2)
                         
             let q_local_hot = abs(lambda_hot * dTdx_hot)/// [W/m²]
             let q_local_cold = abs(lambda_cold * dTdx_cold)/// [W/m²]
@@ -41,7 +41,7 @@ extension NavierStokesSolver {
             // Характеристики фронта плавления (EPM)
             for i in 1..<(nx - 1) {
                 if isInterface(j, i, liquidFraction) {
-                    // Градиент f_l для нормали
+                    /// Градиент fl для нормали
                     let dfdx = (liquidFraction[idx(i+1, j)] - liquidFraction[idx(i-1, j)]) * dx_inv2
                     let dfdy = (liquidFraction[idx(i, j+1)] - liquidFraction[idx(i, j-1)]) * dy_inv2
                     let mag = sqrt(dfdx*dfdx + dfdy*dfdy) + 1e-10
@@ -49,13 +49,13 @@ extension NavierStokesSolver {
                     let nx_u = dfdx / mag ///[1]
                     let ny_u = dfdy / mag ///[1]
                     
-                    // Тепловой поток (2-й порядок по нормали к Tm)
-                    // Определяем направление "вглубь" жидкой фазы для градиента
+                    /// Тепловой поток (2-й порядок по нормали к Tm)
+                    /// Определяем направление "вглубь" жидкой фазы для градиента
                     let i_off = nx_u > 0 ? 1 : (nx_u < 0 ? -1 : 0)
                     let j_off = ny_u > 0 ? 1 : (ny_u < 0 ? -1 : 0)
                     
-                    let dTdx = frontDerivative(Tm, T[j][i], T[j][i-i_off], dx_inv2)
-                    let dTdy = frontDerivative(Tm, T[j][i], T[j - j_off][i], dy_inv2)
+                    let dTdx = frontDerivative(Tm, T[idx(i,j)], T[idx(i-i_off,j)], dx_inv2)
+                    let dTdy = frontDerivative(Tm, T[idx(i,j)], T[idx(i,j-j_off)], dy_inv2)
                     
                     let q_local = lambda * abs(dTdx * nx_u + dTdy * ny_u)
                     let area_local = mag * dx * dy
@@ -63,7 +63,7 @@ extension NavierStokesSolver {
                     totalQ += q_local * area_local
                     totalArea += area_local
                     
-                    // Локальная скорость перемещения фронта (из условия Стефана)
+                    /// Локальная скорость перемещения фронта (из условия Стефана)
                     // v_n = q / (L * rho)
                     let v_normal = q_local / (L_latent * rho_liquid)
                     maxV_interface = max(maxV_interface, v_normal)

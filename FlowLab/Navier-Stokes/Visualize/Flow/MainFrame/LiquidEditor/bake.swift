@@ -19,9 +19,9 @@ extension LiquidFractionEditor {
                     
                     if isPointInsidePreview(col: c, row: r) {
                         solver.liquidFraction[idx] = 0.0
-                        solver.u[r][c] = 0; solver.v[r][c] = 0
-                        solver.T[r][c] = solver.T_cold
-                        solver.isStone[solver.idx(c,r)] = solver.makeSolid ? 1 : 0
+                        solver.u[idx] = 0; solver.v[idx] = 0
+                        solver.T[idx] = solver.T_cold
+                        solver.isStone[idx] = solver.makeSolid ? 1 : 0
                     }
                 }
             }

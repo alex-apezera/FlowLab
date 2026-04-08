@@ -11,7 +11,7 @@ extension NavierStokesSolver {
     func getT(_ j: Int, _ i: Int) -> Double {
         let jj = max(0, min(ny - 1, j))
         let ii = max(0, min(nx - 1, i))
-        return T[jj][ii]
+        return T[idx(ii,jj)]
     }
     
     @inline(__always)

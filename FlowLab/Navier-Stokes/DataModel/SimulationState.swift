@@ -15,10 +15,9 @@ struct SimulationState: Codable, Sendable {
     var rx_avg: Double = 1.0, rx_avg_old: Double = 1.0
     var V_melt_avg: Double = 0.0
     var gravityAngle: Double = 0.0
-    var temperature: [[Double]] = []
-    var velocityX: [[Double]] = []
-    var velocityY: [[Double]] = []
-//    var pressure: [[Double]] = []
+    var temperature: [Double] = []
+    var velocityX: [Double] = []
+    var velocityY: [Double] = []
     var pressure: [Double] = []
     var liquidFraction: [Double] = []
     var isStone: [UInt8] = []
@@ -30,5 +29,5 @@ struct SimulationState: Codable, Sendable {
 
 struct SimulationStateLiquidFraction: Codable, Sendable {
     let liquidFraction: [Double]
-    let T: [[Double]]
+    let T: [Double]
 }

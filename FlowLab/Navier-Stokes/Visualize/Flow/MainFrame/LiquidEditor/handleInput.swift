@@ -62,9 +62,9 @@ extension LiquidFractionEditor {
                             }
                             
                             // Обнуляем физику в этой точке
-                            solver.T[r][c] = solver.T_cold
-                            solver.u[r][c] = 0.0
-                            solver.v[r][c] = 0.0
+                            solver.T[flatIdx] = solver.T_cold
+                            solver.u[flatIdx] = 0.0
+                            solver.v[flatIdx] = 0.0
                         }
 
                         /*

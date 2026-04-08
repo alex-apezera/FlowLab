@@ -9,32 +9,36 @@
 
 extension NavierStokesSolver {
     
-    func applyVelocityBoundaryConditions(_ u: inout [[Double]], _ v: inout [[Double]]) {
+    func applyVelocityBoundaryConditions(_ u: inout [Double], _ v: inout [Double]) {
         
-//        // Составляющие вектора скорости по х-координате
-//        for i in 0..<nx {
-//            u[0][i] = 0; u[ny-1][i] = 0; v[0][i] = 0; v[ny-1][i] = 0
-//        }
-//        
-//        // Составляющие вектора скорости по у-координате
-//        for j in 0..<ny {
-//            u[j][0] = 0; u[j][nx-1] = 0; v[j][0] = 0; v[j][nx-1] = 0
-//        }
-        // Получение условий твердости
-        getSolidMask()
+        // Составляющие вектора скорости по х-координате
+        for i in 0..<nx {
+            u[idx(i,0)] = 0; u[idx(i,ny-1)] = 0;
+            v[idx(i,0)] = 0; v[idx(i,ny-1)] = 0
+        }
         
-        // Условия прилипания (no slip conditions)
+        // Составляющие вектора скорости по у-координате
         for j in 0..<ny {
-            let offset = j * nx
-            for i in 0..<nx {
-                let idx = offset + i
-                if solidMask[idx] == 1 {
-                    u[j][i] = 0.0
-                    v[j][i] = 0.0
+            u[idx(0,j)] = 0; u[idx(nx-1,j)] = 0;
+            v[idx(0,j)] = 0; v[idx(nx-1,j)] = 0
+        }
+        
+        // Получение условий твердости (EPM)
+        if useEnthalpyMethod {
+            getSolidMask()
+            
+            // Условия прилипания (no slip conditions)
+            for j in 0..<ny {
+                let offset = j * nx
+                for i in 0..<nx {
+                    let idx = offset + i
+                    if solidMask[idx] == 1 {
+                        u[idx] = 0.0
+                        v[idx] = 0.0
+                    }
                 }
             }
         }
-
     }
 
 }

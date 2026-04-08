@@ -13,9 +13,9 @@ extension NavierStokesSolver {
         
         //Проверка корректности коэффициентов растяжения
         if stretch_x < 0 { params.stretch_x = 0 }
-        else if stretch_x > 10 { params.stretch_x = 5 }
+        else if stretch_x > 3 { params.stretch_x = 3 }
         if stretch_y < 0 { params.stretch_y = 0 }
-        else if stretch_y > 10 { params.stretch_y = 5 }
+        else if stretch_y > 3 { params.stretch_y = 3 }
         
         // Генерация координат по x
         x = [Double](repeating: 0, count: nx)

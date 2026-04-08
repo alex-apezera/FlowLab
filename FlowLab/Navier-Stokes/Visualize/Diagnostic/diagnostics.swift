@@ -54,7 +54,6 @@ extension Visualizator {
             let divC = iPadDevice ? "невязка давления" : "pRes"
             let maxV = iPadDevice ? "макс. скорость [m/s]" : "maxV"
             let psiC = iPadDevice ? "Функция тока ω: итераций" : "ω-iters"
-            let divPsi = iPadDevice ? "погрешность" : "res"
             
             HStack (spacing: 10) {
                 Text("Диагностика хода решения")
@@ -69,7 +68,7 @@ extension Visualizator {
             .padding(.top, 5)
             
             HStack {
-                Text("\(dtC): \(solver.dt, specifier: "%.5f").  \(relaxC)  \(solver.params.relaxationFactor, specifier: "%.2f"),  \(iterC) \(solver.iterations). \(psiC): \(solver.iterationsPsi)")
+                Text("\(dtC): \(solver.dt, specifier: "%.5f").  \(relaxC)  \(solver.params.relaxationFactor, specifier: "%.2f"),  \(iterC) \(solver.iterations). \(psiC) \(solver.iterationsPsi)")
                 psiDivergence()
             }
             .font(iPadDevice ? .caption : Font.system(size: 8))

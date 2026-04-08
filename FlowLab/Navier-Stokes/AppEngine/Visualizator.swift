@@ -14,11 +14,13 @@ struct Visualizator: View {
     @ObservedObject var history = HistoryStore()
     @StateObject var timerManager = TimeCounterManager()
     
+    // Управление задачей
     @State var isSolving = false /// запуск процесса решения
     @State var showSettings = false /// управление настройками
     @State var useRestoreState: Bool = false /// откат на 20 шагов
     @State var meltingActive: Bool = false /// запуск задачи плавления
     @State var useMaxAccelerate: Bool = false /// отключение визуализации
+    @State var freezeVelocities: Bool = false /// заморозка скоростей
     
     // Управление Историей
     @State var currentFrameIndex = 0
@@ -64,7 +66,7 @@ struct Visualizator: View {
     // Главный экран
     var body: some View {
         VStack {
-            Text("Решение 2D уравнений Навье-Стокса в приближении Буссинеска с использованием коллокационной сетки в прямоугольной области. Метод: \(solver.useEnthalpyMethod ? "EPM" : "ALE") ")
+            Text("Решение 2D уравнений Навье-Стокса в приближении Буссинеска с использованием коллокационной сетки в прямоугольной области")
                 .padding(.bottom, 20)
             HStack {
                 gravityLegend /// управление вектором гравитации

@@ -5,16 +5,20 @@
 //  Created by Алексей Езерский on 14.02.2026.
 //
 
-
 //MARK: - Преобразование двумерного массива в одномерный (плоский) и обратно
 
-// Теперь обращение [j][i] заменяется на [idx(i, j)]
-// где idx = i * ny + j (i - ряд, j - колонка или столбец)
-// <see> func idx(_ x: Int, _ y: Int) -> Int { y * nx + x }
-
+/// Преобразует двумерный массив (сетку) в одномерный.
+/// - Parameters:
+///   - flatArray: Двумерный массив (сетка).
+///   - nx: Количество столбцов в сетке (количество элементов в одной строке).
+///   - ny: Количество строк в сетке.
+/// - Returns: Одномерный массив значений.
+/// Теперь обращение [j][i] заменяется на [idx(i, j)]
+/// где idx = i•ny + j (i - ряд, j - колонка или столбец)
+/// <see> func idx( x: Int,  y: Int) -> Int { y•nx + x }
 func flatten(grid: [[Double]], nx: Int, ny: Int) -> [Double] {
-    // В Swift 2026 flatMap все еще создает промежуточные объекты,
-    // поэтому используем резервирование памяти для скорости:
+    /// В Swift 2026 flatMap все еще создает промежуточные объекты,
+    /// поэтому используем резервирование памяти для скорости:
     var fl = [Double](repeating: 0.0, count: nx * ny)
     for j in 0..<ny {
         let offset = j * nx
@@ -116,3 +120,32 @@ for row in unflattenedGridIdiomatic {
     print(row)
 }
 */
+
+/*
+   // Перед итерациями давления
+   func syncToFlat() {
+       let localNX = nx
+       p_flat.withUnsafeMutableBufferPointer { flatPtr in
+           for j in 0..<ny {
+               let offset = j * localNX
+               // Вместо replaceSubrange используем быстрый memcpy
+               _ = p[j].withUnsafeBufferPointer { rowPtr in
+                   memcpy(flatPtr.baseAddress! + offset, rowPtr.baseAddress!, localNX * MemoryLayout<Double>.size)
+               }
+           }
+       }
+   }
+   
+   // После итераций давления (для визуализатора и EPM)
+   func syncFromFlat() {
+       let localNX = nx
+       p_flat.withUnsafeBufferPointer { flatPtr in
+           for j in 0..<ny {
+               let offset = j * localNX
+               _ = p[j].withUnsafeMutableBufferPointer { rowPtr in
+                   memcpy(rowPtr.baseAddress!, flatPtr.baseAddress! + offset, localNX * MemoryLayout<Double>.size)
+               }
+           }
+       }
+   }
+ */

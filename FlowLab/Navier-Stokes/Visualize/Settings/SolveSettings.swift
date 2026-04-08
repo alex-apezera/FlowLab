@@ -20,7 +20,6 @@ struct SolveSettings: View {
     @State private var deltaStable: Double = 0.1
     @State private var hiStabLimit: Double = 0.3
     @State private var lowStabLimit: Double = 0.2
-    @State private var startMeltingStep: String = ""
     @State private var tolerancePsi: String = ""
 
     var body: some View {
@@ -51,12 +50,6 @@ struct SolveSettings: View {
                     }
                     .onChange(of: deltaStable) { _, newValue in
                         hiStabLimit = lowStabLimit + newValue
-                    }
-                    Section(header: Text("Автоматический запуск процесса плавления")) {
-                        HStack {
-                            Text("шаг запуска")
-                            TextField("Введите число ≃ 0 ÷ step", text: $startMeltingStep).editText(.numberPad)
-                        }
                     }
                     Section(header: Text("Решение уравнения Пуассона для функции тока ω")) {
                         HStack {
@@ -114,7 +107,6 @@ struct SolveSettings: View {
         criticalError = "\(solver.params.criticalError)"
         countsLimit = "\(solver.params.countsLimit)"
         maxHistorySteps = "\(solver.params.maxHistorySteps)"
-        startMeltingStep = "\(solver.params.startMeltingStep)"
         tolerancePsi = "\(solver.tolerancePsi)"
     }
     
@@ -130,8 +122,6 @@ struct SolveSettings: View {
         if let cl = Int(countsLimit) { solver.params.countsLimit = cl }
         if let mhs = Int(maxHistorySteps) {
             solver.params.maxHistorySteps = mhs }
-        if let sms = Int(startMeltingStep) {
-            solver.params.startMeltingStep = sms }
         print("Новые параметры: \(solver.params)")
     }
 

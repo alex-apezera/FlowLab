@@ -7,19 +7,22 @@
 
 extension NavierStokesSolver {
     // Функция экстренной остановки скоростей
-    func makeVelocitiesIsZero(_ u: inout [[Double]], _ v: inout [[Double]]) {
+    func makeVelocitiesIsZero(_ u: inout [Double], _ v: inout [Double]) {
         if isFrozen {
             // Мгновенно обнуляем импульс во всей области
             freezeVelocities(&u, &v)
-            Task { await updateStatus("❄️ СКОРОСТИ ЗАМОРОЖЕНЫ") }
+            if step % 10 == 0 { Task {await updateStatus("❄️ СКОРОСТИ ЗАМОРОЖЕНЫ") }
+            } else { print("[Step: \(step)] ❄️ СКОРОСТИ ЗАМОРОЖЕНЫ") }
         }
     }
     
-    private func freezeVelocities(_ u: inout [[Double]], _ v: inout [[Double]]) {
+    private func freezeVelocities(_ u: inout [Double], _ v: inout [Double]) {
         for r in 0..<ny {
+            let rCell = r*nx
             for c in 0..<nx {
-                u[r][c] = 0; v[r][c] = 0
-                p[idx(c,r)] = 0
+                let idx =  rCell+c
+                u[idx] = 0; v[idx] = 0
+                p[idx] = 0
             }
         }
     }

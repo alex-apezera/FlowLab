@@ -9,33 +9,45 @@ extension NavierStokesSolver {
     
     /// Схема Upwind 2-го порядка (LUD) для равномерной сетки с шагом h
     @inline(__always)
-    func upwind2Enthalpy(phi: [[Double]], velocity: Double, j: Int, i: Int, axisX: Bool) -> Double {
-        let nx_max = nx - 1
-        let ny_max = ny - 1
-        
-        // Знаменатель 2 * h для схемы 2-го порядка
-        let half_h = 0.5 /  h
+    func upwind2Enthalpy(phi: UnsafeBufferPointer<Double>, velocity: Double, _ j: Int, _ i: Int, _ idx: Int, _ nx: Int, _ nx_max: Int, _ ny_max: Int, _ inv2h: Double, axisX: Bool) -> Double {
 
-        if axisX {
-            if velocity > 0 {
-                /// Поток слева направо: используем i, i-1, i-2
-                let i_m2 = i > 1 ? i - 2 : 0 // Защита границ
-                return velocity * (3.0 * phi[j][i] - 4.0 * phi[j][i-1] + phi[j][i_m2]) * half_h
-            } else {
-                /// Поток справа налево: используем i, i+1, i+2
-                let i_p2 = i < nx_max - 1 ? i + 2 : nx_max
-                return velocity * (-3.0 * phi[j][i] + 4.0 * phi[j][i+1] - phi[j][i_p2]) * half_h
+        if axisX { /// Ось X (горизонтальное направление)
+            if velocity > 0 { /// Поток слева направо: используем i, i-1, i-2
+                let i_minus_2 = max(0, i - 2) /// Защита границ
+                return velocity * (3.0 * phi[idx] - 4.0 * phi[idx-1] + phi[j*nx+i_minus_2]) * inv2h
+            } else { /// Поток справа налево: используем i, i+1, i+2
+                let i_plus_2 = min(nx_max, i + 2)
+                return velocity * (-3.0 * phi[idx] + 4.0 * phi[idx+1] - phi[j*nx+i_plus_2]) * inv2h
             }
-        } else {
-            /// Ось Y (вертикальное направление)
-            if velocity > 0 {
-                /// Поток снизу вверх (v > 0): используем j, j-1, j-2
-                let j_m2 = j > 1 ? j - 2 : 0
-                return velocity * (3.0 * phi[j][i] - 4.0 * phi[j-1][i] + phi[j_m2][i]) * half_h
-            } else {
-                /// Поток сверху вниз: используем j, j+1, j+2
-                let j_p2 = j < ny_max - 1 ? j + 2 : ny_max
-                return velocity * (-3.0 * phi[j][i] + 4.0 * phi[j+1][i] - phi[j_p2][i]) * half_h
+        } else { /// Ось Y (вертикальное направление)
+            if velocity > 0 { /// Поток снизу вверх: используем j, j-1, j-2
+                let j_minus_2 = max(0, j - 2)
+                return velocity * (3.0 * phi[idx] - 4.0 * phi[idx-nx] + phi[j_minus_2*nx+i]) * inv2h
+            } else { /// Поток сверху вниз: используем j, j+1, j+2
+                let j_plus_2 = min(ny_max, j + 2)
+                return velocity * (-3.0 * phi[idx] + 4.0 * phi[idx+nx] - phi[j_plus_2*nx+i]) * inv2h
+            }
+        }
+    }
+    
+    @inline(__always)
+    func upwind2EPM(phi: [Double], velocity: Double, _ j: Int, _ i: Int, _ idx: Int, _ nx: Int, _ nx_max: Int, _ ny_max: Int, _ inv2h: Double, axisX: Bool) -> Double {
+
+        if axisX { /// Ось X (горизонтальное направление)
+            if velocity > 0 { /// Поток слева направо: используем i, i-1, i-2
+                let i_minus_2 = max(0, i - 2) /// Защита границ
+                return velocity * (3.0 * phi[idx] - 4.0 * phi[idx-1] + phi[j*nx+i_minus_2]) * inv2h
+            } else { /// Поток справа налево: используем i, i+1, i+2
+                let i_plus_2 = min(nx_max, i + 2)
+                return velocity * (-3.0 * phi[idx] + 4.0 * phi[idx+1] - phi[j*nx+i_plus_2]) * inv2h
+            }
+        } else { /// Ось Y (вертикальное направление)
+            if velocity > 0 { /// Поток снизу вверх: используем j, j-1, j-2
+                let j_minus_2 = max(0, j - 2)
+                return velocity * (3.0 * phi[idx] - 4.0 * phi[idx-nx] + phi[j_minus_2*nx+i]) * inv2h
+            } else { /// Поток сверху вниз: используем j, j+1, j+2
+                let j_plus_2 = min(ny_max, j + 2)
+                return velocity * (-3.0 * phi[idx] + 4.0 * phi[idx+nx] - phi[j_plus_2*nx+i]) * inv2h
             }
         }
     }

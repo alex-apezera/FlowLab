@@ -6,14 +6,11 @@
 //
 extension NavierStokesSolver {
     
+    /// Добавление в диагностику и историю, принцип FIFO
     func addToStatistics(_ heatFluxW: Double, _ heatFluxE: Double, _ heatDiff: Double, _ maxVelocityValue: Double, _ currentCourant: Double) {
         
-//        let T_hotwall_avg = averageTempHotwall
-        avgTemp = showAvgTemp ? averageTemperature() : 0
-        
-        // Добавление в диагностику и историю, принцип FIFO
-        
-        // Формирование массивов свойств отслеживания хода решения
+        avgTemp = showAvgTemp ? averageTemperature() : T_cold
+                
         maxVelocity.append(maxVelocityValue)
         stabilityParams.append(currentCourant)
         pressureResiduals.append(maxPressureResidual)

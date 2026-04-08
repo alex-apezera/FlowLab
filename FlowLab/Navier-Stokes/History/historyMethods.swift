@@ -13,7 +13,6 @@ extension HistoryManagerView {
         timerManager.stopAndResetCounting() /// сброс таймера
         loadHistory(fileName: file) /// загрузка истории
         solver.generateGrid() /// генерация новой сетки
-//        solver.refreshLiquidFraction()
     }
     
     func refreshFileList() {
@@ -73,8 +72,11 @@ extension HistoryManagerView {
                     allowMelt: solver.params.allowMelt,
                     startMeltingStep: solver.params.startMeltingStep,
                     initMeltWidthRatio: solver.params.initMeltWidthRatio,
+                    useGradientCorrection: solver.params.useGradientCorrection,
                     useEnthalpyMethod: solver.params.useEnthalpyMethod,
-                    useParallelDiffuse: solver.params.useParallelDiffuse,
+                    useConcurrence: solver.params.useConcurrence,
+                    useParallelPressure:  solver.params.useParallelPressure,
+                    comment:  solver.params.comment,
                     dTm: solver.params.dTm
                 ),
                 comment: comment,

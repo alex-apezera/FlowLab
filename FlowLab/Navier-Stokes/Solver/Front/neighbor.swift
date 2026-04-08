@@ -18,5 +18,4 @@ extension NavierStokesSolver {
         return false
     }
     
-    
 }

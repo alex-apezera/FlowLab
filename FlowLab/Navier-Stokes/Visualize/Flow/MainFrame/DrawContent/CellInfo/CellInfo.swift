@@ -40,12 +40,10 @@ struct CellInfo: Identifiable {
         self.xIndex = i
         self.yIndex = j
         
-        // Двумерные данные
-        self.u = solver.u[j][i]
-        self.v = solver.v[j][i]
-        self.T = solver.T[j][i]
-        
-        // Плоские данные
+        // Двумерные данные -> 1D
+        self.u = solver.u[idx]
+        self.v = solver.v[idx]
+        self.T = solver.T[idx]
         self.p = solver.p[idx]
         self.liq = solver.liquidFraction[idx]
         self.isStone = solver.isStone[idx] == 1

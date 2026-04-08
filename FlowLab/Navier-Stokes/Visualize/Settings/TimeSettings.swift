@@ -5,7 +5,6 @@
 //  Created by Алексей Езерский on 01.12.2025.
 //
 
-
 import SwiftUI
 
 //MARK: - Корректировка временнЫх параметров
@@ -19,6 +18,7 @@ struct TimeSettings: View {
     @State private var dtInterval = ""
     @State private var time_scale = ""
     @State private var rangeX: String = ""
+    @State private var meltVolumeLimit: String = ""
 
     var body: some View {
         NavigationView {
@@ -43,6 +43,7 @@ struct TimeSettings: View {
         dtInterval = "\(solver.params.timeGap)"
         time_scale = "\(solver.params.timeScale)"
         rangeX = "\(solver.params.Rx)"
+        meltVolumeLimit = "\(solver.meltVolumeLimit)"
     }
     
     private func saveSettings() {
@@ -53,12 +54,16 @@ struct TimeSettings: View {
         if let ts = Double(time_scale) {  solver.params.timeScale = ts }
         if let rx = Double(rangeX) { solver.params.Rx = rx }
         if let dt = Double(dt) { solver.dt = dt }
+        if let ml = Double(meltVolumeLimit) { solver.meltVolumeLimit = ml }
     }
     
      private var timeSettings: some View {
         VStack {
             Text("Конечное время решения уравнений, t [s]")
             TextField("Введите число ≃ 10÷3600", text: $max_t)
+                .editText()
+            Text("Ограничение на средний объем расплава")
+            TextField("Введите число ≥ 1.0", text: $meltVolumeLimit)
                 .editText()
             Text("Приращение по времени, Δt [s]")
             TextField("Введите число ≲ 0.01", text: $dt)

@@ -6,17 +6,21 @@
 //
 extension HistoryFrame {
     // Вычисляемые свойства для изотерм и линий тока
-    var temperatureGradient: [[Double]] {
+    var temperatureGradient: [Double] {
         // Вычисление среднего градиента температуры внутри области
-        var gradient = Array(repeating: Array(repeating: 0.0, count: temperature[0].count), count: temperature.count)
+        var gradient = [Double](repeating: 0.0, count: temperature.count)
         let solver = NavierStokesSolver()
-        for j in 1..<temperature.count-1 {
+        let nx = solver.nx
+        let ny = solver.ny
+        for j in 1..<ny-1 {
+            let jCell = j*nx
             let dy = solver.y[j+1] - solver.y[j-1]
-            for i in 1..<temperature[0].count-1 {
+            for i in 1..<nx-1 {
+                let idx = jCell + i
                 let dx = (solver.x[i+1] - solver.x[i-1]) * solver.rx[j]
-                gradient[j][i] = 0.5 * (
-                    (temperature[j][i+1] - temperature[j][i-1]) / dx +
-                    (temperature[j+1][i] - temperature[j-1][i]) / dy )
+                gradient[idx] = 0.5 * (
+                    (temperature[idx+1] - temperature[idx-1]) / dx +
+                    (temperature[idx+nx] - temperature[idx-nx]) / dy )
             }
         }
         return gradient

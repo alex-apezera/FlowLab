@@ -14,13 +14,13 @@ extension NavierStokesSolver {
             var totalLiquidPoints: Double = 0.0
             
             for j in 0..<ny {
-                let offset = j * nx
+                let jCell = j * nx
                 for i in 0..<nx {
-                    let idx = offset + i
+                    let idx = jCell + i
                     
                     let fraction = liquidFraction[idx]
                     if fraction > 0 { /// Учитываем только те ячейки, где есть жидкость
-                        totalTemperature += T[j][i] * fraction
+                        totalTemperature += T[idx] * fraction
                         totalLiquidPoints += fraction
                     }
                 }
@@ -34,8 +34,12 @@ extension NavierStokesSolver {
             var totalAreaContribution: Double = 0.0 // Будем суммировать "вклад" каждой ячейки.
 
             for j in 0..<ny {
+                let jCell = j * nx
+
                 for i in 0..<nx {
-                    let cellValue = T[j][i]
+                    let idx = jCell + i
+                    
+                    let cellValue = T[idx]
                     var weightCell: Double = 0.0
                     var numCells = 0.0
 

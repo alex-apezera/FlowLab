@@ -72,6 +72,8 @@ struct HistoryManagerView: View {
                 isPresented = false
             })
             .onAppear(perform: refreshFileList)
+            .onAppear{ comment = solver.params.comment }
+            .onDisappear { solver.params.comment = comment }
             .actionSheet(isPresented: $showingFileActions) {
                 ActionSheet(
                     title: Text("Действия с файлом"),

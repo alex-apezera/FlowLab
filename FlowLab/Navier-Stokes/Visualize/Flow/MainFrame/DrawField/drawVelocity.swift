@@ -1,5 +1,5 @@
 //
-//  drawFluxes.swift
+//  drawVelocity.swift
 //  Navier-Stokes
 //
 //  Created by Алексей Езерский on 15.11.2025.
@@ -7,27 +7,33 @@
 
 import SwiftUI
 extension Visualizator {
-    
-    private func maxVelocity(_ u: [[Double]], _ v: [[Double]]) -> Double {
-        // В 2025 году использование vDSP или простых циклов быстрее, чем flatMap
+    /// Получение максимальной абсолютной величины вектора скорости
+    private func maxVelocity(_ u: [Double], _ v: [Double]) -> Double {
+        /// В 2025 году использование vDSP или простых циклов быстрее, чем flatMap
         var maxMag: Double = 0
-        for j in 0..<u.count {
-            for i in 0..<u[j].count {
-                let mag = sqrt(u[j][i]*u[j][i] + v[j][i]*v[j][i])
+        let nx = solver.nx, ny = solver.ny
+        for j in 0..<ny {
+            let row = nx*j
+            
+            for i in 0..<nx {
+                let idx = row + i
+                let u = u[idx], v = v[idx]
+                let mag = sqrt(u*u + v*v)
                 if mag > maxMag { maxMag = mag }
             }
         }
         return maxMag
     }
 
-    func drawFluxes(for frame: HistoryFrame, in context: inout GraphicsContext, size: CGSize, scale: CGFloat) {
+    func drawVelocity(for frame: HistoryFrame, in context: inout GraphicsContext, size: CGSize, scale: CGFloat) {
+        let nx = solver.nx, ny = solver.ny
         let u = frame.velocityX
         let v = frame.velocityY
         let rx = frame.rx
         
         let maxVel = maxVelocity(u, v)
         let skip = arrowDensity
-        // Масштаб стрелок должен быть пропорционален характерному размеру ячейки
+        /// Масштаб стрелок должен быть пропорционален характерному размеру ячейки
         let arrowScaleFactor = arrowScale * scale * 0.1
         
         // Смещение для центрирования: левая стенка x=0 сдвигается влево на половину ширины
@@ -35,13 +41,17 @@ extension Visualizator {
         let halfLx = solver.Lx * rx.max()! / 2.0
         let halfLy = solver.Ly / 2.0
         
-        for j in stride(from: 1, to: v.count-1, by: skip) {
+        for j in stride(from: 1, to: ny-1, by: skip) {
+                let row = nx*j
+            
             // Инвертированный Y
             let sY = -CGFloat(solver.y[j] - halfLy) * scale
             
-            for i in stride(from: 1, to: u[0].count-1, by: skip) {
-                let uVal = u[j][i]
-                let vVal = v[j][i]
+            for i in stride(from: 1, to: nx-1, by: skip) {
+                let idx = row + i
+                
+                let uVal = u[idx]
+                let vVal = v[idx]
                 let velocityMagnitude = sqrt(uVal*uVal + vVal*vVal)
                 
                 if velocityMagnitude < 1e-6 { continue }

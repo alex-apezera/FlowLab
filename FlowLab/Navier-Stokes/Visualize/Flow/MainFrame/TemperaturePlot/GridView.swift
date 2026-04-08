@@ -77,6 +77,7 @@ struct GridView: View {
                 )
             }
         }
+        .drawingGroup() // Включает Metal-акселерацию для Canvas
     }
     
 }

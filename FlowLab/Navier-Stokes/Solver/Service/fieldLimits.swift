@@ -34,3 +34,6 @@ func fieldValueLimits(_ field: [[Double]]) -> (min: Double, max: Double) {
             globalMax == -Double.infinity ? 0.0 : globalMax)
 }
 
+func fieldLimits(_ field: [Double]) -> (min: Double, max: Double) {
+    return field.min(by: <) != nil ? (field.min()!, field.max()!) : (0.0, 0.0)
+}

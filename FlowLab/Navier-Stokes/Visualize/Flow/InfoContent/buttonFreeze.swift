@@ -9,11 +9,11 @@ extension Visualizator {
     
     var buttonFreeze: some View {
         Button {
-            solver.isFrozen.toggle()
+            freezeVelocities = true
         } label: {
             HStack {
                 Image(systemName: solver.isFrozen ? "snow" : "wind")
-                Text(solver.isFrozen ? "V - отключено" : "V - включено")
+                Text(solver.isFrozen ? "V➡︎0" : "V≠0")
             }
             .font(.system(.caption, design: .monospaced))
             .padding(6)
@@ -23,5 +23,20 @@ extension Visualizator {
             .opacity(0.85)
         }
         .keyboardShortcut("v", modifiers: [])
+        .actionSheet(isPresented: $freezeVelocities) {
+            ActionSheet(
+                title: Text("Заморозка скоростей"),
+                message: Text(solver.isFrozen ? "Включено ❄️" : "Выключено"),
+                buttons: [
+                    .default(Text("ВКЛЮЧИТЬ")) {
+                        solver.isFrozen = true
+                    },
+                    .destructive(Text("ВЫКЛЮЧИТЬ")) {
+                        solver.isFrozen = false
+                    },
+                    .cancel()
+                ]
+            )
+        }
     }
 }

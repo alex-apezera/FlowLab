@@ -38,7 +38,7 @@ struct BlinkViewModifier: ViewModifier {
     @State var blink: Bool = false
     func body(content: Content) -> some View {
         content
-            .opacity(blink ? 0 : 1)
+            .opacity(blink ? 0.2 : 1)
             .animation(.easeOut(duration: duration).repeatForever(), value: blink)
             .onAppear { withAnimation { blink = true } }
     }

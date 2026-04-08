@@ -76,7 +76,7 @@ class TimeCounterManager: ObservableObject {
     }
     
     func formattedStartDate() -> String {
-        guard let start = startTime else { return "Не запущено" }
+        guard let start = startTime else { return "not running" }
         let formatter = DateFormatter()
         // Формат даты и времени, например, 25.11.2025 23:16:00
         formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
@@ -95,7 +95,7 @@ func formattedElapsedTime(_ totalTimeElapsed: TimeInterval) -> String {
 }
 
 func formattedStartDate(_ startTime: Date?) -> String {
-    guard let start = startTime else { return "Не запущено" }
+    guard let start = startTime else { return "not running" }
     let formatter = DateFormatter()
     // Формат даты и времени, например, 25.11.2025 23:16:00
     formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"

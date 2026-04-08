@@ -11,18 +11,19 @@ extension NavierStokesSolver {
         
         // Начальная толщина расплава (зависит от метода EPM или ALE)
         let initialMeltWidth = useEnthalpyMethod ? Lx * initMeltWidthRatio : Lx
+ 
         for j in 0..<ny {
-            let offset = j * nx
+            let row = j * nx
 
             var deltaT = 0.0
             switch heatingType {
             case .temperature: deltaT = heatingValue
             case .heatFlux: deltaT = Lx * initMeltWidthRatio * heatingValue / lambda
             }
-            T[j][0] = deltaT + T_melt
+            T[row] = deltaT + T_melt
             
             for i in 0..<nx {
-                let idx = offset + i
+                let idx = row + i
 
                 if useEnthalpyMethod { /// используется метод энтальпии (EPM)
                     let x_phys = Double(i) * h
@@ -30,25 +31,25 @@ extension NavierStokesSolver {
                         /// Зона расплава: температура выше Tmelt
                         liquidFraction[idx] = 1.0 /// liquid
                        if useInitialGradientT { ///линейное падение от Thot до Tmelt
-                            T[j][i] = T[j][0] - deltaT * (x_phys / initialMeltWidth) }
+                            T[idx] = T[row] - deltaT * (x_phys / initialMeltWidth) }
                         else { /// постоянная температура  выше T melt
-                            T[j][i] = T_melt + dTm
+                            T[idx] = T_melt + dTm
                         }
                     } else { /// зона твердого тела: температура ниже Tmelt
-                        T[j][i] = T_cold
+                        T[idx] = T_cold
                         liquidFraction[idx] = 0.0 /// solid
                         isStone[idx] = 1
                     }
                 } else { /// используется метод раздвижной стенки (ALE)
                     if useInitialGradientT { ///линейное падение от Thot до Tcold
-                        T[j][i] = T_cold + deltaT * (1 - x[i] / Lx)
+                        T[idx] = T_cold + deltaT * (1 - x[i] / Lx)
                     }
                     else { /// постоянная температура  выше T melt
-                        T[j][i] = T_cold + 0.1
+                        T[idx] = T_cold + 0.5*(T_max - T_cold)
                     }
                 }
-                isStone[idx] = 0 /// начальный статус жидкости
-                if i==0 || i==nx-1 || j==0 || j==ny-1 { ///на границах - твердое тело
+                isStone[idx] = 0 /// начальный статус жидкости (0)
+                if i==0 || i==nx-1 || j==0 || j==ny-1 { ///на границах - твердое тело (1)
                     isStone[idx] = 1
                 }
                 

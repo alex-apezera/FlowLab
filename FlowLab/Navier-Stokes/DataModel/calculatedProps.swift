@@ -4,19 +4,19 @@
 //
 //  Created by Алексей Езерский on 06.11.2025.
 //
-
+import Foundation
 extension NavierStokesSolver {
     
     // MARK: - Вычисляемые переменные и свойства
     
 
     // Параметры сетки -> params
-    @inline(__always) var Lx: Double {params.Lx} ///начальная ширина области [m]
-    @inline(__always) var Ly: Double {params.Ly} /// высота области [m]
-    @inline(__always) var nx: Int {params.nx} ///  узлов сетки по ширине
-    @inline(__always) var ny: Int {params.ny} ///  узлов сетки по высоте
-    var Rx: Double {params.Rx}  /// лимит конечного приращения по ширине ( > 1 )
-    var L: Double { meltWidth }/// нормированный объём расплава [m]
+    var Lx: Double {params.Lx} ///начальная ширина области [m]
+    var Ly: Double {params.Ly} /// высота области [m]
+    var nx: Int {params.nx} ///  узлов сетки по ширине
+    var ny: Int {params.ny} ///  узлов сетки по высоте
+    var Rx: Double {params.Rx}  /// ограничение по ширине расплава ( > 1 )
+    var L: Double { meltWidth }/// нормированный объём расплава V, [m]
     
     // Коэффициенты растяжения сетки к центру области (от 0 до 10)
     var stretch_x: Double {params.stretch_x} ///  = 0 для равномерной сетки
@@ -37,7 +37,7 @@ extension NavierStokesSolver {
     /// Величина нагрева в зависимости от способа нагрева
     @inline(__always) var deltaT: Double { switch heatingType {
         case .temperature: return heatingValue
-        case .heatFlux: return Lx * initMeltWidthRatio * heatingValue / lambda }
+        case .heatFlux: return Lx*initMeltWidthRatio*heatingValue/lambda }
     }
     /// Температура плавления вещества [ºC]
     @inline(__always) var T_melt: Double {substance.properties.T_melt}
@@ -45,14 +45,14 @@ extension NavierStokesSolver {
     @inline(__always) var T_cold: Double { useEnthalpyMethod ?
         (allowMelt ? T_melt - dTm : T_melt) : T_melt }
 //    @inline(__always) var T_hot: Double {deltaT + T_melt}
-    /// Максимальная температура [ºC]
-    var T_max: Double { let flatValue = T.flatMap { $0 }
-        return flatValue.max() ?? deltaT + T_cold }
+    /// Максимальная вычисленная температура [ºC]
+    var T_max: Double { T_cold + deltaT }
  
-    // Управление решением (симуляцией) -> params
+    // Управление решением (переключатели) -> params
     var useEnthalpyMethod: Bool {params.useEnthalpyMethod}
-    var useParallelDiffuse: Bool {params.useParallelDiffuse}
-    
+    var useConcurrence: Bool {params.useConcurrence}
+    var useParallelPressure: Bool {params.useParallelPressure}
+
     // Параметры плавления -> params
     
     /// Разрешение на включение режима расчета плавления
@@ -74,6 +74,7 @@ extension NavierStokesSolver {
     var time: Double {
         allowMelt ? fullMeltingTime - initialTime : t}
     /// Шаг плавления по физике на основе разницы объёмов расплава
+    @inline(__always)
     var dTime: Double {
         let timeStep = fullMeltingTime - meltingTime(from: Lx * rx_avg_old * initMeltWidthRatio)
         return timeStep > 0 ? timeStep : dt
@@ -88,11 +89,24 @@ extension NavierStokesSolver {
     var timeGap: Double {params.timeGap} /// интервал занесения в историю [s]
     var maxTime: Double {params.maxTime} /// конечное временя решения [s]
     
-    // Вычисление величины максимальной скорости [m/s]
+    // Вычисление максимальной величины вектора скорости [m/s]
+    @inline(__always)
     var maxVelocityValue: Double {
-        let (minU, maxU) = fieldValueLimits(u)
-        let (minV, maxV) = fieldValueLimits(v)
-        return max(abs(minU), abs(maxU), abs(minV), abs(maxV))
+        var maxValue: Double = 0.0
+        for j in 0..<ny {
+            let row = j * nx
+            for i in 0..<nx {
+                let idx = row + i
+                let uValue = u[idx]
+                let vValue = v[idx]
+                maxValue = max(maxValue, sqrt(uValue*uValue + vValue*vValue))
+            }
+        }
+        return maxValue
+        
+//        let (minU, maxU) = fieldLimits(u)
+//        let (minV, maxV) = fieldLimits(v)
+//        return max(abs(minU), abs(maxU), abs(minV), abs(maxV))
     }
         
 }

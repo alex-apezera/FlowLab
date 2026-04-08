@@ -8,7 +8,8 @@
 // Первая производная на границе, формула квадратичной интерполяции 2 порядка
 
 /// Для неравноменой сетки
-@inline(__always) func wallDerivative(_ T0: Double, _ T1: Double, _ T2: Double, _ dx0: Double, _ dx1: Double) -> Double {
+@inline(__always)
+func wallDerivative(_ T0: Double, _ T1: Double, _ T2: Double, _ dx0: Double, _ dx1: Double) -> Double {
     
     let dxW = dx0, dxW1 = dx1 + dxW
     let dxW_2 = dxW * dxW, dxW1_2 = dxW1 * dxW1
@@ -18,15 +19,15 @@
 }
 
 /// Для равномерной сетки
-@inline(__always) func frontDerivative(_ value0: Double, _ value1: Double, _ value2: Double, _ dx_inv2: Double) -> Double {
-    
+@inline(__always)
+func frontDerivative(_ value0: Double, _ value1: Double, _ value2: Double, _ dx_inv2: Double) -> Double {
     // dx_inv2 = 0.5 / dx
     return (4 * value1 - 3 * value0 - value2) * dx_inv2
 }
 
-
-/// Вычисление температуры на стенке 2 порядка на основе заданного среднего теплового потока
-@inline(__always) func wallTempByFlux(_ T1: Double, _ T2: Double, _ dx0: Double, _ dx1: Double, heatFlux: Double, lambda: Double) -> Double {
+/// Вычисление температуры на стенке 2 порядка на основе среднего теплового потока
+@inline(__always)
+func wallTempByFlux(_ T1: Double, _ T2: Double, _ dx0: Double, _ dx1: Double, heatFlux: Double, lambda: Double) -> Double {
     let h0 = dx0
     let h1 = dx1
     let denom = h0 * h1 * (h0 + h1)
