@@ -4,15 +4,14 @@
 //
 //  Created by Алексей Езерский on 13.11.2025.
 //
+// MARK: - Determine Heat Type
 
-//import SwiftUI
-
+/// Тип подогрева левой границы
 enum HeatingType: String, Codable, CaseIterable, Sendable {
-    case temperature = "Температура T (ºC)"  /// задана температура, [ºC]
-    case heatFlux = "Тепловой поток q (Вт/м²)" /// q - удельный тепловой поток [W/m²]
+    case temperature = "T (ºC)"  /// задана температура, [ºC]
+    case heatFlux = "q (Вт/м²)" /// q - задан удельный тепловой поток [W/m²]
     
-    // Дополнительное вычисляемое свойство для красивого отображения
-    // (если вам не нравятся raw values)
+    /// Вычисляемая переменная для отображения свойства
     var designation: String {
         switch self {
         case .temperature:

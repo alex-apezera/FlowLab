@@ -4,14 +4,13 @@
 //
 //  Created by Алексей Езерский on 01.12.2025.
 //
+//MARK: - Adjustment of time parameters
 
 import SwiftUI
 
-//MARK: - Корректировка временнЫх параметров
-
+/// Корректировка временнЫх параметров
 struct TimeSettings: View {
     @ObservedObject var solver: NavierStokesSolver
-    @Environment(\.presentationMode) var presentationMode
     
     @State private var max_t = ""
     @State private var dt = ""
@@ -23,19 +22,16 @@ struct TimeSettings: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Временнӹе параметры")) { timeSettings }
+                Section(header: Text("Time settings")) { timeSettings }
             }
         }
-        .navigationModifier("Время")
-        .navigationBarItems(
-            trailing: Button("Готово") {
-                saveSettings()
-                presentationMode.wrappedValue.dismiss()
-            }
-        )
+        .navigationModifier("Time")
         .onAppear(perform: loadSettings)
+        .onDisappear(perform: saveSettings)
+        .done
     }
     
+    /// Загрузка настроек
     private func loadSettings() {
         // Загружаем существующие параметры
         max_t = "\(solver.params.maxTime)"
@@ -46,6 +42,7 @@ struct TimeSettings: View {
         meltVolumeLimit = "\(solver.meltVolumeLimit)"
     }
     
+    /// Сохранение настроек
     private func saveSettings() {
         // Обновляем параметры решателя
         if let mt = Double(max_t) { solver.params.maxTime = mt }
@@ -57,26 +54,15 @@ struct TimeSettings: View {
         if let ml = Double(meltVolumeLimit) { solver.meltVolumeLimit = ml }
     }
     
-     private var timeSettings: some View {
+    /// Редактирование настроек
+    private var timeSettings: some View {
         VStack {
-            Text("Конечное время решения уравнений, t [s]")
-            TextField("Введите число ≃ 10÷3600", text: $max_t)
-                .editText()
-            Text("Ограничение на средний объем расплава")
-            TextField("Введите число ≥ 1.0", text: $meltVolumeLimit)
-                .editText()
-            Text("Приращение по времени, Δt [s]")
-            TextField("Введите число ≲ 0.01", text: $dt)
-                .editText()
-            Text("Интервал времени занесения решения в историю")
-            TextField("Введите число ≥ Δt [s]", text: $dtInterval)
-                .editText()
-            Text("Масштаб времени при движении границы")
-            TextField("Введите число ≃ 1.0÷1e6", text: $time_scale)
-                .editText()
-            Text("Коэффициент максимальной толщины расплава")
-            TextField("Введите число ≃ 2.0÷10.0", text: $rangeX)
-                .editText()
+            editStringValue("End solving time, t [s]", $max_t)
+            editStringValue("End melt volume", $meltVolumeLimit)
+            editStringValue("Solving time step, Δt [s]", $dt)
+            editStringValue("History time interval [s]", $dtInterval)
+            editStringValue("Melting time scale", $time_scale)
+            editStringValue("Melt volume range limit", $rangeX)
         }
         .padding()
     }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Данные шага моделирования для сохранения/загрузки в/из файл(а) Истории
 struct HistoryStep: Codable, Identifiable, Sendable {
     var id = UUID()
     var t: Double

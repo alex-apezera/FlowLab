@@ -22,77 +22,95 @@ struct HistoryManagerView: View {
     @State var savedFiles: [String] = []
     @State var showingFileActions = false
     @State var selectedFile: String?
+    @AppStorage("useJSON") var useJSON: Bool = false
+    @State var isLoading = false /// Состояние для спиннера
         
     var body: some View {
         @State var params = solver.params
 
         NavigationView {
-            VStack {
-                // Панель сохранения
-                Section(header: Text("Сохранить историю").font(.headline)) {
-                    HStack{
-                        TextField("Имя файла", text: $fileName)
-                        TextField("Комментарий", text: $comment)
-                        Button { Task { await saveHistory() } }
-                        label: {Image(systemName: "square.and.arrow.down")}
-                        .disabled(fileName.isEmpty)
-                    }
-                    .editText(.asciiCapable)
-                    .padding()
-                }
-                
-                // Список файлов с действиями
-                Section(header: Text("Файлы истории, всего: \(HistoryManager.shared.getHistoryFolderSize)").font(.headline)) {
-                    List {
-                        ForEach(savedFiles, id: \.self) { file in
-                            HStack {
-                                Text(file).frame(width: 260, height: 30, alignment: .leading)
-                                let comment = file == activeFile ? loadedComment : "Файл не загружен"
-                                Text(comment)
-                                    .foregroundColor(.secondary)
-                                Spacer()
-                                if file == activeFile {
-                                    Image(systemName: "checkmark")
-                                }
-                                Text(HistoryManager.shared.getFileSize(file))
-                                    .foregroundColor(.secondary)
-                            }
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                selectedFile = file
-                                showingFileActions = true
-                            }
+            ZStack {
+                VStack {
+                    // Панель сохранения
+                    Section(header: Text("Save history").font(.headline)) {
+                        
+                        HStack{
+                            editString("File name", $fileName)
+                            Button { saveAction() }
+                            label: {Image(systemName: "square.and.arrow.down")}
+                                .disabled(fileName.isEmpty || history.frames.isEmpty)
+                            editString("Enter comment", $comment)
                         }
-                        .onDelete(perform: deleteHistory)
+                        .padding(.horizontal, 10)
+                        
+                        Toggle("OFF: -> .bin, ON: -> .json", isOn: $useJSON)
+                            .clipMode(350)
+                    }.padding(.horizontal, 5)
+                    
+                    // Список файлов с действиями
+                    Section(header: Text("History files, total size: \(HistoryManager.shared.getHistoryFolderSize)")
+                        .font(.callout).foregroundStyle(.tertiary)) {
+                            List {
+                                ForEach(savedFiles, id: \.self) { file in
+                                    HStack {
+                                        Text(file)
+                                        Spacer()
+                                        let comment = file == activeFile ? loadedComment : "File not loaded"
+                                        Text(comment)
+                                            .foregroundColor(.secondary)
+                                        Spacer()
+                                        HStack {
+                                            if file == activeFile {
+                                                Image(systemName: "checkmark")
+                                            }
+                                            Text(HistoryManager.shared.getFileSize(file))
+                                                .foregroundColor(.secondary)
+                                        }
+                                    }
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    selectedFile = file
+                                    showingFileActions = true
+                                }
+                            }
+                            .onDelete(perform: deleteHistory)
+                        }
                     }
                 }
-            }
-            .navigationModifier("Управление историей")
-            .navigationBarItems(trailing: Button("Готово") {
-                isPresented = false
-            })
-            .onAppear(perform: refreshFileList)
-            .onAppear{ comment = solver.params.comment }
-            .onDisappear { solver.params.comment = comment }
-            .actionSheet(isPresented: $showingFileActions) {
-                ActionSheet(
-                    title: Text("Действия с файлом"),
-                    message: Text(selectedFile ?? ""),
-                    buttons: [
-                        .default(Text("Загрузить")) {
-                            if let file = selectedFile {
-                                Task { await loadSelectedFile(file) }
-                            }
-                        },
-                        .destructive(Text("Удалить")) {
-                            if let file = selectedFile {
-                                deleteHistoryFile(file)
-                            }
-                        },
-                        .cancel()
-                    ]
-                )
-            }
+                .disabled(isLoading) /// Блокируем кнопки при загрузке
+                .navigationModifier("History service")
+                .done($isPresented)
+                .onAppear(perform: refreshFileList)
+                .onChange(of: useJSON) {refreshFileList()}
+                .onAppear{ comment = solver.params.comment }
+                .onDisappear { solver.params.comment = comment }
+                .confirmationDialog(
+                    "File actions",
+                    isPresented: $showingFileActions,
+                    titleVisibility: .visible
+                ) {
+                    Button("Load") {
+                        if let selectedFile { loadAction(selectedFile) }
+                    }
+                    Button("Delete", role: .destructive) {
+                        if let file = selectedFile { deleteHistoryFile(file) }
+                    }
+                    Button("Cancel", role: .cancel) { }
+                } message: {
+                    Text(selectedFile ?? "") /// имя файла
+                }
+
+                // Спиннер поверх всего (не работает с айФоном)
+                if isLoading {
+                    Color.black.opacity(0.2) /// Darkening the background
+                        .ignoresSafeArea()
+                    ProgressView("Data processing...")
+                        .padding()
+                        .background(Color.secondary.colorInvert())
+                        .cornerRadius(10)
+                        .shadow(radius: 10)
+                }
+            } ///ZStack
         }
     }
     

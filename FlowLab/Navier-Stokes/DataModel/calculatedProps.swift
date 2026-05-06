@@ -4,12 +4,11 @@
 //
 //  Created by Алексей Езерский on 06.11.2025.
 //
+// MARK: - Вычисляемые переменные и свойства
+
 import Foundation
 extension NavierStokesSolver {
     
-    // MARK: - Вычисляемые переменные и свойства
-    
-
     // Параметры сетки -> params
     var Lx: Double {params.Lx} ///начальная ширина области [m]
     var Ly: Double {params.Ly} /// высота области [m]
@@ -29,7 +28,7 @@ extension NavierStokesSolver {
     var gravityInitialAngle: Double { .pi/180 * params.gravityInitialAngle }
     var rotationVelocity: Double { allowMelt ?
         params.gravityRotationVelocity / 86400 : ///[º/day]
-        params.gravityRotationVelocity } ///[º/s]
+        params.gravityRotationVelocity / 60 }  ///[º/min]
     
     // Температурные параметры -> params
     var heatingValue: Double {params.heatingValue} /// [K] or [W/m²]
@@ -37,21 +36,23 @@ extension NavierStokesSolver {
     /// Величина нагрева в зависимости от способа нагрева
     @inline(__always) var deltaT: Double { switch heatingType {
         case .temperature: return heatingValue
-        case .heatFlux: return Lx*initMeltWidthRatio*heatingValue/lambda }
+        case .heatFlux: return meltWidth*heatingValue/lambda }
     }
     /// Температура плавления вещества [ºC]
     @inline(__always) var T_melt: Double {substance.properties.T_melt}
     /// Температура твёрдого тела или правой границы области [ºC]
     @inline(__always) var T_cold: Double { useEnthalpyMethod ?
         (allowMelt ? T_melt - dTm : T_melt) : T_melt }
-//    @inline(__always) var T_hot: Double {deltaT + T_melt}
     /// Максимальная вычисленная температура [ºC]
     var T_max: Double { T_cold + deltaT }
  
-    // Управление решением (переключатели) -> params
+    /// Управление решением (переключатели) -> params
     var useEnthalpyMethod: Bool {params.useEnthalpyMethod}
     var useConcurrence: Bool {params.useConcurrence}
+    var useParallelDiffusion: Bool {params.useParallelDiffusion}
     var useParallelPressure: Bool {params.useParallelPressure}
+    var useStephanScheme: Bool {params.useStephanScheme}
+    var useAdaptiveRelax: Bool {params.useAdaptiveRelax}
 
     // Параметры плавления -> params
     
@@ -70,7 +71,7 @@ extension NavierStokesSolver {
     var fullMeltingTime: Double { meltingTime(from: meltWidth) }
     /// Начальное физическое время, вычисляется по начальному объёму расплава [s]
     var initialTime: Double {meltingTime(from: initMeltWidthRatio * Lx)}
-    /// Время плавления по физике, от начала расчетов [s]
+    /// Чистое время плавления (по физике, то есть полное время минус начальное)[s]
     var time: Double {
         allowMelt ? fullMeltingTime - initialTime : t}
     /// Шаг плавления по физике на основе разницы объёмов расплава
@@ -89,24 +90,26 @@ extension NavierStokesSolver {
     var timeGap: Double {params.timeGap} /// интервал занесения в историю [s]
     var maxTime: Double {params.maxTime} /// конечное временя решения [s]
     
-    // Вычисление максимальной величины вектора скорости [m/s]
+    /// Вычисление максимальной величины [вектора] скорости [m/s]
     @inline(__always)
     var maxVelocityValue: Double {
+/*
+        /// Точный вариант - вектор скорости
+        /// Exactly variant
         var maxValue: Double = 0.0
-        for j in 0..<ny {
-            let row = j * nx
-            for i in 0..<nx {
-                let idx = row + i
-                let uValue = u[idx]
-                let vValue = v[idx]
-                maxValue = max(maxValue, sqrt(uValue*uValue + vValue*vValue))
-            }
+        for idx in 0..<nx*ny {
+            let uValue = u[idx]
+            let vValue = v[idx]
+            maxValue = max(maxValue, sqrt(uValue*uValue + vValue*vValue))
         }
-        return maxValue
         
-//        let (minU, maxU) = fieldLimits(u)
-//        let (minV, maxV) = fieldLimits(v)
-//        return max(abs(minU), abs(maxU), abs(minV), abs(maxV))
+        return maxValue
+*/
+        /// Экономичный вариант - любая компонента
+        /// ECO variant
+        let (minU, maxU) = fieldLimits(u)
+        let (minV, maxV) = fieldLimits(v)
+        return max(abs(minU), abs(maxU), abs(minV), abs(maxV))
     }
         
 }

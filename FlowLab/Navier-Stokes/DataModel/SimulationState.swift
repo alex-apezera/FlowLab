@@ -5,8 +5,9 @@
 //  Created by Алексей Езерский on 13.11.2025.
 //
 
-//MARK: - Состояние симуляции (решения) для Истории
+//MARK: - Состояние симуляции (решения) для сохранения в файл Истории
 
+/// Состояние решения для сохранения в файл Истории
 struct SimulationState: Codable, Sendable {
     var t: Double = 0.0
     var dt: Double = 0.001, dTime: Double = 0.0
@@ -23,10 +24,11 @@ struct SimulationState: Codable, Sendable {
     var isStone: [UInt8] = []
     var heatFluxE: [Double] = []
     var heatFluxW: [Double] = []
+    var timePoints: [Double] = []
     var temperatureHotWall: [Double] = []
     var temperatureVolume: [Double] = []
 }
-
+/// Состояние полей фазы и температуры для записи в файл
 struct SimulationStateLiquidFraction: Codable, Sendable {
     let liquidFraction: [Double]
     let T: [Double]

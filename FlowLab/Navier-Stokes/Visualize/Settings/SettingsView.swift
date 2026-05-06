@@ -4,45 +4,47 @@
 //
 //  Created by Алексей Езерский on 13.11.2025.
 //
+// MARK: - View for hierarchical settings
 
 import SwiftUI
 
-// MARK: - Новое представление для иерархических настроек
+/// Представление для иерархических настроек
 struct SettingsView: View {
     @ObservedObject var solver: NavierStokesSolver
-    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         NavigationView {
             List {
-                NavigationLink("Метод") {
+                NavigationLink("Methods") {
                     MethodSettings(solver: solver)
                 }
-                NavigationLink("Геометрия") {
+                NavigationLink("Geometry") {
                     GridSettings(solver: solver)
                 }
 
-                NavigationLink("Гравитация") {
+                NavigationLink("Gravity") {
                     GravitySettings(solver: solver)
                 }
 
-                NavigationLink("Время") {
+                NavigationLink("Time") {
                     TimeSettings(solver: solver)
                 }
                 
-                NavigationLink("Процесс") {
+                NavigationLink("Process") {
                     SolveSettings(solver: solver)
                 }
                                 
-                NavigationLink("Объект") {
+                NavigationLink("Subject") {
                     PhysicalSettings(solver: solver)
                 }
                 
+                NavigationLink("Wind") {
+                    Wind(solver: solver)
+                }
+                
             }
-            .navigationModifier("Настройки")
-            .navigationBarItems(trailing: Button("Готово") {
-                presentationMode.wrappedValue.dismiss()
-            })
+            .navigationModifier("Settings")
+            .done
         }
     }
 }

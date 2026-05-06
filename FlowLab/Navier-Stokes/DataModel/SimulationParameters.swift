@@ -7,7 +7,7 @@
 
 // MARK: - Модели данных
 
-// Параметры, необходимые для решения задачи
+/// Параметры, необходимые для решения задачи
 struct SimulationParameters: Codable, Sendable {
     //Геометрия
     var nx: Int = 100 /// число узлов по ширине
@@ -25,17 +25,19 @@ struct SimulationParameters: Codable, Sendable {
     
     // Подвод тепла к левой горячей стенке
     var heatingType: HeatingType = .temperature /// or .heatFlux
-    var heatingValue: Double = 30.0 /// [ºC] for ΔT, [W/m²] for heatFlux
+    var heatingValue: Double = 10.0 /// [ºC] for ΔT, [W/m²] for heatFlux
     
-    // Вещество (вычисляемые неизменяемые свойства)
-    var substance: Substance = .wax23  /// по умолчанию
-    var customFluidProperties: FluidProperties = .custom///может редактироваться
+    /// Реальное вещество (c вычисляемыми неизменяемыми свойства)
+    var substance: Substance = .custom  /// по умолчанию
+    /// Виртуальное вещество (с произвольными изменяемыми свойствами)
+    var customFluidProperties: FluidProperties = .custom
+    /// Свойства вещества
     var currentProperties: FluidProperties {
         switch substance {
         case .custom: return customFluidProperties
         case .water: return .water
-        case .wax23: return .wax23
-        case .wax33: return .wax33
+        case .eicosane: return .eicosane
+        case .docosane: return .docosane
         case .wax56: return .wax56
         case .air: return .air
         }
@@ -47,29 +49,44 @@ struct SimulationParameters: Codable, Sendable {
     var timeGap: Double = 0.2 /// шаг занесения результатов в историю [s] > Δt
     var timeScale: Double = 1.0 /// масштабирование времени при плавлении
     
-    // Управление ходом вычислений
+    // Управление итерациями для давления
     var maxIterations: Int = 250 /// для давления
     var relaxationFactor: Double = 0.5 /// для давления
     var criticalError: Double = 1e-4 /// критическая ошибка
-    var countsLimit: Int = 4000 /// лимит шагов для диагностики
-    var maxHistorySteps: Int = 4000 /// лимит шагов для истории
-    var hiStabLimit: Double = 0.38 /// максимальный предел для числа Куранта
-    var lowStabLimit: Double = 0.28 /// минимальный предел для числа Куранта
+
+    // Диагностика и история
+    var countsLimit: Int = 2000 /// лимит шагов для диагностики
+    var maxHistorySteps: Int = 1000 /// лимит кадров  истории
+
+    // Число Куранта
+    var hiStabLimit: Double = 0.38 /// верхний лимит для CFL
+    var lowStabLimit: Double = 0.28 /// нижний лимит для числа  CFL
 
     // Управление процессом плавления
     var allowMelt = false /// ВКЛ/ВЫКЛ  режим расчета плавления
     var startMeltingStep: Int = 1000_000 /// шаг начала процесса плавления
     var initMeltWidthRatio = 1.0 /// начальная толщина расплава (EPM)
-    var useGradientCorrection = false /// градиентная коррекция второго порядка
     
     // Опции решения уравнений (переключатели)
+    var useAdaptiveRelax = false /// градиентная коррекция второго порядка
     var useEnthalpyMethod = false /// использовать метод EPM
-    var useConcurrence = false /// многопоточность
-    var useParallelPressure = false /// многопоточность для давления в ALE
+    var useConcurrence = false /// многопоточность для остальных функций
+    var useParallelDiffusion = false /// многопоточность для диффузии
+    var useParallelPressure = false /// многопоточность для давления
+    var useStephanScheme = false ///  схема расчета теплового потока через границу
+    var useNeiman = false /// ГУ для Т при касании фронта правого края области
     
-    // Комментарий к решению
+    /// Комментарий к решению, включается в  файл истории
     var comment: String = ""
 
-    // Интервал плавления [K] 0.01 ÷ 0.1
+    /// Интервал плавления [K] 0.01 ÷ 0.1
     var dTm = 0.01 /// T melt - T cold [K] - для метода EPM
+    
+    /// Управление вынужденной конвекцией
+    var useWind: Bool = false /// использовать входящий поток
+    var windSpeed: Double = 0.03/// скорость входящего потока [m/s]
+    var windAngle: Double = 0.0/// угол входящего потока [degrees]
+    var y_start = 0.4, y_end = 0.6 /// границы вдува относительно высоты области
+    var windDeltaTemp: Double = 10.0 /// температурный напор (Tin - Twall) [℃]
+    var leftSink: Bool = false /// сток  влево (true) или верх/низ (false)
 }

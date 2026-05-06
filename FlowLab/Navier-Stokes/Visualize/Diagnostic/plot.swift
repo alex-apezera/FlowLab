@@ -4,27 +4,29 @@
 //
 //  Created by Алексей Езерский on 17.07.2025.
 //
+//MARK: - Diagnostic graph depending on the computational step
 
 import SwiftUI
 extension Visualizator {
     
-    //MARK: - График диагностики в зависимости от вычислительного шага
-    @ViewBuilder
+    /// График диагностики в зависимости от вычислительного шага
     func plot(values: [Double], target: Double, color: Color, yTitle: String,  _ frameHeight: CGFloat) -> some View {
-        
-        let stepValue = values.count > 1 ? values.count - 1 : 1
-        let maxValue = values.max() ?? 300.0
-        let minValue = values.min() ?? 0.0
-        let range = maxValue - minValue > 0 ? maxValue - minValue : 1.0
-        let maxStep = stepValue
-        let minStep = stepValue > solver.params.countsLimit ? stepValue - solver.params.countsLimit : 0 /// при превышении лимита - шкала Х сдвигается
-        let rangeStep = maxStep - minStep > 0 ? maxStep - minStep : 1
-        let fontValueSize: CGFloat = iPadDevice ? 8 : 6
-        
+                
         VStack {
+            let maxValue = values.max() ?? 300.0
+            let minValue = values.min() ?? 0.0
+            let range = maxValue - minValue > 0 ? maxValue - minValue : 1.0
+            /// при превышении массивом values максимальной длины  - шкала Х сдвигается
+            let count = values.count
+            let step = solver.step
+            let minStep = step <= count ? 0 : step - count
+            let maxStep = step > 0 ? step :  0
+            let rangeStep = maxStep - minStep > 0 ? maxStep - minStep : 1
+            let fontValueSize: CGFloat = 8
+
             //Заголовок
             Text("\(yTitle): \(values.last ?? 0, specifier: "%.5f")")
-                .font(iPadDevice ? .caption : Font.system(size: 8))
+                .font(.caption)
                 .padding(.bottom, 2)
             GeometryReader { geometry in
                 let width = geometry.size.width
@@ -61,7 +63,7 @@ extension Visualizator {
                     .stroke(Color.gray.opacity(0.8), lineWidth: 0.5)
                     
                     // Подписи оси Y со сдвигом внутрь графика
-                    Text("\(yValue, specifier: "%.3e")")
+                    Text("\(yValue, specifier: "%.2e")")
                         .font(.system(size: fontValueSize))
                         .position(x: 25, y: yPos - 5)
                 }
@@ -78,9 +80,9 @@ extension Visualizator {
                     .stroke(lineWidth: 1)
 
                     let xPosShift = /// корректировка позиции
-                        i == 0 ? xPos - 20 :
-                        i == 3 ? xPos + 20 : xPos
-                    Text("\(Double(xValue), specifier: "%.3e")") /// значение
+                        i == 0 ? xPos - 8 :
+                        i == 3 ? xPos + 8 : xPos
+                    Text("\(Double(xValue), specifier: "%.f")") /// значение
                         .font(.system(size: fontValueSize))
                         .position(x: xPosShift, y: height + 10)
                 }

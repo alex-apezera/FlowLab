@@ -4,20 +4,21 @@
 //
 //  Created by Алексей Езерский on 17.07.2025.
 //
+//MARK: Monitoring the progress of solving equations
 
 import SwiftUI
 extension Visualizator {
     
-    //MARK: - Диагностика хода решения
+    /// Диагностика хода решения
     @ViewBuilder
     var diagnostics: some View {
         if showDiagnostics { diagnosticsPlots.padding(.bottom, 10) }
     }
     
-    //MARK: - Расходимость функции тока из уравнения Пуассона (ω)
+    /// Расходимость функции тока из уравнения Пуассона (ω)
     @ViewBuilder
     private func psiDivergence() -> some View {
-        let divPsi = iPadDevice ? "погрешность" : "res"
+        let divPsi = "tolerance"
         let maxValue: Double = 1e-6
         let minValue: Double = 3e-9
         Button {
@@ -31,32 +32,34 @@ extension Visualizator {
             }
         } label: {
             Text("(\(divPsi) \(solver.tolerancePsi, specifier: "%.1e"))")
+                .underline(false)
         }
         if solver.isCalculatingStream { /// ProgressView
-            Text("Расчет линий тока...").padding(.horizontal, 5)
+            Text("Calculating...").padding(.horizontal, 5)
                 .background(RoundedRectangle(cornerRadius: 5).fill(.ultraThinMaterial))
         }
     }
     
-    //MARK: - Графики диагностики
+    /// Графики диагностики
     var diagnosticsPlots: some View {
         VStack {
-            let relaxC = iPadDevice ? "Давление: relax" : "relax "
-            let dtC = "dt"
-            let iterC = iPadDevice ? "iterations" : "iters"
-            let tempAvgWall = iPadDevice ? "<T> на горячей стенке [ºC]" : "<T_hot>"
-            let tempAvgTotal = iPadDevice ? "<T> жидкости [ºC]" : "T_avg"
-            let dtS = iPadDevice ? "Шаг моделирования dt [s]" : "dt"
-            let dtS2 = solver.allowMelt ? "Шаг плавления dTime [s]" : dtS
-            let dtM = iPadDevice ? dtS2 : "dTime"
-            let deltaQ = iPadDevice ? "<q_cold/q_hot> на стенках [%]" : "<q_c/q_h>"
-            let courantC = iPadDevice ? "коэф. устойчивости" : "stab"
-            let divC = iPadDevice ? "невязка давления" : "pRes"
-            let maxV = iPadDevice ? "макс. скорость [m/s]" : "maxV"
-            let psiC = iPadDevice ? "Функция тока ω: итераций" : "ω-iters"
+            let relaxC = "relax"
+            let pressureC = "Pressure(p):"
+            let dtC = solver.allowMelt ? solver.useEnthalpyMethod ? "adaptiveDt" : "dTime" : "dt"
+            let iterC = "iterations"
+            let tempAvgWall = "<T> hot wall [ºC]"
+            let tempAvgTotal =  "<T> fluid [ºC]"
+            let dtS =  "simulation step dt [s]"
+            let dtM = "dTime"
+            let ts = "tScale"
+            let deltaQ = "<q_cold/q_hot> on walls [%]"
+            let courantC = "CFL"
+            let divC = "p-residual error"
+            let maxV = "max velocity [m/s]"
+            let psiC = "Stream function ω: iterations"
             
             HStack (spacing: 10) {
-                Text("Диагностика хода решения")
+                Text("Diagnostics progress")
                 Button { /// кнопка отображения разных групп графиков
                     toggleDiagnostic.toggle()
                 } label: {
@@ -64,18 +67,37 @@ extension Visualizator {
                 }
             }
             .buttonStyle(.borderless)
-            .font(iPadDevice ? .headline: .caption)
+            .font(iPadDevice ? .headline: .body)
             .padding(.top, 5)
             
             HStack {
-                Text("\(dtC): \(solver.dt, specifier: "%.5f").  \(relaxC)  \(solver.params.relaxationFactor, specifier: "%.2f"),  \(iterC) \(solver.iterations). \(psiC) \(solver.iterationsPsi)")
+                Text("\(dtC): \(solver.allowMelt ? solver.useEnthalpyMethod ? solver.adaptiveDt : solver.dTime : solver.dt, specifier: solver.allowMelt ? "%.1f" : "%.4f")s")
+                if solver.timeScale != 1 {
+                    Text("\(ts): \(solver.timeScale, specifier: "%.0f").")
+                }
+                Button {
+                    solver.params.useAdaptiveRelax.toggle()
+                    if !solver.params.useAdaptiveRelax {
+                        solver.params.relaxationFactor = solver.relaxationFactor
+                        solver.params.maxIterations = solver.maxIterations
+                    }
+                } label: {
+                    HStack {
+                        Text(pressureC)
+                        Text("\(relaxC) \(solver.params.relaxationFactor, specifier: "%.2f"),  \(iterC) \(solver.iterations, specifier: "%04d").")
+                    }.underline(false)
+                }
+                .keyboardShortcut("p", modifiers: [])
+                .foregroundColor(solver.params.useAdaptiveRelax ? .green : .blue)
+                
+                Text("\(psiC) \(solver.iterationsPsi)")
                 psiDivergence()
             }
-            .font(iPadDevice ? .caption : Font.system(size: 8))
-            .padding(.bottom, 2)
+            .font(.system(.caption, design: .monospaced))
+            .padding(.bottom, 4)
             
-            HStack(spacing: iPadDevice ? 20 : 5) {
-                let frameHeight: CGFloat = iPadDevice ? 150 : 80
+            HStack(spacing: 20) {
+                let frameHeight: CGFloat = /*iPadDevice ?*/ 150 /*: 80*/
                 
                 // Графики даны в зависимости от шага решения step・
                 if toggleDiagnostic {
@@ -110,7 +132,7 @@ extension Visualizator {
 
                 }
             }
-            .font(iPadDevice ? .caption : .footnote)
+            .font(/*iPadDevice ? */.caption/* : .footnote*/)
             .padding(.horizontal, 10)
             .padding(.bottom)
         }

@@ -4,10 +4,11 @@
 //
 //  Created by Алексей Езерский on 08.12.2025.
 //
+//MARK: - Helper methods for storing the solution in the current session
 
 import SwiftUI
 
-//MARK: - Вспомогательные методы для хранения истории
+/// Кадр  истории только для текущего сеанса (в файл не сохраняется)
 struct HistoryFrame: Identifiable {
     let id = UUID()
     let t: Double
@@ -25,9 +26,10 @@ struct HistoryFrame: Identifiable {
     let isStone: [UInt8]
     let heatFluxE: [Double]
     let heatFluxW: [Double]
-    var temperatureHotWall: [Double]
-    var temperatureVolume: [Double]
-    var totalTimeElapsed: TimeInterval
-    var startTime: Date?
+    let timePoints: [Double]
+    let temperatureHotWall: [Double]
+    let temperatureVolume: [Double]
+    let totalTimeElapsed: TimeInterval
+    let startTime: Date?
     
 }

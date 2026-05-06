@@ -4,12 +4,12 @@
 //
 //  Created by Алексей Езерский on 14.11.2025.
 //
+// MARK: - Frame for visualization current session
 
 extension NavierStokesSolver {
-    
-    // MARK: - Функции для визуализации
+        
+    /// Функция для накопления кадров текущего сеанса
     func captureFrame() -> HistoryFrame {
-//        let timerManager = TimeCounterManager()
         return HistoryFrame(
             t: t,
             dt: dt, dTime: dTime,
@@ -26,6 +26,7 @@ extension NavierStokesSolver {
             isStone: isStone,
             heatFluxE: q_coldWall,
             heatFluxW: q_hotWall,
+            timePoints: timePoints,
             temperatureHotWall: T_avg_hotWall,
             temperatureVolume: T_avg_volume,
             totalTimeElapsed: timerManager.totalTimeElapsed,

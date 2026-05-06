@@ -4,14 +4,13 @@
 //
 //  Created by Алексей Езерский on 13.11.2025.
 //
+//MARK: - Correction of geometric parameters
 
 import SwiftUI
 
-//MARK: - Корректировка геометрических параметров
-
+/// Корректировка геометрических параметров
 struct GridSettings: View {
     @ObservedObject var solver: NavierStokesSolver
-    @Environment(\.presentationMode) var presentationMode
     
     @State private var nodesX: Int = 100
     @State private var nodesY: Int = 100
@@ -20,26 +19,24 @@ struct GridSettings: View {
     @State private var lenghtX: Double = 1
     @State private var lenghtY: Double = 1
     @State private var initMeltWidthRatio: Double = 1
-    
-//    init() { loadSettings() }
-    
+        
     var body: some View {
         let settingsNotActive: Bool = solver.step > 0
         NavigationView {
             Form {
-                Section(header: Text("Параметры области")) {
+                Section(header: Text("Geometry")) {
                     VStack {
-                        EditIntValue(text: "Число узлов по ширине", value: $nodesX)
+                        EditIntValue(text: "Width nodes", value: $nodesX)
                         if !solver.params.useEnthalpyMethod {
-                            EditIntValue(text: "Число узлов по высоте", value: $nodesY)
-                            EditValue(text: "Растяжение от границы к центру области по X", value: $stretchX)
-                            EditValue(text: "Растяжение от границы к центру области по Y", value: $stretchY)
+                            EditIntValue(text: "Height nodes", value: $nodesY)
+                            EditValue(text: "Width stretch", value: $stretchX)
+                            EditValue(text: "Height stretch", value: $stretchY)
                         }
-                        EditValue(text: "Ширина области по X [m]", value: $lenghtX)
+                        EditValue(text: "Width [m]", value: $lenghtX)
                         if solver.params.useEnthalpyMethod {
-                            EditValue(text: "Начальная толщина расплава 0.1 ÷ 1:", value: $initMeltWidthRatio)
+                            EditValue(text: "Initial melt thickness 0.1 ÷ 1:", value: $initMeltWidthRatio)
                         }
-                        EditValue(text: "Высота области по Y [m]", value: $lenghtY)
+                        EditValue(text: "Height [m]", value: $lenghtY)
                     }
                     .foregroundStyle(settingsNotActive ? .tertiary : .primary)
                     .disabled(settingsNotActive)
@@ -47,14 +44,11 @@ struct GridSettings: View {
                 }
             }
         }
-        .navigationModifier("Геометрия")
-        .navigationBarItems(
-            trailing: Button("Готово") {
-                saveSettings()
-                presentationMode.wrappedValue.dismiss()
-            }
-        )
+        .navigationModifier("Domain")
         .onAppear(perform: loadSettings)
+        .onDisappear(perform: saveSettings)
+        .onDisappear(perform: solver.reset)
+        .done
     }
     
     private func loadSettings() {
@@ -76,10 +70,7 @@ struct GridSettings: View {
         solver.params.stretch_y = stretchY
         solver.params.Lx = lenghtX
         solver.params.Ly = lenghtY
-        solver.params.initMeltWidthRatio = initMeltWidthRatio
-        
-        // Регенерируем сетку и начальные условия
-        solver.reset()
+        solver.params.initMeltWidthRatio = initMeltWidthRatio        
     }
 }
 

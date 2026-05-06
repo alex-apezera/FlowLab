@@ -4,12 +4,14 @@
 //
 //  Created by Алексей Езерский on 13.11.2025.
 //
+//MARK: - Selection of physical parameters of a substance
 
 import SwiftUI
+
+/// Выбор физических параметров вещества
 struct PhysicalSettings: View {
     @ObservedObject var solver: NavierStokesSolver
-    @Environment(\.presentationMode) var presentationMode
-    @State private var substance: Substance = .wax23
+    @State private var substance: Substance = .custom
     @State private var heatingType: HeatingType = .temperature
     @State private var heatingValue: Double = 10
     
@@ -18,9 +20,9 @@ struct PhysicalSettings: View {
         
         NavigationView {
             Form {
-                Section(header: Text("Подвод тепла")) {
+                Section(header: Text("Heat supply")) {
                     HStack {
-                        Text("Тип нагревания:")
+                        Text("Heating type:")
                         Picker("Heating type", selection: $heatingType) {
                             ForEach(HeatingType.allCases, id: \.self) { type in
                                 Text(type.designation).tag(type)
@@ -28,16 +30,17 @@ struct PhysicalSettings: View {
                         }
                     }.pickerStyle(SegmentedPickerStyle())
                     
-                    EditValue(text: "Величина нагрева: \(heatingType.designation)", value: $heatingValue)
+                    EditValue(text: "Heating value: \(heatingType.designation)", value: $heatingValue)
                     
                 }
-                    Section(header: Text("Начальное распределение температуры: \(solver.useInitialGradientT ? "Градиентное" : "Фиксированное")")) {
-                        Toggle("Включить градиентное распределение", isOn: $solver.useInitialGradientT)
-                    }
+                Section(header: Text("Temperature conditions")) {
+                    Toggle("ON/OFF init gradient distribution", isOn: $solver.useInitialGradientT)
+                    Toggle("After the front touched the cold wall: \(solver.params.useNeiman ? "dT/dx=0" : "T=T_cold")", isOn: $solver.params.useNeiman)
+                }
                 Section(header: VStack(alignment: .leading) {
-                    Text("Вещество")
-                    Text("● вещество нельзя изменять при step ≠ 0").font(.footnote)
-                    Text("●● для некоторых веществ параметры зависят от температуры").font(.footnote)
+                    Text("Substance")
+                    Text("● substance may change only if step ≠ 0").font(.footnote)
+                    Text("●● for some substances parameters depend on temperature").font(.footnote)
                 }) {
                     Picker("Substance", selection: $substance) {
                         ForEach(Substance.allCases, id: \.self) {fluid in
@@ -45,13 +48,14 @@ struct PhysicalSettings: View {
                         }
                     }
                     .onChange(of: substance) { solver.reset() }
+                    .onChange(of: solver.useInitialGradientT) { solver.reset() }
                     .background(settingsNotActive ? Color.secondary.opacity(0.3) : Color.clear)
                     .disabled(settingsNotActive)
                     .pickerStyle(SegmentedPickerStyle())
                     
                     HStack {
                         switch substance {
-                        case .water, .wax23, .wax33, .wax56, .air:
+                        case .water, .eicosane, .docosane, .wax56, .air:
                             substanceProperties
                         case .custom:
                             customProperties
@@ -60,66 +64,80 @@ struct PhysicalSettings: View {
                 }
             }
         }
-        .onAppear { loadCustomSettings() }
+        .onAppear(perform: loadSettings)
+        .onDisappear(perform: saveSettings)
         .onChange(of: solver.useInitialGradientT) {solver.initTAndFraction()}
-        .navigationModifier("Объект")
-        .navigationBarItems(
-            trailing: Button("Готово") {
-                saveSettings()
-                presentationMode.wrappedValue.dismiss()
-            }
-        )
+        .navigationModifier("Object")
+        .done
     }
     
-    // Загрузка параметров
-    private func loadCustomSettings() {
+    /// Загрузка параметров
+    private func loadSettings() {
         substance = solver.params.substance
         heatingType = solver.params.heatingType
         heatingValue = solver.params.heatingValue
     }
     
-    // Сохранение параметров
+    /// Сохранение параметров
     private func saveSettings() {
         solver.params.substance = substance
         solver.params.heatingType = heatingType
         solver.params.heatingValue = heatingValue
     }
     
-    // Свойства вещества
+    /// Свойства вещества
     private var substanceProperties: some View  {
-        VStack(alignment: .leading) {
+        VStack/*(alignment: .leading)*/ {
             let air = substance == .air
             let fluid = substance.properties
             
-            Text("ρ₀ \tопорная плотность \t\t\tkg/m³  \t\t\(fluid.density, specifier: "%.2f")")
-            Text("ν \tкинематическая вязкость \tm²/s \t\t\(fluid.viscosity, specifier: "%.2e")")
-            Text("α \tтемпературопроводность  \tm²/s \t\t\(fluid.thermalDiffusivity, specifier: "%.2e")")
-            Text("λ \tтеплопроводность \t\t\tW/(m·K) \t\(fluid.thermalConductivity, specifier: "%.2f")")
-            Text("Cp \tизобарная теплоёмкость \tJ/(kg·K) \t\(fluid.specificHeat, specifier: "%.0f")")
-            Text("β \tобъёмное расширение \t\tK⁻¹ \t\t\t\(fluid.expansionCoefficient, specifier: "%.2e")")
+            propertyForm("ρ₀, density, [kg/m³]", fluid.density, "%.2f")
+            propertyForm("ν, viscosity, [m²/s]", fluid.viscosity, "%.2e")
+            propertyForm("α, thermalDiffusivity, [m²/s]", fluid.thermalDiffusivity, "%.2e")
+            propertyForm("λ, thermalConductivity, [W/m·K]", fluid.thermalConductivity, "%.2f")
+            propertyForm("Cp, specificHeat, [J/kg·K]", fluid.specificHeat, "%.0f")
+            propertyForm("β, expansionCoefficient, [K⁻¹]", fluid.expansionCoefficient, "%.2e")
             if air {
-                Text("T₀ \tтемпература плавления \tºС \t\t\t\(fluid.T_melt, specifier: "%.0f") <условно>")
+                propertyForm("T₀, cold temperatute, [ºС]", fluid.T_melt, "%.0f")
             } else {
-                Text("T₀ \tтемпература плавления \tºС \t\t\t\(fluid.T_melt, specifier: "%.0f")")
-                Text("Lh \tтеплота плавления  \t\t\tW·s/kg \t\(fluid.latentHeat, specifier: "%.0f")")
+                propertyForm("T₀, melting temperatute, [ºС]", fluid.T_melt, "%.0f")
+                propertyForm("Lh, latentHeat, [W·s/kg]", fluid.latentHeat, "%.0f")
+                propertyForm("ρ₁, solid density, [kg/m³]", fluid.rho_solid, "%.0f")
+                propertyForm("λ₁ solid λ, [W/m·K]", fluid.lambda_solid, "%.2f")
+                propertyForm("Cp₁, solid Cp, [J/kg·K]", fluid.Cp_solid, "%.0f")
             }
-        }
+        }.font(.callout)
     }
     
-    // Свойства произвольного вещества
+    /// Свойства произвольного вещества
     private var customProperties: some View  {
-        VStack(alignment: .leading) {
-            EditValue(text: "ρ₀ \tопорная плотность kg/m³", value: $solver.params.customFluidProperties.density)
-            EditValue(text: "ν \tкинематическая вязкость m²/s", value: $solver.params.customFluidProperties.viscosity)
-            EditValue(text: "α \tтемпературопроводность  m²/s", value: $solver.params.customFluidProperties.thermalDiffusivity)
-            EditValue(text: "λ \tтеплопроводность W/(m·K)", value: $solver.params.customFluidProperties.thermalConductivity)
-            EditValue(text: "Cp \tизобарная теплоёмкость J/(kg·K)", value: $solver.params.customFluidProperties.specificHeat)
-            EditValue(text: "β \tобъёмное расширение K⁻¹", value: $solver.params.customFluidProperties.expansionCoefficient)
-            EditValue(text: "T₀ \tтемпература плавления ºС", value: $solver.params.customFluidProperties.T_melt)
-            EditValue(text: "Lh \tтеплота плавления  W·s/kg", value: $solver.params.customFluidProperties.latentHeat)
+        VStack/*(alignment: .leading)*/ {
+            EditValue(text: "ρ₀, density, [kg/m³]", value: $solver.params.customFluidProperties.density)
+            EditValue(text: "ν, viscosity, [m²/s]", value: $solver.params.customFluidProperties.viscosity)
+            EditValue(text: "α, thermalDiffusivity, [m²/s]", value: $solver.params.customFluidProperties.thermalDiffusivity)
+            EditValue(text: "λ, T Conductivity, [W/m·K]", value: $solver.params.customFluidProperties.thermalConductivity)
+            EditValue(text: "Cp, specificHeat, [J/(kg·K)]", value: $solver.params.customFluidProperties.specificHeat)
+            EditValue(text: "β, expansionCoefficient, [K⁻¹]", value: $solver.params.customFluidProperties.expansionCoefficient)
+            EditValue(text: "T₀, melting temperatute, [ºС]", value: $solver.params.customFluidProperties.T_melt)
+            EditValue(text: "Lh, latentHeat, [W·s/kg]", value: $solver.params.customFluidProperties.latentHeat)
+            EditValue(text: "ρ₁, solid density, [kg/m³]", value: $solver.params.customFluidProperties.rho_solid)
+            EditValue(text: "λ₁ solid λ, [W/m·K]", value: $solver.params.customFluidProperties.lambda_solid)
+            EditValue(text: "Cp₁, solid Cp, [J/kg·K]", value: $solver.params.customFluidProperties.Cp_solid)
         }
-        .font(.system(size: 14))
+        //        .font(.system(size: 14))
+        .font(.callout)
+    }
+    
+    /// Шаблон для свойств вещества
+    private func propertyForm(_ property: String, _ value: Double, _ format: String) -> some View {
+        HStack {
+            Text(property).frame(maxWidth: .infinity, alignment: .leading)
+            Spacer()
+            Text("\(value, specifier: format)  ")
+        }
+        .padding(.bottom, 3)
+        .font(.callout)
+        .foregroundColor(.secondary)
     }
 
 }
-

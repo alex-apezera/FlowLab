@@ -4,29 +4,29 @@
 //
 //  Created by Алексей Езерский on 13.11.2025.
 //
+//MARK: - Вещество для моделирования
 
 import SwiftUI
 
-//MARK: - Вещество для моделирования
 enum Substance: String, Codable, CaseIterable, Sendable {
-    case water, wax23, wax33, wax56, air, custom
+    case water, eicosane, docosane, wax56, air, custom
     
     var localizedName: String {
         switch self {
-        case .water: return "Вода"
-        case .wax23: return "н-Эйкозан"
-        case .wax33: return "н-Докозан"
-        case .wax56: return "Парафин"
-        case .air: return "Воздух"
-        case .custom: return "Псевдо"
+        case .water: return "Water"
+        case .eicosane: return "Eicosane"
+        case .docosane: return "Docosane"
+        case .wax56: return "Wax"
+        case .air: return "Air"
+        case .custom: return "Custom"
         }
     }
  
     var properties: FluidProperties {
         switch self {
         case .water: return .water
-        case .wax23: return .wax23
-        case .wax33: return .wax33
+        case .eicosane: return .eicosane
+        case .docosane: return .docosane
         case .wax56: return .wax56
         case .air: return .air
         case .custom: return .custom /// custom обрабатывается отдельно
