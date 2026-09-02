@@ -6,8 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		19983FEB3048641700BECE1B /* License.md in Resources */ = {isa = PBXBuildFile; fileRef = 19983FEA3048641700BECE1B /* License.md */; };
+		19D21B763044991A00F90A99 /* ProjectDescription.md in Resources */ = {isa = PBXBuildFile; fileRef = 19D21B753044991A00F90A99 /* ProjectDescription.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		1965C0902F72CED20090A172 /* FlowLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlowLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		19983FEA3048641700BECE1B /* License.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = License.md; sourceTree = "<group>"; };
+		19D21B753044991A00F90A99 /* ProjectDescription.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ProjectDescription.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +39,8 @@
 		1965C0872F72CED20090A172 = {
 			isa = PBXGroup;
 			children = (
+				19D21B753044991A00F90A99 /* ProjectDescription.md */,
+				19983FEA3048641700BECE1B /* License.md */,
 				1965C0922F72CED20090A172 /* FlowLab */,
 				1965C0912F72CED20090A172 /* Products */,
 			);
@@ -109,6 +118,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19D21B763044991A00F90A99 /* ProjectDescription.md in Resources */,
+				19983FEB3048641700BECE1B /* License.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
