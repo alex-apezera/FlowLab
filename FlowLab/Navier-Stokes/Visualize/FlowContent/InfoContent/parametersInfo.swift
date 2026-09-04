@@ -39,8 +39,8 @@ extension Visualizator {
             Text("Re \(solver.Re, specifier: "%.0f"),")
             Text("Pr \(solver.Pr, specifier: "%.2f").")
             if solver.allowMelt {
-                Text("Ste \(solver.Ste, specifier: "%.2f")")
-                Text("Fo \(solver.Fo, specifier: "%.2f")")
+                Text("Ste \(solver.Ste, specifier: "%.2f"),")
+                Text("Fo \(solver.Fo, specifier: "%.2f").")
             }
             if ste { Text("Ste scheme is ON. ") }
             if adr {
@@ -88,21 +88,21 @@ extension Visualizator {
         HStack {
             Text("Substance. ").bold().font(.body)
             Text("\(solver.substance.properties.name):").bold()
-            Text("T₀ \(solver.substance.properties.T_melt, specifier: "%.0f")ºC")
+            Text("T₀ \(solver.substance.properties.T_melt, specifier: "%.0f")ºC,")
             let value = solver.params.heatingValue
             switch solver.params.heatingType {
             case .temperature:
-                Text("ΔT \(value, specifier: "%.0f")ºC")
+                Text("ΔT \(value, specifier: "%.0f")ºC,")
             case .heatFlux:
-                Text("q₀ \(value, specifier: "%.0f")[W/m²]")
+                Text("q₀ \(value, specifier: "%.0f")[W/m²],")
             }
-            Text("α \(solver.alpha, specifier: "%.2e")[m²/s]")
-            Text("β \(solver.beta, specifier: "%.1e")[K⁻¹]")
-            Text("ν \(solver.nu, specifier: "%.2e")[m²/s]")
-            Text("λ \(solver.lambda, specifier: "%.2f")[W/(m·K)]")
-            Text("ρ₀ \(solver.rho, specifier: "%.2f")[kg/m³]")
+            Text("α \(solver.alpha, specifier: "%.2e")[m²/s],")
+            Text("β \(solver.beta, specifier: "%.1e")[K⁻¹],")
+            Text("ν \(solver.nu, specifier: "%.2e")[m²/s],")
+            Text("λ \(solver.lambda, specifier: "%.2f")[W/(m·K)],")
+            Text("ρ₀ \(solver.rho, specifier: "%.2f")[kg/m³],")
             if solver.allowMelt {
-                Text("latent heat \(solver.latentHeat, specifier: "%.2e")[W·s/kg]")
+                Text("latent heat \(solver.latentHeat, specifier: "%.2e")[W·s/kg].")
             }
         }
     }
@@ -113,21 +113,21 @@ extension Visualizator {
             if solver.latentHeat < 1e6 {
                 Text("Melting. ").bold().font(.body)
                 if isSolving || history.frames.isEmpty {
+                    // Режим решения: используем текущие данные
                     let (avg, min, max) = solver.liquidWidth(solver.liquidFraction, solver.rx, solver.rx_avg)
-                    // Режим решения - используем текущие данные solver
                     displayParams(solver.initialTime, solver.fullMeltingTime, solver.dTime, avg, min, max, solver.V_melt_avg)
 
                 } else {
-                    // Режим истории - используем выбранный кадр
+                    // Режим истории: используем выбранный кадр
                     let frameIndex = min(currentFrameIndex, history.frames.count-1)
                     let historyFrame = history.frames[frameIndex]
                     let liquidFraction = historyFrame.liquidFraction
                     let rx = historyFrame.rx
                     let rx_avg = historyFrame.rx_avg
                     let (avg, min, max) = solver.liquidWidth(liquidFraction, rx, rx_avg)
-                    let initialWidth = solver.params.initMeltWidthRatio
-                    let meltingTime = solver.meltingTime(from: avg * initialWidth * solver.Lx)
-                    let initTime = solver.meltingTime(from: initialWidth * solver.Lx)
+                    let initialWidth = solver.params.initMeltWidth
+                    let meltingTime = solver.meltingTime(from: avg * initialWidth)
+                    let initTime = solver.initialTime
                     let fullTime = meltingTime > initTime ? meltingTime : initTime
                     let dTime = historyFrame.dTime
                     displayParams(initTime, fullTime, dTime, avg, min, max, historyFrame.V_melt_avg)
@@ -137,27 +137,29 @@ extension Visualizator {
     }
 
     /// Отображение параметров плавления
-    private func displayParams(_ initTime: Double,_ fullTime: Double, _ dTime: Double, _ avg: Double, _ min: Double, _ max: Double, _ volumeChange: Double) -> some View {
+    private func displayParams(_ initTime: Double,_ fullTime: Double, _ dTime: Double, _ avg: Double, _ min: Double, _ max: Double, _ widthChange: Double) -> some View {
         HStack {
-            let dimV = realSize ? "[m]" : ""
-            let Lx = solver.Lx
-            let initVol = solver.initMeltWidthRatio
-            let initV = realSize ? Lx*initVol : initVol
-            let ratV = realSize ? "V" : "V/V₀"
-            let dim = realSize ? "[mm/h]" : "[%/h]"
-            let vol = realSize ? Lx*avg : avg
-            let minV = realSize ? Lx*min : min
-            let maxV = realSize ? Lx*max : max
-            let volC = realSize ? volumeChange*Lx : volumeChange
-            let scale: Double = realSize ? 1000 : 100
+            let dimW = realSize ? "[mm]" : ""
+            let width = realSize ? "W" : "W/W₀"
+            let dimH = realSize ? "[mm/h]" : "[%/h]"
+            let form = realSize ? "%.0f" : "%.2f"
+            let initW = solver.initMeltWidth * 1000
+            let widthAvg = realSize ? initW * avg : avg
+            let minW = realSize ? initW * min : min
+            let maxW = realSize ? initW * max : max
+            let widthC = realSize ? initW * widthChange : widthChange
+            let scale: Double = realSize ? 1 : 100
+            
             Button {realSize.toggle()}
-            label: {Text("Volume: \(dimV)").bold().underline(false)}
-            Text("V₀ \(initV, specifier: "%.2f").")
-            Text("\(ratV) \(vol, specifier: "%.2f")")
-            Text("(min \(minV, specifier: "%.2f")")
-            Text("max \(maxV, specifier: "%.2f"));")
+            label: {Text("Width:").bold().underline(false)}
+                .keyboardShortcut("f", modifiers: [])
+
+            Text("W₀ \(initW, specifier: "%.0f")mm,")
+            Text("\(width) \(widthAvg, specifier: form)")
+            Text("(min \(minW, specifier: form),")
+            Text("max \(maxW, specifier: form))\(dimW);")
             Text("rise:").bold()
-            Text("\(volC*3600*scale, specifier: "%.2f")\(dim).")
+            Text("\(widthC*3600*scale, specifier: form)\(dimH).")
             Text("Time:").bold()
             Text("init \(formattedTime(initTime)),")
             Text("full \(formattedTime(fullTime)),")

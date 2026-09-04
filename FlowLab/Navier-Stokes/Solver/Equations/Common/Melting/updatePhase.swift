@@ -19,7 +19,7 @@ extension NavierStokesSolver {
         let tMelt = T_melt, tCold = T_cold, tMax = T_max
         let lambda = self.lambda(tMelt), l_sol = self.lambda_solid
         let effectiveDt = adaptiveDtMelt * timeScale
-        let energyFactor = effectiveDt / (latentHeat * rho_solid * h)
+        let energyFactor = effectiveDt / (latentHeat * rho * h)
                 
         let snapLimit = 0.95/// порог защелки  у правой стенки
         let wallZone = 1///количество ячеек до правой стенки, где риск NaN максимален

@@ -64,7 +64,7 @@ extension Visualizator {
                     toggleDiagnostic.toggle()
                 } label: {
                     Image(systemName: "arrow.right.arrow.left.circle.fill")
-                }
+                }.keyboardShortcut(">", modifiers: [])
             }
             .buttonStyle(.borderless)
             .font(iPadDevice ? .headline: .body)

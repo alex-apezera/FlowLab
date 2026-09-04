@@ -18,7 +18,7 @@ struct GridSettings: View {
     @State private var stretchY: Double = 0
     @State private var lenghtX: Double = 1
     @State private var lenghtY: Double = 1
-    @State private var initMeltWidthRatio: Double = 1
+    @State private var initMeltWidth: Double = 0.15
         
     var body: some View {
         let settingsNotActive: Bool = solver.step > 0
@@ -34,7 +34,7 @@ struct GridSettings: View {
                         }
                         EditValue(text: "Width [m]", value: $lenghtX)
                         if solver.params.useEnthalpyMethod {
-                            EditValue(text: "Initial melt thickness 0.1 ÷ 1:", value: $initMeltWidthRatio)
+                            EditValue(text: "Initial melt thickness 0.1 ÷ 1:", value: $initMeltWidth)
                         }
                         EditValue(text: "Height [m]", value: $lenghtY)
                     }
@@ -59,7 +59,7 @@ struct GridSettings: View {
         stretchY = solver.params.stretch_y
         lenghtX = solver.params.Lx
         lenghtY = solver.params.Ly
-        initMeltWidthRatio = solver.params.initMeltWidthRatio
+        initMeltWidth = solver.params.initMeltWidth
     }
     
     private func saveSettings() {
@@ -70,7 +70,10 @@ struct GridSettings: View {
         solver.params.stretch_y = stretchY
         solver.params.Lx = lenghtX
         solver.params.Ly = lenghtY
-        solver.params.initMeltWidthRatio = initMeltWidthRatio        
+        if initMeltWidth > lenghtX {
+            initMeltWidth = lenghtX
+        }
+        solver.params.initMeltWidth = initMeltWidth
     }
 }
 

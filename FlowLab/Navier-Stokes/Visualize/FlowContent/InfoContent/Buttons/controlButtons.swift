@@ -17,14 +17,14 @@ extension Visualizator {
             // Диагностика решения
             Button { withAnimation(.easeInOut(duration: 0.5)) { showDiagnostics.toggle() }
             } label: {
-                HStack { Text("Z:").bold(); Text("📊 Diagnostics") }
+                HStack { Text("z:").bold(); Text("📊 Diagnostics") }
             }
             .keyboardShortcut("z", modifiers: [])
             
             // Сброс к начальному состоянию
             Button { withAnimation(.easeInOut(duration: 0.5)) { resetSolver() }
             } label: {
-                HStack { Text("X:").bold(); Text("🪣 Reset") }
+                HStack { Text("x:").bold(); Text("🪣 Reset") }
             }
             .keyboardShortcut("x", modifiers: [])
             .disabled(isSolving) /// в режиме решения сброс неактивен
@@ -32,7 +32,7 @@ extension Visualizator {
             // Управление историей
             Button { withAnimation(.easeInOut(duration: 0.5)) { showHistoryManager.toggle() }
             } label: {
-                HStack { Text("C:").bold(); Text("💾 History") }
+                HStack { Text("c:").bold(); Text("💾 History") }
             }
             .keyboardShortcut("c", modifiers: [])
             .disabled(isSolving)/// в режиме решения доступа к истории нет
@@ -48,7 +48,7 @@ extension Visualizator {
             Button {withAnimation(.easeInOut(duration: 0.5)) { isSolving.toggle()}}
             label: {
                 HStack {
-                    Text("Q:").bold()
+                    Text("q:").bold()
                     Text(isSolving ? "⏸️ Stop" : "▶️ Start").blinking()
                 }
             }
@@ -76,16 +76,6 @@ extension Visualizator {
         .contentShape(Rectangle()) /// зона кликабельности
         .font(.body)
         .frame(width: iPadDevice ? 180 : 260)
-        .background(shortcuts)
     }
-    
-    /// Сброс к начальному состоянию (дубль)
-    private var shortcuts: some View {
-        Group {
-            Button("") { resetSolver() /// Функция полной очистки и перезапуска
-            }.keyboardShortcut(.escape, modifiers: [])
-        }
-    }
-    
     
 }

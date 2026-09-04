@@ -37,7 +37,6 @@ extension NavierStokesSolver {
     /// β - volumetric thermal expansion coefficient (expansionCoefficient) [K⁻¹]
     @inline(__always)
     var beta: Double { params.currentProperties.expansionCoefficient }
-    /// β - volumetric thermal expansion coefficient (expansionCoefficient) [K⁻¹]
     @inline(__always) func beta(_ T: Double) -> Double {
         switch substance {
         case .water: return ///  (0-40ºC)
@@ -77,7 +76,7 @@ extension NavierStokesSolver {
         }
     }
     
-    /// μ - динамическая вязкость при 5ºC [Pa•s = kg//m•s] = ν•ρ
+    /// μ - динамическая вязкость [Pa•s = kg//m•s] = ν•ρ
     var mu: Double {nu * rho}
     
     /// ρ -  плотность  [kg/m³]

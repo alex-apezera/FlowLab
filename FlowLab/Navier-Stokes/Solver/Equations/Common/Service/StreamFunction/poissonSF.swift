@@ -24,7 +24,7 @@ extension NavierStokesSolver {
                 self.psi = newPsi
                 self.isCalculatingStream = false // Убираем индикатор
             }
-            try await Task.sleep(nanoseconds: 500_000_000)
+//            await Task.sleep(nanoseconds: 500_000_000)
         }
     }
     /// Решение уравнения Пуассона ∇²ψ = ∂v/∂x - ∂u/∂y

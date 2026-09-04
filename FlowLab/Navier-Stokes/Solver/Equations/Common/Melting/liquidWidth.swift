@@ -20,22 +20,22 @@ extension NavierStokesSolver {
         }
         
         // Далее используется EPM метод и квадратная сетка
-        let initialWidth: Double = initMeltWidthRatio * Lx
         var widths = [Double](repeating: 1.0, count: ny)
         for j in 0..<ny {
             widths[j] = findFrontLocation(liquidFraction, j)
         }
-        
-        let n = 1 /// Количество неучитываемых концевых элементов для мин и макс
+
+        // Количество неучитываемых концевых элементов
+        let n = 1
         let subWidths = widths[n..<(widths.count - n)]
-        // Относительные объём и толщины не могут быть меньше 1.0
-        let avgWidth = max(1, subWidths.reduce(0, +) / Double(ny-2*n) / initialWidth)
-        let minWidth = max(1, (subWidths.min() ?? 1.0) / initialWidth)
-        let maxWidth = max(1, (subWidths.max() ?? 1.0) / initialWidth)
-        return (avg: avgWidth, min: minWidth, max: maxWidth) ///[1]
+        // Относительные толщины не могут быть меньше 1.0
+        let avgWidth = max(1, subWidths.reduce(0, +) / Double(ny-2*n) / initMeltWidth)
+        let minWidth = max(1, (subWidths.min() ?? 1.0) / initMeltWidth)
+        let maxWidth = max(1, (subWidths.max() ?? 1.0) / initMeltWidth)
+        return (avg: avgWidth, min: minWidth, max: maxWidth)
     }
     
-    /// Поиск "честной" толщины в EPM
+    /// Поиск корректной толщины в EPM
     private func findFrontLocation(_ liquidFraction: [Double], _ j: Int) -> Double {
         let row = j * nx
         for i in (0..<nx-1).reversed() {

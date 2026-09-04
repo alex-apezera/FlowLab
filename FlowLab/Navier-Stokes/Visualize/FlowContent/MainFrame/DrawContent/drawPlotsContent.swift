@@ -18,7 +18,7 @@ extension Visualizator {
                 TemperaturePlotView(x: solver.x, y: solver.y, T: temperature, avgTemp: solver.avgTemp) }
             
             if selectedVisualization == 4 {// <q>(time, Y=const)
-                let meltWidth = solver.liquidWidth(solver.liquidFraction, solver.rx, solver.rx_avg).avg * solver.Lx * solver.params.initMeltWidthRatio
+                let meltWidth = solver.liquidWidth(solver.liquidFraction, solver.rx, solver.rx_avg).avg *  solver.initMeltWidth
                 let time = solver.allowMelt ? solver.meltingTime(from: meltWidth) : solver.t
                 let timeFirst = solver.timePoints.first ?? (solver.allowMelt ? solver.initialTime : 0.0)
                 heatFluxPlot(solver.q_coldWall, solver.q_hotWall, time, timeFirst) }
@@ -32,7 +32,7 @@ extension Visualizator {
                 TemperaturePlotView(x: solver.x, y: solver.y, T: temperature, avgTemp: historyFrame.temperatureVolume.last ?? solver.avgTemp) }
             
             if selectedVisualization == 4 {// <q>(time, Y=const)
-                let meltWidth = solver.liquidWidth(historyFrame.liquidFraction, historyFrame.rx, historyFrame.rx_avg).avg * solver.Lx * solver.params.initMeltWidthRatio
+                let meltWidth = solver.liquidWidth(historyFrame.liquidFraction, historyFrame.rx, historyFrame.rx_avg).avg *  solver.initMeltWidth
                 let time = solver.allowMelt ? solver.meltingTime(from: meltWidth) : historyFrame.t
                 let timeFirst = historyFrame.timePoints.first ?? (solver.allowMelt ? solver.initialTime : 0.0)
 

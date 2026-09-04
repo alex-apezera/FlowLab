@@ -9,10 +9,9 @@
 extension NavierStokesSolver {
     /// Начальное распределение Температуры и Фракции (жидкость/твердое тело)
     func initTAndFraction() {
-        
-        // Начальная толщина расплава (зависит от метода EPM или ALE)
-        let initialMeltWidth = useEnthalpyMethod ? Lx * initMeltWidthRatio : Lx
-        avgTemp = 0.5*(T_cold+T_max)/// начальное значение средней температуры
+
+        // начальное значение средней температуры
+        avgTemp = 0.5*(T_cold+T_max)
         let jStart = Int(params.y_start * Double(ny)) /// начало
         let jEnd = Int(params.y_end * Double(ny))     /// конец
         
@@ -29,11 +28,11 @@ extension NavierStokesSolver {
 
                 if useEnthalpyMethod { /// используется метод энтальпии (EPM)
                     let x_phys = Double(i) * h
-                    if x_phys <= initialMeltWidth {
+                    if x_phys <= initMeltWidth {
                         /// Зона расплава: температура выше Tmelt
                         liquidFraction[idx] = 1.0 /// liquid
                        if useInitialGradientT { ///линейное падение
-                            T[idx] = T[row] - deltaT * (x_phys / initialMeltWidth) }
+                            T[idx] = T[row] - deltaT * (x_phys / initMeltWidth) }
                         else { /// постоянная температура  выше T melt
                             T[idx] = T_melt + 0.5 * deltaT
                         }

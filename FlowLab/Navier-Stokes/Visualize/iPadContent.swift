@@ -29,6 +29,10 @@ extension Visualizator {
         // Запуск панели настроек
         .sheet(isPresented: $showSettings) { SettingsView(solver: solver) }
         
+        // Запуск панели информации о горячих клавишах
+        .sheet(isPresented: $shortKeys) {
+            ShortKeysView() }
+        
         // Запуск панели со слайдером Истории
         .sheet(isPresented: $showHistoryManager) {
             HistoryManagerView(

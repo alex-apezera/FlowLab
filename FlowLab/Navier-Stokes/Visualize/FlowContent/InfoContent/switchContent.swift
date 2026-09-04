@@ -19,6 +19,11 @@ extension Visualizator {
             HStack {
                 
                 // Переключение объекта наблюдения
+                Button { withAnimation(.easeInOut(duration: 0.5)) {shortKeys.toggle()}
+                } label: {
+                    Image(systemName:  "questionmark.square")
+                }.keyboardShortcut("/", modifiers: [.shift])
+
                 Picker("Switcher", selection: $selectedVisualization) {
                     ForEach(0..<visualizationOptions.count, id: \.self) { index in
                         Text(visualizationOptions[index]).tag(index)
@@ -39,6 +44,39 @@ extension Visualizator {
                 Toggle("🌈", isOn: $toggleColorScheme).clipMode()
                 /// цвет стрелок вектора скорости
                 Toggle("🚥 𝐕", isOn: $toggleVelocityColor).clipMode()
+                    .background {
+                        ForEach(0..<visualizationOptions.count, id: \.self) { index in
+                            Button("") { selectedVisualization = index }
+                                .keyboardShortcut(
+                                    KeyEquivalent(Character("\(index + 1)")),
+                                    modifiers: []
+                                )
+                                .hidden()
+                        }
+                    }
+
+                // Переключатели режимов решения и просмотра
+                
+                /// процесс плавления
+                Toggle(solver.params.allowMelt ? "❄️" : "💧", isOn: $solver.params.allowMelt).clipMode()
+                    .keyboardShortcut("m", modifiers: [])
+                    .help("Activate/deactivate melting process, key: m")
+ 
+                /// линия фронта плавления на тепловых картах
+                Toggle("🌗", isOn: $showFrontLine).clipMode()
+                    .help("Melting front line")
+ 
+                /// наложение скоростей на тепловые карты
+                Toggle("+𝐕", isOn: $addVelocityField).clipMode()
+                    .help("Velocity superposition")
+
+                /// цветовая схема тепловой карты
+                Toggle("🌈", isOn: $toggleColorScheme).clipMode()
+                    .help("Thermal map color cheme")
+
+                /// цвет стрелок вектора скорости
+                Toggle("🚥 𝐕", isOn: $toggleVelocityColor).clipMode()
+                    .help("Valocity arrows color")
                 
                 // Увеличение/уменьшение плотности стрелок скоростей
                 Stepper("⇶⇉➔  \(arrowDensity)") {
@@ -47,7 +85,8 @@ extension Visualizator {
                     if arrowDensity > 1 { arrowDensity -= 1 }
                 }
                 .clipMode(180)
-                
+                .help("Velocity arrows density")
+
                 // Масштабирование стрелок для скоростей
                 Stepper("⬆︎📶  \(arrowScale, specifier: "%.1f")") {
                     if arrowScale < 20 { arrowScale += 0.5 }
@@ -55,7 +94,8 @@ extension Visualizator {
                     if arrowScale > 0 { arrowScale -= 0.25 }
                 }
                 .clipMode(200)
-                
+                .help("Velocity arrows scale")
+
                 // Увеличение/уменьшение масштаба тепловой карты
                 Stepper("↕️  \(scale, specifier: "%.1f")") {
                     if scale <= maximumScale { withAnimation(.easeInOut(duration: 0.5)) { scale += step } }
@@ -68,6 +108,12 @@ extension Visualizator {
                 Button(action: resetTransformations) {
                     Image(systemName: "arrow.2.circlepath.circle")
                 }
+                .help("Thermal map scale")
+
+                // Сброс трансформаций тепловой карты
+                Button(action: resetTransformations) {
+                    Image(systemName: "arrow.2.circlepath.circle")
+                }.keyboardShortcut(.escape, modifiers: [])
             }
         }
         // Управление запуском/остановкой процесса плавления

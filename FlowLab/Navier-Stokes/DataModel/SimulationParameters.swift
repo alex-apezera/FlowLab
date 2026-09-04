@@ -55,7 +55,7 @@ struct SimulationParameters: Codable, Sendable {
     var criticalError: Double = 1e-4 /// критическая ошибка
 
     // Диагностика и история
-    var countsLimit: Int = 2000 /// лимит шагов для диагностики
+    var countsLimit: Int = 3000 /// лимит шагов для диагностики
     var maxHistorySteps: Int = 1000 /// лимит кадров  истории
 
     // Число Куранта
@@ -64,8 +64,8 @@ struct SimulationParameters: Codable, Sendable {
 
     // Управление процессом плавления
     var allowMelt = false /// ВКЛ/ВЫКЛ  режим расчета плавления
-    var startMeltingStep: Int = 1000_000 /// шаг начала процесса плавления
-    var initMeltWidthRatio = 1.0 /// начальная толщина расплава (EPM)
+    var startMeltingStep: Int = 1_000_000 /// шаг начала процесса плавления
+    var initMeltWidth = 0.15 /// начальная толщина расплава [m]
     
     // Опции решения уравнений (переключатели)
     var useAdaptiveRelax = false /// градиентная коррекция второго порядка

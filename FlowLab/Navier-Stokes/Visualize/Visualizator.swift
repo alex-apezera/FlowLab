@@ -61,6 +61,7 @@ struct Visualizator: View {
     @State var realSize: Bool = false
     @State var setGravity: Bool = false
     @State var isLandscape: Bool = false
+    @State var shortKeys: Bool = false
 
     // Выбор объекта демонстрации
     @State var selectedVisualization = 0 /// переключается в switchContent

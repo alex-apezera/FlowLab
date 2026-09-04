@@ -10,12 +10,12 @@ import Foundation
 extension NavierStokesSolver {
     
     // Параметры сетки -> params
-    var Lx: Double {params.Lx} ///начальная ширина области [m]
+    var Lx: Double {params.Lx} /// ширина области [m]
     var Ly: Double {params.Ly} /// высота области [m]
     var nx: Int {params.nx} ///  узлов сетки по ширине
     var ny: Int {params.ny} ///  узлов сетки по высоте
     var Rx: Double {params.Rx}  /// ограничение по ширине расплава ( > 1 )
-    var L: Double { meltWidth }/// нормированный объём расплава V, [m]
+    var L: Double { meltWidth }/// объём (или толщина)  расплава V, [m]
     
     // Коэффициенты растяжения сетки к центру области (от 0 до 10)
     var stretch_x: Double {params.stretch_x} ///  = 0 для равномерной сетки
@@ -46,7 +46,7 @@ extension NavierStokesSolver {
     /// Максимальная вычисленная температура [ºC]
     var T_max: Double { T_cold + deltaT }
  
-    /// Управление решением (переключатели) -> params
+    /// Управление решением (переключатели) ->  см. params
     var useEnthalpyMethod: Bool {params.useEnthalpyMethod}
     var useConcurrence: Bool {params.useConcurrence}
     var useParallelDiffusion: Bool {params.useParallelDiffusion}
@@ -59,29 +59,32 @@ extension NavierStokesSolver {
     /// Разрешение на включение режима расчета плавления
     var allowMelt: Bool {params.allowMelt}
 
-    /// Порог температуры (T melt - T cold [K])
+    /// Интервал плавления (T melt - T cold [K])
     var dTm: Double {params.dTm} ///
-    /// Относительная толщина (объём) на начало плавления для метода EPM [m]
-    var initMeltWidthRatio: Double {useEnthalpyMethod ? params.initMeltWidthRatio : 1.0 }
+    ///  Начальная толщина расплава [m]
+    var initMeltWidth: Double { params.initMeltWidth }
+ 
     /// Время плавления по физике, расчитываемое по заданной толщине расплава [s]
     @inline(__always)
     func meltingTime(from meltWidth: Double) -> Double {
         rho * latentHeat * meltWidth * meltWidth / (lambda * deltaT) }
     /// Полное физическое время плавления, расчитываемое по объёму расплава [s]
     var fullMeltingTime: Double { meltingTime(from: meltWidth) }
-    /// Начальное физическое время, вычисляется по начальному объёму расплава [s]
-    var initialTime: Double {meltingTime(from: initMeltWidthRatio * Lx)}
+    /// Начальное физическое время, вычисляется по начальному объёму (толщине) расплава [s]
+    var initialTime: Double {meltingTime(from: initMeltWidth)}
     /// Чистое время плавления (по физике, то есть полное время минус начальное)[s]
     var time: Double {
         allowMelt ? fullMeltingTime - initialTime : t}
+ 
     /// Шаг плавления по физике на основе разницы объёмов расплава
     @inline(__always)
     var dTime: Double {
-        let timeStep = fullMeltingTime - meltingTime(from: Lx * rx_avg_old * initMeltWidthRatio)
+        let prevMeltingTime = meltingTime(from: initMeltWidth * rx_avg_old)
+        let timeStep = fullMeltingTime - prevMeltingTime
         return timeStep > 0 ? timeStep : dt
     }
     /// Текущая толщина расплава (он же "линейный" объём) [m]
-    var meltWidth: Double {Lx * rx_avg * initMeltWidthRatio}
+    var meltWidth: Double {initMeltWidth * rx_avg}
 
     /// Масштабирование шага по времени при фазовом переходе -> params
     var timeScale: Double { allowMelt ? params.timeScale : 1.0 }

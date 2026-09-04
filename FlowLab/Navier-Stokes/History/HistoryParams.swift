@@ -61,7 +61,7 @@ extension HistoryManagerView {
                     lowStabLimit: solver.params.lowStabLimit,
                     allowMelt: solver.params.allowMelt,
                     startMeltingStep: solver.params.startMeltingStep,
-                    initMeltWidthRatio: solver.params.initMeltWidthRatio,
+                    initMeltWidth: solver.params.initMeltWidth,
                     useAdaptiveRelax: solver.params.useAdaptiveRelax,
                     useEnthalpyMethod: solver.params.useEnthalpyMethod,
                     useConcurrence: solver.params.useConcurrence,
