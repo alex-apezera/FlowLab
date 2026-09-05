@@ -1,3 +1,5 @@
+<img width="1221" height="916" alt="Снимок экрана — 2026-09-06 в 01 29 23" src="https://github.com/user-attachments/assets/be638b60-db8f-4e49-a5c2-4a7c23a36c45" />
+<img width="1221" height="916" alt="Снимок экрана — 2026-09-06 в 01 29 23" src="https://github.com/user-attachments/assets/0a533a48-838c-417b-815c-b4fae0b4ffd4" />
 [Русский](#русский) | [English](#english)
 
 ## Русский
@@ -87,14 +89,14 @@ FlowLab — программный комплекс для численного 
 * область основного графика: тепловые карты (с опциональным наложением поля скорости) температуры, давления, линий тока; графики температуры в горизонтальных сечениях, тепловых потоков на вертикальных границах; редактор включений твердых объектов;
 * опциональное окно Диагностики; 
 
-<img width="1221" height="916" alt="Снимок экрана — 2026-09-06 в 01 27 22" src="https://github.com/user-attachments/assets/8bee3194-3a02-48ee-8538-3481d59f800d" />
-
 
 ##
 ##
 ##
 ##
 ##
+
+<img width="1221" height="916" alt="Снимок экрана — 2026-09-06 в 01 29 23" src="https://github.com/user-attachments/assets/ba0b8d21-59f4-4cb9-a733-dc778be98b7f" />
 
 
 <!--@START_MENU_TOKEN@-->Text<!--@END_MENU_TOKEN@-->
