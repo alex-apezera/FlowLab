@@ -1,5 +1,3 @@
-<img width="1221" height="916" alt="Снимок экрана — 2026-09-06 в 01 29 23" src="https://github.com/user-attachments/assets/be638b60-db8f-4e49-a5c2-4a7c23a36c45" />
-<img width="1221" height="916" alt="Снимок экрана — 2026-09-06 в 01 29 23" src="https://github.com/user-attachments/assets/0a533a48-838c-417b-815c-b4fae0b4ffd4" />
 [Русский](#русский) | [English](#english)
 
 ## Русский
