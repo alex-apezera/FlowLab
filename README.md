@@ -162,6 +162,301 @@ FlowLab — программный комплекс для численного 
 
 Почта: apezera@icloud.com, apezera@yandex.ru. Буду рад замечаниям и предложениям.
 
+[Русский](#русский) | [English](#english)
+
 ## English
 
-FlowLab is a software package for the numerical solution of two-dimensional Navier–Stokes equations in the Boussinesq approximation on a collocation grid in a rectangular region with the ability to simulate melting processes.
+FlowLab is a software package for the numerical solution of two-dimensional Navier–Stokes equations in the Boussinesq approximation on a collocation grid in a rectangular domain. The package supports the simulation of melting processes.
+
+* The primary purpose of the software is research and education, including Xcode training and the study of numerical experiments.
+
+* The main physical processes are convection, both natural and forced, in an incompressible fluid with heat transfer and melting.
+
+* The numerical method is based on the finite-difference method on a collocation grid.
+
+* Supported calculation modes include user-defined parameters and parallel computations using multiple threads.
+
+* Project status: actively under development. The core functionality has been implemented. The software is stable, but individual configurations still require additional testing.
+
+- [Description](#description)
+- [Physical-and-mathematical-model](#physical-and-mathematical-model)
+- [Numerical-method](#numerical-method)
+- [Additional-features](#additional-features)
+- [Visualization](#visualization)
+- [Project-structure](#project-structure)
+- [Requirements](#requirements)
+- [Installation-and-running-a-simulation](#installation-and-running-a-simulation)
+- [Input-parameters](#input-parameters)
+- [Output-data](#output-data)
+- [Examples](#examples)
+- [Performance](#performance)
+- [Model-limitations](#model-limitations)
+- [License](#license)
+- [Contacts](#contacts)
+
+## Description
+
+The software models:
+
+* two-dimensional convective heat transfer and phase-boundary motion;
+* a rectangular cavity with solid walls; the walls may be stationary or may move to model melting;
+* Navier–Stokes equations in the Boussinesq approximation, including the phase-transition model;
+* use in educational and research projects in accordance with the MIT License.
+
+## Physical and mathematical model
+
+The following equations are solved:
+
+* Momentum equation:
+
+  \\[
+  \frac{\partial \mathbf{V}}{\partial t}
+  +(\mathbf{V}\cdot\nabla)\mathbf{V}
+  =-\frac{1}{\rho}\nabla p
+  +\nu\nabla^2\mathbf{V}
+  +\mathbf{g}\beta(T-T_0).
+  \\]
+
+* Energy equation:
+
+  \\[
+  \frac{\partial T}{\partial t}
+  +\mathbf{V}\cdot\nabla T
+  =\alpha\nabla^2T.
+  \\]
+
+* Incompressibility condition:
+
+  \\[
+  \nabla\cdot\mathbf{V}=0.
+  \\]
+
+* Initial conditions:
+
+  \\[
+  \mathbf{V}=0,\qquad T=T_0,
+  \\]
+
+  where \\(T_0\\) is a constant temperature, or a linear temperature distribution from \\(T_{\max}\\) to \\(T_{\min}\\). On a selected section of a hot wall, the temperature may also be specified as a constant value.
+
+* Boundary conditions:
+
+  the no-slip condition is applied on all walls, except for the sections used to model an inflow and an outflow. A constant temperature or a heat flux is specified on the left and right boundaries. Adiabatic conditions are applied to the horizontal walls.
+
+* Reference temperature for heat-transfer calculations:
+
+  \\[
+  T_0=\frac{T_{\max}+T_{\min}}{2}.
+  \\]
+
+* Melting is calculated using the Stefan condition:
+
+  \\[
+  \lambda\frac{d\Gamma}{dn}
+  =\rho L\frac{d\Gamma}{dt}.
+  \\]
+
+* The phase-transition boundary is described by a level-set function.
+
+* The gravitational acceleration is assumed to have a constant magnitude and a direction that is either constant in time or changes according to the specified configuration.
+
+* Thermal properties \\( \alpha \\), \\( \nu \\), and \\( \beta \\) may depend on temperature. Interpolation formulas are used for temperature-dependent properties.
+
+* Matter is modeled using the following materials:
+  water, air without melting, different paraffin materials, and substances with arbitrary user-defined properties.
+
+## Numerical method
+
+* The finite-difference method is used on a collocation grid. Field values are calculated and stored at grid nodes.
+
+* Two phase-transition models are supported and may also be used for flows without melting:
+
+  * ALE — Arbitrary Lagrangian–Eulerian method;
+  * EPM — Enthalpy–Porous Media method.
+
+* Convective terms are calculated using an explicit second-order scheme. The QUICK scheme is used near the boundaries to improve stability.
+
+* Diffusion terms are calculated using an explicit scheme with Thomas-algorithm sweeps.
+
+* Pressure is calculated iteratively at every time step. The SIMPLE method is used for the ALE model, while the Gauss–Seidel method is used for the EPM model. The Rie–Chow interpolation and a checkerboard-pattern prevention procedure are also applied.
+
+* The ALE model uses a nonuniform grid with an increasing step size from the boundaries toward the center, based on a hyperbolic-sine distribution.
+
+* The EPM model uses a uniform square grid.
+
+* The time step is adjusted automatically. The settings include control parameters for the iterative pressure solver and automatic time-step reduction when divergence is detected.
+
+* The calculation is stopped when a specified time or a specified melt volume or melt thickness is reached.
+
+## Additional features
+
+The EPM model supports the simulation of solid objects being introduced into a fluid, both with and without melting. An effective thermal-conductivity model is used for this purpose.
+
+The solid object may initially have the melting temperature. It then undergoes the melting process under the influence of thermal conductivity.
+
+During the simulation, the state of each time step is saved at specified time intervals. This data is used to generate the simulation history.
+
+## Visualization
+
+The entire calculation process is displayed on a single screen as parameter values, fields, and graphs. On compact devices such as an iPhone, scrolling is used. The simulation is controlled using a touch panel, a mouse, or a trackpad, as well as keyboard shortcuts.
+
+The visualization screen contains the following areas:
+
+* **Control panel:** contains the Start/Pause, History, Reset, Diagnostics, Settings, and Acceleration commands.
+
+* **Information panel:** displays the gravitational acceleration, flow velocity, solution parameters, grid properties, matter properties, process parameters, and the current time step. The time step can be adjusted manually.
+
+* **Graph controls:** used to select a graph and activate the melting visualization, as well as to select the thermal-map display mode.
+
+* **History pop-up window:** displays the saved simulation history with a frame player.
+
+* **Main graphics area:** displays thermal maps with an optional velocity field overlay, temperature and pressure isolines, streamlines with flow-direction arrows, temperature graphs in horizontal sections, heat-flow graphs in vertical sections, and the solid-object insertion editor.
+
+* **Optional Diagnostics window.**
+
+* An example of the initial screen is provided in the `Examples` section.
+
+## Project structure
+
+All files contain `MARK` comments in English and sufficient comments in Russian. Although the source code is written in English, the meaning of properties and methods is also reflected in their names.
+
+* The main project target is located in the `Navier-Stokes` folder. This folder contains the data model, history manager, solver, and visualizer.
+
+* The data model contains the following files:
+  a final solver class with publicly available fields and parameters, computational parameters and properties, model materials with their properties, global parameters, temperature parameters, and state-storage parameters.
+
+* The history manager contains files with parameters and methods for controlling state storage, including saving and loading the simulation history to and from disk in various formats, with data compression.
+
+* The solver contains folders and files used to control the solution of the equations.
+
+* The visualizer contains folders and files used to display the output data.
+
+## Requirements
+
+The project was started in June 2025 and is intended for current versions of iOS and Xcode.
+
+The current configuration uses:
+
+- iOS 26;
+- Xcode 26;
+- Apple M1 processor;
+- macOS;
+- iPhone 15.
+
+The code may also work on older platforms because it uses only the following frameworks:
+
+- `Foundation`;
+- `SwiftUI`;
+- `Combine`;
+- `UniformTypeIdentifiers`.
+
+## Installation and running a simulation
+
+1. Download the project to your computer.
+2. Open the executable project file.
+3. Enter your account details.
+4. Select the required simulator configuration.
+5. Run the application.
+
+By default, the application uses the `Custom` material, a melting temperature of 60 °C, and a simulation time of 60 seconds. Diagnostics can be enabled in the application settings.
+
+## Input parameters
+
+All parameters required for the test convection simulation in a square cavity are preconfigured.
+
+> **Note:** To enter values in text fields, the change must be confirmed by pressing the Return key and then tapping the keyboard-dismiss button.
+
+For forced convection, the flow is introduced through the left wall using a parabolic velocity profile. The flow exits through the right wall.
+
+The following parameters can be modified in the **Settings** panel:
+
+* **Solution method:** ALE or EPM. The melting interval can be specified.
+
+* **Melting:** can be enabled or disabled. The parallel computation mode can also be enabled or disabled for different equation-solving methods.
+
+* **Cavity geometry:** number of grid nodes, cavity length and width, and melt thickness for the EPM method.
+
+* **Gravity:** initial angle and the angle variation rate in degrees per second. The thermal map may be synchronized with the simulation time or with the physical model. In the melting mode, the acceleration magnitude can also be changed. For forced convection, the acceleration is set to zero.
+
+* **Time parameters:** total simulation time, final time at which the simulation is stopped, the time-step multiplication factor, the time-step reduction factor, and the time scale used to accelerate the simulation. Increasing the time scale reduces the accuracy of the solution.
+
+* **Simulation controls:** the Courant-number range used to adapt the time step, including the hybrid scheme, which is not recommended; pressure-solver tolerance; and the number of iterations for the Poisson equation.
+
+* **Diagnostics:** parameters for monitoring the pressure-solver iterations and the limits for array dimensions.
+
+* **Object parameters:** object type, such as a heated object or a heat-flow source; initial heating temperature; initial temperature distribution in the cavity; temperature conditions when the phase boundary is crossed; phase-transition temperature; and material selection for modeling. Any material may be selected, and its parameters may be modified.
+
+* **Forced convection:** can be enabled or disabled. The inflow may be located at the top or bottom boundary, or at the left boundary by default. The following parameters can be specified:
+  flow velocity, temperature excess relative to the temperature specified on the hot wall, inflow angle, and inflow-section coordinates.
+
+## Output data
+
+The simulation data is displayed in the visualizer, mainly in real time and also in the simulation history.
+
+The main data includes:
+
+* temperature and pressure thermal maps;
+* streamlines with velocity arrows;
+* temperature-distribution graphs for horizontal sections;
+* heat-flow graphs for vertical walls;
+* Diagnostics data.
+
+Diagnostics data is not changed or deleted when the simulation history is cleared.
+
+## Examples
+
+For compactness, screenshots are provided in the English version below.
+
+<!-- Add screenshots here -->
+
+* Initial state after the first application launch and after pressing the **Enable Melting** button.
+
+* Visualization screen for an ALE-based simulation without melting in a cavity with an ice block. The simulation time is 60 seconds:
+
+  1. intermediate state with streamlines;
+  2. temperature field shown as a thermal map.
+
+* Previous example based on the EPM method, with melting of a solid and temperature and diagnostic graphs.
+
+  The stationary flow field has not yet reached a steady state. The difference between the flows is caused by the dependence of thermal conductivity on temperature. The figures show the result of the simulation at the same time compared with the ALE method.
+
+* Example of a temperature field using the ALE method for water with an initial melting temperature of 0.3 relative to the cavity height.
+
+* Example of a temperature field using the EPM method for water with an ice block inserted into the upper part of the cavity and a heat-conducting object in the center. The initial temperature is 0.3 relative to the cavity width.
+
+* Example of an EPM temperature field for paraffin melting under zero gravity, with liquid-phase inflow and outflow at the left boundary.
+
+* Example of an EPM temperature field for natural convection in an air cavity with a gravity angle of 30 degrees.
+
+## Performance
+
+The following techniques are used to improve performance:
+
+* all two-dimensional arrays of floating-point values are converted into one-dimensional arrays;
+
+* in computationally intensive loops, internal-point arrays are homogeneous and are accessed using indices to avoid allocating a large number of temporary arrays;
+
+* thermal-map and diagnostics visualization is disabled during calculations;
+
+* parallel calculations are supported for the main equation-solving processes. However, due to significant overhead, parallel calculations may be slower than serial calculations for smaller grids. Additional experiments are required.
+
+## Model limitations
+
+Only laminar flows of an incompressible fluid are considered.
+
+The Prandtl and Rayleigh numbers are calculated using their actual values. The temperature difference must not exceed 40 degrees; temperature-dependent physical properties are interpolated over this range.
+
+The smallest tested grid size is 40 × 40. The largest tested grid size is 300 × 300. The grid aspect ratio must not exceed 3.0, since it affects stability and convergence.
+
+The recommended temperature interval is:
+
+## License
+
+The MIT License text is provided in the `LICENSE.md` file.
+
+## Contacts
+
+Email: `apezera@icloud.com`, `apezera@yandex.ru`
+
+Comments and suggestions are welcome.
+
