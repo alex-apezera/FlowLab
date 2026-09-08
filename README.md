@@ -41,26 +41,34 @@ The software models:
 
 ## Physical and mathematical model
 
-Legend (SI): 𝐕 - velocity vector, T - temperature, p - pressure, t - time, $\mathbf{g}$ - gravity vector, α - thermal diffusivity, λ - thermal conductivity, β - volume expansion, ν - cinematic viscosity, L - latent heat, n - normal to the surface, ρ - density (liquid), ψ, ω - stream function.
+Legend (SI): 
+𝐕 - velocity vector, 
+T - temperature, 
+p - pressure, 
+t - time, 
+$\mathbf{g}$ - gravity vector, 
+α - thermal diffusivity, 
+λ - thermal conductivity, 
+β - volume expansion, 
+ν - cinematic viscosity, 
+L - latent heat, 
+n - normal to the surface, 
+ρ - density (liquid), 
+ψ, ω - stream function.
 
 The following equations are solved:
 
 * Momentum equation:
 
 $$
-\frac{\partial \mathbf{V}}{\partial t}
-+(\mathbf{V}\cdot\nabla)\mathbf{V}
-=-\frac{1}{\rho}\nabla p
-+\nu\nabla^2\mathbf{V}
-+\mathbf{g}\beta(T-T_0).
+\frac{\partial \mathbf{V}}{\partial t}+(\mathbf{V}\cdot\nabla)\mathbf{V}
+=-\frac{1}{\rho}\nabla p+\nu\nabla^2\mathbf{V}+\mathbf{g}\beta(T-T_0).
 $$
 
 * Energy equation:
 
 $$
-\frac{\partial T}{\partial t}
-+\mathbf{V}\cdot\nabla T
-=\alpha\nabla^2T.
+\frac{\partial T}{\partial t}+\mathbf{V}\cdot\nabla T=\alpha\nabla^2T.
 $$
 
 * Incompressibility condition:
@@ -75,7 +83,7 @@ $$
 \mathbf{V}=0,\qquad T=T_0,
 $$
 
-  where $(T_0)$ is a constant temperature, or a linear temperature distribution from $(T_{\max})$ to $(T_{\min})$. On a selected section of a hot wall, the temperature may also be specified as a constant value.
+  where $T_0$ is a constant temperature, or a linear temperature distribution from $T_{\max}$ to $(T_{\min})$. On a selected section of a hot wall, the temperature may also be specified as a constant value.
 
 * Boundary conditions:
 
@@ -90,15 +98,14 @@ $$
 * Melting is calculated using the Stefan condition:
 
 $$
-\lambda\frac{dT}{dn}
-=\rho_{\solid} L\frac{dn}{dt}.
+\lambda\frac{dT}{dn}=\rho_{solid}\cdot L\frac{dn}{dt}.
 $$
 
 * The phase-transition boundary is described by a level-set function.
 
 * The gravitational acceleration is assumed to have a constant magnitude and a direction that is either constant in time or changes according to the specified configuration.
 
-* Thermal properties $\alpha$, \\( \nu \\), and \\( \beta \\) may depend on temperature. Interpolation formulas are used for temperature-dependent properties.
+* Thermal properties α, ν, β, λ may depend on temperature. Interpolation formulas are used for temperature-dependent properties.
 
 * Matter is modeled using the following materials:
   water, air without melting, different paraffin materials, and substances with arbitrary (but temperature-independed) user-defined properties.
