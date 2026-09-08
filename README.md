@@ -53,8 +53,7 @@ $\mathbf{g}$ - gravity vector,
 ν - cinematic viscosity, 
 L - latent heat, 
 n - normal to the surface, 
-ρ - density (liquid), 
-ψ, ω - stream function.
+ρ - density (liquid), ψ, ω - stream function.
 
 The following equations are solved:
 
