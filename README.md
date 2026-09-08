@@ -21,7 +21,7 @@ FlowLab is a software package for the numerical solution of two-dimensional Navi
 - [Visualization](#visualization)
 - [Project-structure](#project-structure)
 - [Requirements](#requirements)
-- [Installation-and-running-a-simulation](#installation-and-running-a-simulation)
+-[Installation-and-running-a-simulation](#installation-and-running-a-simulation)
 - [Input-parameters](#input-parameters)
 - [Output-data](#output-data)
 - [Examples](#examples)
@@ -118,7 +118,7 @@ $$
   * ALE — Arbitrary Lagrangian–Eulerian method;
   * EPM — Enthalpy–Porous Media method.
 
-* Convective terms are calculated using an explicit second-order scheme. The QUICK scheme is used near the boundaries to improve stability.
+* Convective terms inside the domain are calculated using an explicit UPWIND second-order scheme. The QUICK scheme is used near the boundaries to improve stability.
 
 * Diffusion terms are calculated using an explicit scheme with Thomas-algorithm sweeps.
 
@@ -148,13 +148,13 @@ The visualization screen contains the following areas:
 
 * **Control panel:** contains the Start/Pause, History, Reset, Diagnostics, Settings, and Acceleration commands.
 
-* **Information panel:** displays the gravitational acceleration, flow velocity, solution parameters, grid properties, matter properties, process parameters, and the current time step. The time step can be adjusted manually.
+* **Information panel:** displays the gravitational acceleration, flow velocity, solution parameters, grid properties, substance properties, process parameters, and the current time step. The time step can be adjusted manually.
 
 * **Graph controls:** used to select a graph and activate the melting visualization, as well as to select the thermal-map display mode.
 
 * **History pop-up window:** displays the saved simulation history with a frame player.
 
-* **Main graphics area:** displays thermal maps with an optional velocity field overlay, temperature and pressure isolines, streamlines with flow-direction arrows, temperature graphs in horizontal sections, heat-flow graphs in vertical sections, and the solid-object insertion editor.
+* **Main graphics area:** displays thermal maps with an optional velocity field overlay, temperature and pressure isolines, streamlines with flow-direction arrows, temperature graphs in horizontal sections, heat-flow-in-time graphs on vertical boundaries, and the solid-object insertion editor.
 
 * **Optional Diagnostics window.**
 
@@ -202,7 +202,7 @@ The code may also work on older platforms because it uses only the following fra
 4. Select the required simulator configuration.
 5. Run the application.
 
-By default, the application uses the `Custom` material, a melting temperature of 60 °C, and a simulation time of 60 seconds. Diagnostics can be enabled in the application settings.
+By default, the application uses the `Custom` material, a simulation time of 60 seconds. Diagnostics can be enabled in the application settings.
 
 ## Input parameters
 
@@ -358,7 +358,6 @@ FlowLab — программный комплекс для численного 
 
 * Плавление: при плавлении на границе разделе фаз используется формула Стефана $-\lambda\frac{dT}{dn}=\rho_{solid}\cdot L\frac{dn}{dt}$.
 
- - λ(dT/dn) = ρ•L(dn/dt).
 * Гравитация ḡ: применяется вектор гравитации, имеющий постоянную магнитуду и переменный во времени или постоянный угол.
 * Теплофизические свойства: α, ν, β, λ - предполагаются зависящими от температуры (применятся интерполяционные формулы).
 * Вещество: предусмотрено моделирование таких веществ как вода, воздух (без плавления), разные типы парафинов, а также вещества с любыми (но не зависящими от температуры) пользовательскими свойствами.
@@ -391,7 +390,7 @@ FlowLab — программный комплекс для численного 
 * информационная зона: состояние гравитации, состояние вектора скорости, параметры Решения, Области, Вещества, Процесса (с возможностью ручного регулирования шага по времени), Плавления;
 * управление графиками: выбор графика, кнопка активизации плавления, кнопки управления режимами тепловой карты;
 * всплывающее окно просмотра Истории с проигрывателем кадров;
-* область основного графика: тепловые карты (с опциональным наложением поля скорости и изолиниями) температуры, давления, линий тока с указанием направления потока; графики температуры в горизонтальных сечениях, тепловых потоков на вертикальных границах; редактор включений твердых объектов;
+* область основного графика: тепловые карты (с опциональным наложением поля скорости и изолиниями) температуры, давления, линий тока с указанием направления потока; графики температуры в горизонтальных сечениях, тепловых потоков во времени на вертикальных границах; редактор включений твердых объектов;
 * опциональное окно Диагностики; 
 * пример начального экрана см. Примеры расчетов
 
@@ -407,7 +406,7 @@ FlowLab — программный комплекс для численного 
 
 ## Требования
 
-Поскольку начало проекта - июнь 2025, код ориентирован на актуальные тогда ресурсы iOS и XCode  v.26, процессор М1. Проверялся на Mac и iPhone 15. 
+Поскольку начало проекта - июнь 2025, код ориентирован на актуальные тогда ресурсы iOS и XCode, процессор М1. Проверялся на Mac и iPhone 15. 
 Возможно код работает и на более ранних платформах, поскольку использованы только фреймворки Foundation, SwiftUI, Combine, UniformTypeIdentifiers.
 
 ## Установка и запуск расчета
@@ -416,7 +415,9 @@ FlowLab — программный комплекс для численного 
 
 ## Входные параметры
 
-Изначально все требуемые для тестового расчета конвекции в квадратной полости параметры уже установлены. Примечание: 1) для ввода параметров в текстовых (цифровых) полях необходимо подтверждать изменения путем нажатия на возвтат каретки и далее на галочку; 2) при вынужденной конвекции вдув осуществляется из левой стенки по параболическому профилю, сток - опционален.
+Изначально все требуемые для тестового расчета конвекции в квадратной полости параметры уже установлены. 
+
+Примечание: 1) для ввода параметров в текстовых (цифровых) полях необходимо подтверждать изменения путем нажатия на возвтат каретки и далее на галочку; 2) при вынужденной конвекции вдув осуществляется из левой стенки по параболическому профилю, сток - опционален.
 
 Для требуемого пользовательского расчета используется панель Настройки, где можно изменить:
 * методы расчета - модель (ALE или EPM, где устанавливается интервал плавнения), включить/выключить Плавление (и с какого шага), применить/отменить параллельные вычисления (конкурентные расчеты) для различных методов решения уравнений;
@@ -433,7 +434,7 @@ FlowLab — программный комплекс для численного 
 
 ## Примеры расчетов
 
-Копии экранов (скриншоты) для экономии места приведены в английской версии ниже. 
+Копии экранов (скриншоты) для экономии места приведены в английской версии. 
 
 * Начальное состояние после первого запуска программы и нажатой кнопкой включить Плавление:
 
