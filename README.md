@@ -44,6 +44,7 @@ The software models:
 The following equations are solved:
 
 * Momentum equation:
+
 $$
 \frac{\partial \mathbf{V}}{\partial t}
 +(\mathbf{V}\cdot\nabla)\mathbf{V}
@@ -51,21 +52,28 @@ $$
 +\nu\nabla^2\mathbf{V}
 +\mathbf{g}\beta(T-T_0).
 $$
+
 * Energy equation:
+
 $$
 \frac{\partial T}{\partial t}
 +\mathbf{V}\cdot\nabla T
 =\alpha\nabla^2T.
 $$
+
 * Incompressibility condition:
+
 $$
 \nabla\cdot\mathbf{V}=0.
 $$
+
 * Initial conditions:
+
 $$
 \mathbf{V}=0,\qquad T=T_0,
 $$
-  where $(T_0)$ is a constant temperature, or a linear temperature distribution from \\(T_{\max}\\) to \\(T_{\min}\\). On a selected section of a hot wall, the temperature may also be specified as a constant value.
+
+  where $(T_0)$ is a constant temperature, or a linear temperature distribution from $(T_{\max})$ to $(T_{\min})$. On a selected section of a hot wall, the temperature may also be specified as a constant value.
 
 * Boundary conditions:
 
@@ -80,15 +88,15 @@ $$
 * Melting is calculated using the Stefan condition:
 
 $$
-\lambda\frac{d\Gamma}{dn}
-=\rho L\frac{d\Gamma}{dt}.
+\lambda\frac{dT}{dn}
+=\rho L\frac{dn}{dt}.
 $$
 
 * The phase-transition boundary is described by a level-set function.
 
 * The gravitational acceleration is assumed to have a constant magnitude and a direction that is either constant in time or changes according to the specified configuration.
 
-* Thermal properties \\( \alpha \\), \\( \nu \\), and \\( \beta \\) may depend on temperature. Interpolation formulas are used for temperature-dependent properties.
+* Thermal properties $\alpha$, \\( \nu \\), and \\( \beta \\) may depend on temperature. Interpolation formulas are used for temperature-dependent properties.
 
 * Matter is modeled using the following materials:
   water, air without melting, different paraffin materials, and substances with arbitrary user-defined properties.
@@ -288,6 +296,7 @@ Email: `apezera@icloud.com`, `apezera@yandex.ru`
 
 Comments and suggestions are welcome.
 
+[Русский](#русский) | [English](#english)
 
 ## Русский
 
