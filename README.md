@@ -44,7 +44,6 @@ The software models:
 The following equations are solved:
 
 * Momentum equation:
-
 $$
 \frac{\partial \mathbf{V}}{\partial t}
 +(\mathbf{V}\cdot\nabla)\mathbf{V}
@@ -52,28 +51,21 @@ $$
 +\nu\nabla^2\mathbf{V}
 +\mathbf{g}\beta(T-T_0).
 $$
-
 * Energy equation:
-
-\\[
+$$
 \frac{\partial T}{\partial t}
 +\mathbf{V}\cdot\nabla T
 =\alpha\nabla^2T.
-\\]
-
+$$
 * Incompressibility condition:
-
-  $$
-  \nabla\cdot\mathbf{V}=0.
-  $$
-
+$$
+\nabla\cdot\mathbf{V}=0.
+$$
 * Initial conditions:
-
-  $$
-  \mathbf{V}=0,\qquad T=T_0,
-  $$
-
-  where \\(T_0\\) is a constant temperature, or a linear temperature distribution from \\(T_{\max}\\) to \\(T_{\min}\\). On a selected section of a hot wall, the temperature may also be specified as a constant value.
+$$
+\mathbf{V}=0,\qquad T=T_0,
+$$
+  where $(T_0)$ is a constant temperature, or a linear temperature distribution from \\(T_{\max}\\) to \\(T_{\min}\\). On a selected section of a hot wall, the temperature may also be specified as a constant value.
 
 * Boundary conditions:
 
@@ -81,16 +73,16 @@ $$
 
 * Reference temperature for heat-transfer calculations:
 
-  $$
-  T_0=\frac{T_{\max}-T_{\min}}{2}.
-  $$
+$$
+T_0=\frac{T_{\max}-T_{\min}}{2}.
+$$
 
 * Melting is calculated using the Stefan condition:
 
-  $$
-  \lambda\frac{d\Gamma}{dn}
-  =\rho L\frac{d\Gamma}{dt}.
-  $$
+$$
+\lambda\frac{d\Gamma}{dn}
+=\rho L\frac{d\Gamma}{dt}.
+$$
 
 * The phase-transition boundary is described by a level-set function.
 
