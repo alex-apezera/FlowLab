@@ -45,21 +45,21 @@ The following equations are solved:
 
 * Momentum equation:
 
-  $$
-  \frac{\partial \mathbf{V}}{\partial t}
-  +(\mathbf{V}\cdot\nabla)\mathbf{V}
-  =-\frac{1}{\rho}\nabla p
-  +\nu\nabla^2\mathbf{V}
-  +\mathbf{g}\beta(T-T_0).
-  $$
+$$
+\frac{\partial \mathbf{V}}{\partial t}
++(\mathbf{V}\cdot\nabla)\mathbf{V}
+=-\frac{1}{\rho}\nabla p
++\nu\nabla^2\mathbf{V}
++\mathbf{g}\beta(T-T_0).
+$$
 
 * Energy equation:
 
-  $$
-  \frac{\partial T}{\partial t}
-  +\mathbf{V}\cdot\nabla T
-  =\alpha\nabla^2T.
-  $$
+\\[
+\frac{\partial T}{\partial t}
++\mathbf{V}\cdot\nabla T
+=\alpha\nabla^2T.
+\\]
 
 * Incompressibility condition:
 
@@ -73,7 +73,7 @@ The following equations are solved:
   \mathbf{V}=0,\qquad T=T_0,
   $$
 
-  where $$\(T_0\\)$$ is a constant temperature, or a linear temperature distribution from \\(T_{\max}\\) to \\(T_{\min}\\). On a selected section of a hot wall, the temperature may also be specified as a constant value.
+  where \\(T_0\\) is a constant temperature, or a linear temperature distribution from \\(T_{\max}\\) to \\(T_{\min}\\). On a selected section of a hot wall, the temperature may also be specified as a constant value.
 
 * Boundary conditions:
 
