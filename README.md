@@ -82,7 +82,7 @@ $$
 \mathbf{V}=0,\qquad T=T_0,
 $$
 
-  where $T_0$ is a constant temperature, or a linear temperature distribution from $T_{\max}$ to $(T_{\min})$. On a selected section of a hot wall, the temperature may also be specified as a constant value.
+  where $T_0$ is a constant temperature, or a linear temperature distribution from $T_{\max}$ to $T_{\min}$. On a selected section of a hot wall, the temperature may also be specified as a constant value.
 
 * Boundary conditions:
 
@@ -97,7 +97,7 @@ $$
 * Melting is calculated using the Stefan condition:
 
 $$
-\lambda\frac{dT}{dn}=\rho_{solid}\cdot L\frac{dn}{dt}.
+-\lambda\frac{dT}{dn}=\rho_{solid}\cdot L\frac{dn}{dt}.
 $$
 
 * The phase-transition boundary is described by a level-set function.
@@ -107,7 +107,7 @@ $$
 * Thermal properties α, ν, β, λ may depend on temperature. Interpolation formulas are used for temperature-dependent properties.
 
 * Matter is modeled using the following materials:
-  water, air without melting, different paraffin materials, and substances with arbitrary (but temperature-independed) user-defined properties.
+  water, air without melting, different paraffin materials, and substances with arbitrary (but temperature-independed thermal properties) user-defined properties.
 
 ## Numerical method
 
@@ -354,8 +354,11 @@ FlowLab — программный комплекс для численного 
 * Неразрывности: ∇𝐕 = 0.
 * Начальные условия: 𝐕 = 0, T - постоянная температура или линейное по ширине распределение от $T_{max}$ до $T_{min}$, а также 𝐕 = const на определенном участке горячей стенки.
 * Граничные условия: прилипание на всех границах (за исключением участков вдува и стока), постоянная температура или тепловой поток на левой и правой границах, адиабатные условия на горизонтальных стенках.
-* Обозначения стандартные для задач теплофизики. Референсная температурва Τ₀ = ($T_{max}$+$T_{min}$)/2.
-* Плавление: при плавлении на границе разделе фаз используется формула Стефана - λ(dT/dn) = ρ•L(dn/dt).
+* Обозначения стандартные для задач теплофизики. Референсная температурва $T_0=\frac{T_{\max}-T_{\min}}{2}$.
+
+* Плавление: при плавлении на границе разделе фаз используется формула Стефана $-\lambda\frac{dT}{dn}=\rho_{solid}\cdot L\frac{dn}{dt}$.
+
+ - λ(dT/dn) = ρ•L(dn/dt).
 * Гравитация ḡ: применяется вектор гравитации, имеющий постоянную магнитуду и переменный во времени или постоянный угол.
 * Теплофизические свойства: α, ν, β, λ - предполагаются зависящими от температуры (применятся интерполяционные формулы).
 * Вещество: предусмотрено моделирование таких веществ как вода, воздух (без плавления), разные типы парафинов, а также вещества с любыми (но не зависящими от температуры) пользовательскими свойствами.
@@ -460,7 +463,7 @@ FlowLab — программный комплекс для численного 
 
 ## Ограничения модели
 
-Рассматриваются только ламинарные течения в несжимаемой среде, числа подобия Re и Ra вычисляются по фактическим значениям переменных. Разность температур не должна превышать 40º (интерполяция температурных зависимостей физических параметров рассматриваемых веществ настроена на данный диапазон). Размерность сетки не тестировалась ниже чем 40х40 и мельче чем 300х300, а коэффициенты растяжения сетки не более чем 3.0 (влияет на устойчивость и сходимость). Рекомендуемый интервал плавления (Tmelt - Tcold) = 0.01º.
+Рассматриваются только ламинарные течения в несжимаемой среде, числа подобия Re и Ra вычисляются по фактическим значениям переменных. Разность температур не должна превышать 40º (интерполяция температурных зависимостей физических параметров рассматриваемых веществ настроена на данный диапазон). Размерность сетки не тестировалась ниже чем 40х40 и мельче чем 300х300, а коэффициенты растяжения сетки не более чем 3.0 (влияет на устойчивость и сходимость). Рекомендуемый интервал плавления (Tmelt - Tcold) = 0.01ºC.
 
 ## Лицензия
 
