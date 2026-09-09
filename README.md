@@ -88,7 +88,7 @@ $$
 
   the no-slip condition is applied on all walls, except for the sections used to model an inflow and an outflow. A constant temperature or a heat flux is specified on the left and right boundaries. Adiabatic conditions are applied to the horizontal walls.
 
-* Reference temperature for heat-transfer calculations:
+* Reference temperature for β calculations:
 
 $$
 T_0=\frac{T_{\max}+T_{\min}}{2}.
@@ -118,9 +118,9 @@ $$
   * ALE — Arbitrary Lagrangian–Eulerian method;
   * EPM — Enthalpy–Porous Media method.
 
-* Convective terms inside the domain are calculated using an explicit UPWIND second-order scheme. The QUICK scheme is used near the boundaries to improve stability.
+* Convective terms inside the domain are calculated using an explicit UPWIND second-order scheme. The first-order scheme is used near the boundaries to improve stability.
 
-* Diffusion terms are calculated using an explicit scheme with Thomas-algorithm sweeps.
+* Diffusion terms are calculated using an implicit scheme with Thomas-algorithm sweeps.
 
 * Pressure is calculated iteratively at every time step. The SIMPLE method is used for the ALE model, while the Gauss–Seidel method is used for the EPM model. The Rie–Chow interpolation and a checkerboard-pattern prevention procedure are also applied.
 
@@ -357,7 +357,7 @@ FlowLab — программный комплекс для численного 
 * Неразрывности: ∇𝐕 = 0.
 * Начальные условия: 𝐕 = 0, T - постоянная температура или линейное по ширине распределение от $T_{max}$ до $T_{min}$, а также 𝐕 = const на определенном участке горячей стенки.
 * Граничные условия: прилипание на всех границах (за исключением участков вдува и стока), постоянная температура или тепловой поток на левой и правой границах, адиабатные условия на горизонтальных стенках.
-* Обозначения стандартные для задач теплофизики. Референсная температурва $T_0=\frac{T_{\max}-T_{\min}}{2}$.
+* Обозначения стандартные для задач теплофизики. Референсная температурва $T_0=\frac{T_{\max}+T_{\min}}{2}$.
 
 * Плавление: при плавлении на границе разделе фаз используется формула Стефана $-\lambda\frac{dT}{dn}=\rho_{solid}\cdot L\frac{dn}{dt}$.
 
