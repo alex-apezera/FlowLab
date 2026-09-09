@@ -91,7 +91,7 @@ $$
 * Reference temperature for heat-transfer calculations:
 
 $$
-T_0=\frac{T_{\max}-T_{\min}}{2}.
+T_0=\frac{T_{\max}+T_{\min}}{2}.
 $$
 
 * Melting is calculated using the Stefan condition:
