@@ -208,34 +208,32 @@ By default, the application uses the `Custom` material, a simulation time of 60 
 
 All parameters required for the test convection simulation in a square cavity are preconfigured.
 
-> **Note:** To enter values in text fields, the change must be confirmed by pressing the Return key and then tapping the keyboard-dismiss button.
-
-For forced convection, the flow is introduced through the left wall using a parabolic velocity profile. The flow exits through the right wall.
+> **Note:** To enter values in text and numeric fields, the change must be confirmed by pressing the Return key and then tapping the keyboard-dismiss button.
 
 The following parameters can be modified in the **Settings** panel:
 
-* **Solution method:** ALE or EPM. The melting interval can be specified.
+* **Solution method:** ALE or EPM.
 
-* **Melting:** can be enabled or disabled. The parallel computation mode can also be enabled or disabled for different equation-solving methods.
+* **Melting:** can be enabled or disabled. For EPM - the melting interval ($T_{\melt}$ - $T_{\cold}$) can be specified.
 
-* **Cavity geometry:** number of grid nodes, cavity length and width, and melt thickness for the EPM method.
+* **Concurence:** the parallel computation mode can also be enabled or disabled for different equation-solving methods.
 
-* **Gravity:** initial angle and the angle variation rate in degrees per second. The thermal map may be synchronized with the simulation time or with the physical model. In the melting mode, the acceleration magnitude can also be changed. For forced convection, the acceleration is set to zero.
+* **Cavity geometry:** number of grid nodes, cavity length and width, and initial melt thickness for the EPM method.
 
-* **Time parameters:** total simulation time, final time at which the simulation is stopped, the time-step multiplication factor, the time-step reduction factor, and the time scale used to accelerate the simulation. Increasing the time scale reduces the accuracy of the solution.
+* **Gravity:** initial angle and the angle variation rate in degrees per second. The thermal map may be synchronized with the simulation time or with the physical model. In the melting mode, the acceleration magnitude can also be changed. For forced convection, the acceleration may be equal to zero.
 
-* **Simulation controls:** the Courant-number range used to adapt the time step, including the hybrid scheme, which is not recommended; pressure-solver tolerance; and the number of iterations for the Poisson equation.
+* **Time parameters:** total simulation time, final time at which the simulation is stopped, final value of the relative volume (thickness) increment of the melt, simulation time step for recording to History, and the time scale used to accelerate the simulation for meltimg. Increasing the time scale reduces the accuracy of the solution.
 
-* **Diagnostics:** parameters for monitoring the pressure-solver iterations and the limits for array dimensions.
+* **Simulation controls:** the Courant-number range used to adapt the time step (including the hybrid scheme, which is not recommended); pressure-solver tolerance and relax factor; the number of iterations for the Poisson equation; limits of array dimensions for Diagnostics parameters and Hostory.
 
-* **Object parameters:** object type, such as a heated object or a heat-flow source; initial heating temperature; initial temperature distribution in the cavity; temperature conditions when the phase boundary is crossed; phase-transition temperature; and material selection for modeling. Any material may be selected, and its parameters may be modified.
+* **Object parameters:** heating type (T or q), heating value; initial temperature distribution in the cavity; temperature conditions when the phase boundary is crossed; phase-transition temperature; and material (substance) selection for modeling. Any substance may be selected.  Parameters of Custom substance may be modified.
 
-* **Forced convection:** can be enabled or disabled. The inflow may be located at the top or bottom boundary, or at the left boundary by default. The following parameters can be specified:
+* **Forced convection:** can be enabled or disabled. The inflow may be located at the top or bottom boundary by default, or at the left boundary. The following parameters can be specified:
   flow velocity, temperature excess relative to the temperature specified on the hot wall, inflow angle, and inflow-section coordinates.
 
 ## Output data
 
-The simulation data is displayed in the visualizer, mainly in real time and also in the simulation history.
+The simulation data is displayed in the visualizer, mainly in real time and also in the simulation history player.
 
 The main data includes:
 
@@ -245,32 +243,37 @@ The main data includes:
 * heat-flow graphs for vertical walls;
 * Diagnostics data.
 
-Diagnostics data is not changed or deleted when the simulation history is cleared.
+Diagnostics data is not changed or deleted when the simulation history is playing.
 
 ## Examples
 
-For compactness, screenshots are provided in the English version below.
-
-<!-- Add screenshots here -->
-
-* Initial state after the first application launch and after pressing the **Enable Melting** button.
+* Initial state after the first application launch:
+(**fig. 1**)
 
 * Visualization screen for an ALE-based simulation without melting in a cavity with an ice block. The simulation time is 60 seconds:
 
-  1. intermediate state with streamlines;
-  2. temperature field shown as a thermal map.
+  1. intermediate state with streamlines:
+  (**fig. 2**)
+  
+  2. temperature field shown as a thermal map:
+  (**fig. 3**)
 
-* Previous example based on the EPM method, with melting of a solid and temperature and diagnostic graphs.
+* Previous example based on the EPM method, with melting of a solid and temperature and diagnostic graphs:
+(**fig. 4**)
 
-  The stationary flow field has not yet reached a steady state. The difference between the flows is caused by the dependence of thermal conductivity on temperature. The figures show the result of the simulation at the same time compared with the ALE method.
+  >The stationary flow field has not yet reached a steady state. The difference between the flows is caused by the dependence of thermal conductivity on temperature. The figures show the result of the simulation at the **Spent** time compared with the ALE method.
 
-* Example of a temperature field using the ALE method for water with an initial melting temperature of 0.3 relative to the cavity height.
+* Example of a temperature field using the ALE method for water with an initial melting temperature of 0.3 relative to the cavity height:
+(**fig. 5**)
 
-* Example of a temperature field using the EPM method for water with an ice block inserted into the upper part of the cavity and a heat-conducting object in the center. The initial temperature is 0.3 relative to the cavity width.
+* Example of a temperature field using the EPM method for water with an ice block inserted into the upper part of the cavity and a heat-conducting object in the center. The initial temperature is 0.3 relative to the cavity width:
+(**fig. 6**)
 
-* Example of an EPM temperature field for paraffin melting under zero gravity, with liquid-phase inflow and outflow at the left boundary.
+* Example of an EPM temperature field for paraffin melting under zero gravity, with liquid-phase inflow and free outflow at the left boundary:
+(**fig. 7**)
 
-* Example of an EPM temperature field for natural convection in an air cavity with a gravity angle of 30 degrees.
+* Example of an EPM temperature field for natural convection in an air cavity with a gravity angle of 30 degrees:
+(**fig. 8**)
 
 ## Performance
 
@@ -292,7 +295,7 @@ The Prandtl and Rayleigh numbers are calculated using their actual values. The t
 
 The smallest tested grid size is 40 × 40. The largest tested grid size is 300 × 300. The grid aspect ratio must not exceed 3.0, since it affects stability and convergence.
 
-The recommended temperature interval is:
+All parameters and variables are Double type accuracy.
 
 ## License
 
@@ -417,16 +420,16 @@ FlowLab — программный комплекс для численного 
 
 Изначально все требуемые для тестового расчета конвекции в квадратной полости параметры уже установлены. 
 
-Примечание: 1) для ввода параметров в текстовых (цифровых) полях необходимо подтверждать изменения путем нажатия на возвтат каретки и далее на галочку; 2) при вынужденной конвекции вдув осуществляется из левой стенки по параболическому профилю, сток - опционален.
+> **Примечание:** Для ввода параметров в текстовых и цифровых полях необходимо подтверждать изменения путем нажатия на возвтат каретки и далее на галочку.
 
 Для требуемого пользовательского расчета используется панель Настройки, где можно изменить:
-* методы расчета - модель (ALE или EPM, где устанавливается интервал плавнения), включить/выключить Плавление (и с какого шага), применить/отменить параллельные вычисления (конкурентные расчеты) для различных методов решения уравнений;
-* геометрия полости - количество узлов сетки, длина и ширина полости, начальная толщина расплава (для метода EPM);
-* условия гравитации - начальный угол, динамика изменения угла в день или в секннду, синхранизировать ли тепловые карты со временем моделирования или физическим (в случае плавления), величина магнитуды ускорения свободного падения (для только вынужденной конвекции равно нулю);
-* временные параметры - конечное время моделирования, конечная величина приращения относительного объема (толщины) расплава, временной шаг моделирования и занесения с Историю, масштаб времени плавления для ускорения расчетов (при этом точность расчетов падает), предельная величина приращения толщины расплава; 
-* управление процессом моделирования: диапазон чисел Куранта для адаптации временного шага, включая гибридную схему (не рекомендуется), допустимая погрешность при вычислении функции тока ω из уравнения Пуассона, параметры итерационного процесса для давления, лимиты длин массивов для Диагностики и Истории;
-* параметры объекта: тип нагрева (температура или тепловой поток), величина нагрева, начальное распределение температуры в полости, условия для температуры при касании границы фазового перехода твердой правой стенки, выбор вещества для моделирования включая произвольное (у которого можно назначить любые параметры);
-* включение/выключение вынужденной конвекции: включить сток вверху и внизу на левой границе (по умолчанию сток - на горизонтальных границах), скорость вдува, превышение температуры вдува относительно установленной на горячей стенке, угол вдува, координаты участка вдува
+* **методы расчета** - модель (ALE или EPM, где устанавливается интервал плавнения), включить/выключить Плавление (и с какого шага), применить/отменить параллельные вычисления (конкурентные расчеты) для различных методов решения уравнений;
+* **геометрия полости** - количество узлов сетки, длина и ширина полости, начальная толщина расплава (для метода EPM);
+* **условия гравитации** - начальный угол, динамика изменения угла в день или в секунду, синхранизировать ли тепловые карты со временем моделирования или физическим (в случае плавления), величина магнитуды ускорения свободного падения может быть равной нулю при включении вынужденной конвекции;
+* **временные параметры** - конечное время моделирования, конечная величина приращения относительного объема (толщины) расплава, временной шаг моделирования для занесения с Историю, масштаб времени плавления для ускорения расчетов (при этом точность расчетов падает), предельная величина приращения толщины расплава; 
+* **управление процессом моделирования** - диапазон чисел Куранта для адаптации временного шага включая гибридную схему (не рекомендуется), допустимая погрешность при вычислении функции тока ω из уравнения Пуассона, параметры итерационного процесса для давления, лимиты длин массивов для Диагностики и Истории;
+* **параметры объекта** - тип нагрева (температура или тепловой поток), величина нагрева, начальное распределение температуры в полости, условия для температуры при касании границы фазового перехода твердой правой стенки, выбор вещества для моделирования включая произвольное (у которого можно назначить любые параметры);
+* **включение/выключение вынужденной конвекции** - включить/выключить сток вверху и внизу на левой границе (по умолчанию сток - на горизонтальных границах). Установить/редвктировать: скорость вдува, превышение температуры вдува относительно установленной на горячей стенке, угол вдува, координаты участка вдува
 
 ## Выходные данные
 
@@ -436,22 +439,25 @@ FlowLab — программный комплекс для численного 
 
 Копии экранов (скриншоты) для экономии места приведены в английской версии. 
 
-* Начальное состояние после первого запуска программы и нажатой кнопкой включить Плавление:
+* Начальное состояние после первого запуска программы: (**fig. 1**)
 
 * Состояние экрана визуализации для задачи на основе метода ALE "Тепловая конвекция (без плавления) внутри полости с Эйкозаном" (время моделирования - 60с):
-1) промежуточный вариант с линиями тока
 
-2) поле температуры (тепловая карта - ТК)
+1) промежуточный вариант с линиями тока (**fig. 2**)
 
-* Предыдущий пример (но на основе метода EPM) с переключением на визуализацию тепловых потоков на стенках q(t) и другими диагностическими графиками; здесь видно, что стационарный режим пока не достигнут и имеется разница между потоками за счет зависимости теплопроводности от температуры; видна разница по времени расчетов по сравнению с методом ALE:
+2) поле температуры (тепловая карта - ТК) (**fig. 3**)
 
-* Пример ТК (метод ALE) плавления Воды с начальной толщиной расплава 0.3 от высоты:
+* Предыдущий пример (но на основе метода EPM) с переключением на визуализацию тепловых потоков на стенках q(t) и другими диагностическими графиками: (**fig. 4**)
 
-* Пример ТК (метод - EPM) плавления Воды с включением льда (на определённом этапе, в верхней части полости) и камня (с теплопроводностью льда, в центре полости) в область расплава с начальной толщиной расплава 0.3 от ширины области:
+>Здесь видно, что стационарный режим пока не достигнут и имеется разница между потоками за счет зависимости теплопроводности от температуры; видна разница по затраченному процессором времени расчетов (**Spent**) по сравнению с методом ALE:
 
-* Пример ТК (EPM) плавления Эйкозана в невесомости с вдувом жидкой фазы и стоком на левой границе:
+* Пример ТК (метод ALE) плавления Воды с начальной толщиной расплава 0.3 от высоты: (**fig. 5**)
 
-* Пример ТК (EPM) естественной конвекции в воздушной полости с углом наклона к горизонту в 30 градусов:
+* Пример ТК (метод - EPM) плавления Воды с включением льда (на определённом этапе, в верхней части полости) и камня (с теплопроводностью льда, в центре полости) в область расплава с начальной толщиной расплава 0.3 от ширины области: (**fig. 6**)
+
+* Пример ТК (EPM) плавления Эйкозана в невесомости с вдувом жидкой фазы и свободным стоком на левой границе: (**fig. 7**)
+
+* Пример ТК (EPM) естественной конвекции в воздушной полости с углом наклона к горизонту в 30 градусов: (**fig. 8**)
 
 ## Производительность
 
@@ -464,12 +470,14 @@ FlowLab — программный комплекс для численного 
 
 ## Ограничения модели
 
-Рассматриваются только ламинарные течения в несжимаемой среде, числа подобия Re и Ra вычисляются по фактическим значениям переменных. Разность температур не должна превышать 40º (интерполяция температурных зависимостей физических параметров рассматриваемых веществ настроена на данный диапазон). Размерность сетки не тестировалась ниже чем 40х40 и мельче чем 300х300, а коэффициенты растяжения сетки не более чем 3.0 (влияет на устойчивость и сходимость). Рекомендуемый интервал плавления (Tmelt - Tcold) = 0.01ºC.
+Рассматриваются только ламинарные течения в несжимаемой среде, числа подобия Re и Ra вычисляются по фактическим значениям переменных. Разность температур не должна превышать 40º (интерполяция температурных зависимостей физических параметров рассматриваемых веществ настроена на данный диапазон). 
+Размерность сетки не тестировалась ниже чем 40х40 и мельче чем 300х300, а коэффициенты растяжения сетки не более чем 3.0 (влияет на устойчивость и сходимость). 
+Точность вычислений ограничена типом Double.
 
 ## Лицензия
 
-Тексе MIT лицензии приведен в файле LICENSE.md.
+Текст MIT лицензии приведен в файле `LICENSE.md`.
 
 ## Контакты
 
-Почта: apezera@icloud.com, apezera@yandex.ru. Буду рад замечаниям и предложениям.
+Почта: `apezera@icloud.com`, `apezera@yandex.ru`. Буду рад замечаниям и предложениям.
