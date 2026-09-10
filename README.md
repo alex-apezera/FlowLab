@@ -147,25 +147,31 @@ The entire calculation process is displayed on a single screen as parameter valu
 
 The visualization screen contains the following areas:
 
-* **Control panel:** contains 
-1) Start/Pause, 
-2) History, 
-3) Reset, 
-4) Diagnostics, 
-5) Settings, 
-6) Acceleration commands.
+> **note** - if an external keyboard is used, button presses can be duplicated using hotkeys highlighted in blue
+
+* **Control panel:** contains buttons
+1) Start/Pause - start/pause the solving process, 
+2) History - Saving History frames to a file using JSON or a compressed binary format. Loading History frames from a list of files,
+> **note** - after loading the file, you can proceed with the calculation; however, some parameters need to be adjusted if the calculation session is already configured for a different task
+3) Reset - the initial state of fields and variables is set, with the exception of time, 
+4) Diagnostics - a pop-up window displaying diagnostic parameters and graphs, with the ability to switch the graph content and initiate the iterative process for calculating the stream function ω from the Poisson equation, 
+5) Settings - pop-up window with adjustable solution process parameters, 
+6) Acceleration commands - disables the Main chart area to speed up calculations.
 
 * **Information panel:** displays the gravitational acceleration, flow velocity, solution parameters, grid properties, substance properties, process parameters, and the current time step. The time step may be adjusted manually.
 
 * **Graph controls:** used to select a graph and activate the melting visualization, as well as to select the thermal-map display mode.
 
-* **History pop-up window:** displays the saved simulation history with a frame player.
+* **History pop-up window:** displays the saved simulation history with a frame player (start/stop also by pressing the space bar).
 
-* **Main graphics area:** displays thermal maps with an optional velocity field overlay, temperature and pressure isolines, streamlines with flow-direction arrows, temperature graphs in horizontal sections, heat-flow-in-time graphs on vertical boundaries, and the solid-object insertion editor.
+* **Main chart area:** displays thermal maps with an optional velocity field overlay, temperature and pressure isolines, streamlines with flow-direction arrows, temperature graphs in horizontal sections, heat-flow-in-time graphs on vertical boundaries, and the solid-object insertion editor.
 
-* **Optional Diagnostics window.**
+* **Diagnostics pop-up window.** see comment 4) to Control panel.
 
-* An example of the initial screen is provided in the `Examples` section.
+* **Settings pop-up window.** see comment 5) to Control panel and in detail in the section 
+- [Input-parameters](#input-parameters).
+
+> An example of the initial screen is provided in the `Examples` section.
 
 ## Project structure
 
@@ -397,20 +403,22 @@ FlowLab — программный комплекс для численного 
 Весь процесс расчетов отображается на одной странице экрана в виде набора параметров, полей и графиков. Для компактных устройств типа iPhone используется скроллинг. Управление процессом осуществляется с помощью контрольной панели манипулятором (мышь, тачпад), а также горячими клавишами. Интерфейс задан на английском языке и интуитивно понятен.
 
 На странице визуализации имеются следующие зоны (см Примеры расчетов) -
-
-* **контрольная панель:** здесь находятся команды 
-1) Старта/Паузы, 
-2) Истории, 
-3) Сброса, 
-4) Диагностики, 
-5) Настройки, 
-6) Ускорения;
+> **примечание** - если используется выносная клавиатура, нажатие кнопок можно дублировать горячими клавишами, которые выделены синим цветом
+* **контрольная панель:** здесь находятся кнопки 
+1) Старта/Паузы - запуск/пауза процесса решения, 
+2) Истории - сохранение кадров Истории в файл с использованием формата JSON или бинарного формата со сжатием. Загрузка кадров Истории из списка файлов,
+> **примечание** - после загрузки файла можно продолжить расчет, однако требуется донастроить некоторые параметры, если сеанс расчета уже настроен на другую задачу
+3) Сброса - устанавливается начальное состояние полей и переменных, за исключением времени, 
+4) Диагностики - всплывающее окно с диагностическими параметрами и графиками с возможностью переключения содержания графиков и запуском итерационного процесса вычисления функции тока ω из уравнения Пуассона, 
+5) Настройки - всплывающее окно с изменяемыми параметрами процесса решения, 
+6) Ускорения - с целью ускорения вычислений выключает Область основного графика;
 * **информационная зона:** состояние гравитации, состояние вектора скорости, параметры Решения, Области, Вещества, Процесса (с возможностью ручного регулирования шага по времени), Плавления;
 * **управление графиками:** выбор графика, кнопка активизации плавления, кнопки управления режимами тепловой карты;
-* **всплывающее окно просмотра Истории** с проигрывателем кадров;
+* **всплывающее окно просмотра Истории** с проигрывателем кадров (запуск/останов также по нажатию на пробел);
 * **область основного графика:** тепловые карты (с опциональным наложением поля скорости и изолиниями) температуры, давления, линий тока с указанием направления потока; графики температуры в горизонтальных сечениях, тепловых потоков во времени на вертикальных границах; редактор включений твердых объектов;
-* **опциональное окно Диагностики** . 
-* Пример начального экрана см. Примеры расчетов
+* **всплывающее окно Диагностики** - см. комментарий к п4) Контрольной панели. 
+* **всплывающее окно Настроек** - см. комментарий к п5) Контрольной панели и подробно в разделе [Входные параметры](#входные-параметры). 
+> Пример начального экрана см. Примеры расчетов
 
 ## Структура проекта
 
