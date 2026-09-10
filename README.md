@@ -1,5 +1,3 @@
-<img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/62b3332a-84e6-40f5-a897-f19c2ee7a101" />
-<img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/1ccdb9e8-23fc-4a10-b559-3c575ae79ca6" />
 [Русский](#русский) | [English](#english)
 
 ## English
@@ -268,12 +266,12 @@ fig. 1
 * Visualization screen for an ALE-based simulation without melting in a cavity with an ice block. The simulation time is 60 seconds:
 
   1. intermediate state with streamlines
-  fig. 2 
-  <img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
-
-  2. temperature field shown as a thermal map
-  fig. 3
+  fig. 2
   <img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/17880486-2851-4e2e-a5a4-d2bd292ff906" />
+
+  3. temperature field shown as a thermal map
+  fig. 3
+  <img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
   
 * Previous example based on the EPM method, with melting of a solid and temperature and diagnostic graphs:
 fig. 4
@@ -477,7 +475,7 @@ fig. 1
 1) промежуточный вариант с линиями тока fig. 2
   <img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
 
-2) поле температуры (тепловая карта - ТК) fig. 3
+4) поле температуры (тепловая карта - ТК) fig. 3
   <img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/17880486-2851-4e2e-a5a4-d2bd292ff906" />
 
 * Предыдущий пример (но на основе метода EPM) с переключением на визуализацию тепловых потоков на стенках q(t) и другими диагностическими графиками: fig. 4
