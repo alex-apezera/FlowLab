@@ -39,11 +39,6 @@ The software models:
 * Navier–Stokes equations in the Boussinesq approximation, including the phase-transition model;
 * use in educational and research projects in accordance with the MIT License.
 
-#fig.-1
-<img width="1256" height="973" alt="fig1" src="https://github.com/user-attachments/assets/78f96d9f-ffdc-49f3-8109-820fe5910b3f" />
-
-
-
 ## Physical and mathematical model
 
 > **Symbols (SI system):** 
@@ -265,7 +260,7 @@ Diagnostics data is not changed or deleted when the simulation history is playin
 ## Examples
 
 * Initial state after the first application launch: 
-#fig.-1
+fig.-1
 <img width="1256" height="973" alt="fig1" src="https://github.com/user-attachments/assets/78f96d9f-ffdc-49f3-8109-820fe5910b3f" />
 
 * Visualization screen for an ALE-based simulation without melting in a cavity with an ice block. The simulation time is 60 seconds:
@@ -468,7 +463,9 @@ FlowLab — программный комплекс для численного 
 
 Копии экранов (скриншоты) для экономии места приведены в английской версии. 
 
-* Начальное состояние после первого запуска программы: [fig.-1](#fig.-1)
+* Начальное состояние после первого запуска программы: fig.-1
+<img width="1256" height="973" alt="fig1" src="https://github.com/user-attachments/assets/78f96d9f-ffdc-49f3-8109-820fe5910b3f" />
+
 
 * Состояние экрана визуализации для задачи на основе метода ALE "Тепловая конвекция (без плавления) внутри полости с Эйкозаном" (время моделирования - 60с):
 
