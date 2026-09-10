@@ -269,7 +269,7 @@ fig. 1
   fig. 2
   <img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/17880486-2851-4e2e-a5a4-d2bd292ff906" />
 
-  3. temperature field shown as a thermal map
+  2. temperature field shown as a thermal map
   fig. 3
   <img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
   
@@ -472,11 +472,12 @@ fig. 1
 
 * Состояние экрана визуализации для задачи на основе метода ALE "Тепловая конвекция (без плавления) внутри полости с Эйкозаном" (время моделирования - 60с):
 
-1) промежуточный вариант с линиями тока fig. 2
+  1) промежуточный вариант с линиями тока fig. 2
+  <img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/17880486-2851-4e2e-a5a4-d2bd292ff906" />
+
+  2) поле температуры (тепловая карта - ТК) fig. 3
   <img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
 
-4) поле температуры (тепловая карта - ТК) fig. 3
-  <img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/17880486-2851-4e2e-a5a4-d2bd292ff906" />
 
 * Предыдущий пример (но на основе метода EPM) с переключением на визуализацию тепловых потоков на стенках q(t) и другими диагностическими графиками: fig. 4
 
