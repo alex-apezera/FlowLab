@@ -214,7 +214,7 @@ The code may also work on older platforms because it uses only the following fra
 4. Select the required `release` XCode configuration.
 5. Run the application.
 
-> By default, the application uses the `Custom` material, a simulation time of 60 seconds. Diagnostics can be enabled in the application settings.
+> **Notes:** 1) By default, the application uses the `Custom` material, a simulation time of 60 seconds. Diagnostics can be enabled in the application settings. 2) The computer does not enter sleep mode during the calculation.
 
 ## Input parameters
 
@@ -265,28 +265,28 @@ fig. 1
 
 * Visualization screen for an ALE-based simulation without melting in a cavity with an ice block. The simulation time is 60 seconds:
 
-  1. intermediate state with streamlines:
-  (#fig.-2)
+  1. intermediate state with streamlines
+  fig. 2 
   
-  2. temperature field shown as a thermal map:
-  (**fig. 3**)
-
+  2. temperature field shown as a thermal map
+  fig. 3
+  
 * Previous example based on the EPM method, with melting of a solid and temperature and diagnostic graphs:
-(**fig. 4**)
+fig. 4
 
   > **Comment:** The stationary flow field has not yet reached a steady state. The difference between the flows is caused by the dependence of thermal conductivity on temperature. The figures show the result of the simulation at the **Spent** time compared with the ALE method.
 
 * Example of a temperatute field (ALE method) for water melting with an initial melt thickness of 0.3 of the height.:
-(**fig. 5**)
+fig. 5
 
 * Example of a temperature field using the EPM method for water with an ice block inserted at a certain stage into the upper part of the cavity and a heat-conducting object in the center. The initial melt thickness is 0.3 relative to the cavity width:
-(**fig. 6**)
+fig. 6
 
 * Example of an EPM temperature field for paraffin melting under zero gravity, with liquid-phase inflow and free outflow at the left boundary:
-(**fig. 7**)
+fig. 7
 
 * Example of an EPM temperature field for natural convection in an air cavity with a gravity angle of 30 degrees:
-(**fig. 8**)
+fig. 8
 
 ## Performance
 
@@ -438,7 +438,7 @@ FlowLab — программный комплекс для численного 
 ## Установка и запуск расчета
 
 Загрузить код на рабочий стол, открыть исполняемый файл, ввести аккаунт. Настроить релизную версию компилятора. Запустить программу. 
-> Будет по умолчанию использоваться вещество Custom (по параметрам похожее на Эйкозан), время моделирования установлено на 60 секунд. Можно включить опцию Диагностики.
+>**Примечания:** 1) Будет по умолчанию использоваться вещество Custom (по параметрам похожее на Эйкозан), время моделирования установлено на 60 секунд. Можно включить опцию Диагностики. 2) Режим сна на компьютере во время расчета не включается.
 
 ## Входные параметры
 
@@ -464,7 +464,7 @@ FlowLab — программный комплекс для численного 
 Копии экранов (скриншоты) для экономии места приведены в английской версии. 
 
 * Начальное состояние после первого запуска программы: 
-fig.-1
+fig. 1
 <img width="1256" height="973" alt="fig1" src="https://github.com/user-attachments/assets/78f96d9f-ffdc-49f3-8109-820fe5910b3f" />
 
 
@@ -472,19 +472,19 @@ fig.-1
 
 1) промежуточный вариант с линиями тока fig. 2
 
-2) поле температуры (тепловая карта - ТК) (**fig. 3**)
+2) поле температуры (тепловая карта - ТК) fig. 3
 
-* Предыдущий пример (но на основе метода EPM) с переключением на визуализацию тепловых потоков на стенках q(t) и другими диагностическими графиками: (**fig. 4**)
+* Предыдущий пример (но на основе метода EPM) с переключением на визуализацию тепловых потоков на стенках q(t) и другими диагностическими графиками: fig. 4
 
 > **Комментарий:** Здесь видно, что стационарный режим пока не достигнут и имеется разница между потоками за счет зависимости теплопроводности от температуры; видна разница по затраченному процессором времени расчетов (**Spent**) по сравнению с методом ALE:
 
-* Пример ТК (метод ALE) плавления Воды с начальной толщиной расплава 0.3 от высоты: (**fig. 5**)
+* Пример ТК (метод ALE) плавления Воды с начальной толщиной расплава 0.3 от высоты: fig. 5
 
-* Пример ТК (метод - EPM) плавления Воды с включением льда (на определённом этапе, в верхней части полости) и камня (с теплопроводностью льда, в центре полости) в область расплава с начальной толщиной расплава 0.3 от ширины области: (**fig. 6**)
+* Пример ТК (метод - EPM) плавления Воды с включением льда (на определённом этапе, в верхней части полости) и камня (с теплопроводностью льда, в центре полости) в область расплава с начальной толщиной расплава 0.3 от ширины области: fig. 6
 
-* Пример ТК (EPM) плавления Эйкозана в невесомости с вдувом жидкой фазы и свободным стоком на левой границе: (**fig. 7**)
+* Пример ТК (EPM) плавления Эйкозана в невесомости с вдувом жидкой фазы и свободным стоком на левой границе: fig. 7
 
-* Пример ТК (EPM) естественной конвекции в воздушной полости с углом наклона к горизонту в 30 градусов: (**fig. 8**)
+* Пример ТК (EPM) естественной конвекции в воздушной полости с углом наклона к горизонту в 30 градусов: fig. 8
 
 ## Производительность
 
