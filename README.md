@@ -260,6 +260,7 @@ Diagnostics data is not changed or deleted when the simulation history is playin
 ## Examples
 
 * Initial state after the first application launch:
+
 ##fig.-1
 <img width="1256" height="973" alt="fig1" src="https://github.com/user-attachments/assets/78f96d9f-ffdc-49f3-8109-820fe5910b3f" />
 
