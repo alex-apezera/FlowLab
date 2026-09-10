@@ -41,7 +41,7 @@ The software models:
 
 ## Physical and mathematical model
 
-> **Symbols (SI):** 
+> **Symbols (SI system):** 
 𝐕 - velocity vector, 
 T - temperature, 
 p - pressure, 
@@ -120,9 +120,9 @@ $$
 
 * Convective terms inside the domain are calculated using an explicit UPWIND second-order scheme. The first-order scheme is used near the boundaries to improve stability.
 
-* Diffusion terms are calculated using an implicit scheme with Thomas-algorithm sweeps.
+* Diffusion terms are calculated using an implicit scheme with Thomas-algorithm (TDMA) sweeps.
 
-* Pressure is calculated iteratively at every time step. The SIMPLE method is used for the ALE model, while the Gauss–Seidel method is used for the EPM model. The Rie–Chow interpolation and a checkerboard-pattern prevention procedure are also applied.
+* Pressure is calculated iteratively at every time step. The SIMPLE (Jacobi) method is used for the ALE model, while the Gauss–Seidel method is used for the EPM model. The Rie–Chow interpolation and a checkerboard-pattern prevention procedure are also applied.
 
 * The ALE model uses a nonuniform grid with an increasing step size from the boundaries toward the center, based on a hyperbolic-sine distribution.
 
@@ -134,7 +134,7 @@ $$
 
 ## Additional features
 
-The EPM model supports the simulation of solid objects being introduced into a fluid, both with and without melting. An effective thermal-conductivity model is used for this purpose.
+The EPM model supports the simulation of solid objects being introduced into a fluid, both with and without melting. An effective thermal-conductivity model is used in case of solid objects.
 
 The solid object may initially have the melting temperature $T_{\{cold}}$. It then undergoes the melting process under the influence of thermal conductivity.
 > **Note:** The EPM method assumes the existence of a "melting interval" where $T_{\{cold}}$ is lower than $T_{\{melt}}$ by a small amount (0.01°C by default).
@@ -147,9 +147,15 @@ The entire calculation process is displayed on a single screen as parameter valu
 
 The visualization screen contains the following areas:
 
-* **Control panel:** contains the Start/Pause, History, Reset, Diagnostics, Settings, and Acceleration commands.
+* **Control panel:** contains 
+1) Start/Pause, 
+2) History, 
+3) Reset, 
+4) Diagnostics, 
+5) Settings, 
+6) Acceleration commands.
 
-* **Information panel:** displays the gravitational acceleration, flow velocity, solution parameters, grid properties, substance properties, process parameters, and the current time step. The time step can be adjusted manually.
+* **Information panel:** displays the gravitational acceleration, flow velocity, solution parameters, grid properties, substance properties, process parameters, and the current time step. The time step may be adjusted manually.
 
 * **Graph controls:** used to select a graph and activate the melting visualization, as well as to select the thermal-map display mode.
 
@@ -215,13 +221,13 @@ The following parameters can be modified in the **Settings** panel:
 
 * **Solution method:** ALE or EPM.
 
-* **Melting:** can be enabled or disabled. For EPM - the melting interval ($T_{\melt}$ - $T_{\cold}$) can be specified.
+* **Melting:** can be enabled or disabled. For EPM - the melting interval ($T_{\{melt}}$ - $T_{\{cold}}$) can be specified.
 
 * **Concurence:** the parallel computation mode can also be enabled or disabled for different equation-solving methods.
 
 * **Cavity geometry:** number of grid nodes, cavity length and width, and initial melt thickness for the EPM method.
 
-* **Gravity:** initial angle and the angle variation rate in degrees per second. The thermal map may be synchronized with the simulation time or with the physical model. In the melting mode, the acceleration magnitude can also be changed. For forced convection, the acceleration may be equal to zero.
+* **Gravity:** initial angle and the angle variation rate in degrees per second or day. The thermal map may be synchronized with the simulation time (or with the physical model in melting mode). For forced convection, the magnitude may be equal to zero.
 
 * **Time parameters:** total simulation time, final time at which the simulation is stopped, final value of the relative volume (thickness) increment of the melt, simulation time step for recording to History, and the time scale used to accelerate the simulation for meltimg. Increasing the time scale reduces the accuracy of the solution.
 
@@ -371,7 +377,7 @@ FlowLab — программный комплекс для численного 
 * Используется метод конечных разностей на коллокационной сетке, где значения величин поля находятся и вычисляются в узлах сетки.
 * Используются две модели плавления (их можно использовать и для течений без плавления): ALE - метод раздвижной стенки (Arbitrary Lagrangian-Eulerian) и EPM - метод энтальпийно-пористой среды (Enthalpy-Porous Media).
 * Расчет конвективных членов производится по явной схеме "против потока (upwind)" второго порядка внутри области и первого порядка вблизи границ для сохранения устойчивости.
-* Расчет диффузионных членов производится по неявной схеме с прогонками (метод Томаса).
+* Расчет диффузионных членов производится по неявной схеме с прогонками (метод Томаса, TDMA).
 * Расчет давления производится с применением итераций на каждом вычислительном шаге, когда вычисляется приращение по времени; при этом в качестве экспериментов для модели ALE используется метод Якоби, а для EPM - метод Гаусса-Зейделя; а также применяется стабилизация Rhie-Chow и шахматная схема обхода узлов сетки.
 * Для ALE применяется неравномерная сетка с увеличением шага от границ к центру по формуле гиперболического синуса.
 * Для EPM для уменьшения времени расчетов используется равномерная квадратная сетка.
@@ -392,13 +398,19 @@ FlowLab — программный комплекс для численного 
 
 На странице визуализации имеются следующие зоны (см Примеры расчетов) -
 
-* контрольная панель: здесь находятся команды Старта/Паузы, Истории, Сброса, Диагностики, Настройки, Ускорения;
-* информационная зона: состояние гравитации, состояние вектора скорости, параметры Решения, Области, Вещества, Процесса (с возможностью ручного регулирования шага по времени), Плавления;
-* управление графиками: выбор графика, кнопка активизации плавления, кнопки управления режимами тепловой карты;
-* всплывающее окно просмотра Истории с проигрывателем кадров;
-* область основного графика: тепловые карты (с опциональным наложением поля скорости и изолиниями) температуры, давления, линий тока с указанием направления потока; графики температуры в горизонтальных сечениях, тепловых потоков во времени на вертикальных границах; редактор включений твердых объектов;
-* опциональное окно Диагностики; 
-* пример начального экрана см. Примеры расчетов
+* **контрольная панель:** здесь находятся команды 
+1) Старта/Паузы, 
+2) Истории, 
+3) Сброса, 
+4) Диагностики, 
+5) Настройки, 
+6) Ускорения;
+* **информационная зона:** состояние гравитации, состояние вектора скорости, параметры Решения, Области, Вещества, Процесса (с возможностью ручного регулирования шага по времени), Плавления;
+* **управление графиками:** выбор графика, кнопка активизации плавления, кнопки управления режимами тепловой карты;
+* **всплывающее окно просмотра Истории** с проигрывателем кадров;
+* **область основного графика:** тепловые карты (с опциональным наложением поля скорости и изолиниями) температуры, давления, линий тока с указанием направления потока; графики температуры в горизонтальных сечениях, тепловых потоков во времени на вертикальных границах; редактор включений твердых объектов;
+* **опциональное окно Диагностики** . 
+* Пример начального экрана см. Примеры расчетов
 
 ## Структура проекта
 
@@ -428,7 +440,7 @@ FlowLab — программный комплекс для численного 
 Для требуемого пользовательского расчета используется панель Настройки, где можно изменить:
 * **методы расчета** - модель (ALE или EPM, где устанавливается интервал плавнения), включить/выключить Плавление (и с какого шага), применить/отменить параллельные вычисления (конкурентные расчеты) для различных методов решения уравнений;
 * **геометрия полости** - количество узлов сетки, длина и ширина полости, начальная толщина расплава (для метода EPM);
-* **условия гравитации** - начальный угол, динамика изменения угла в день или в секунду, синхранизировать ли тепловые карты со временем моделирования или физическим (в случае плавления), величина магнитуды ускорения свободного падения может быть равной нулю при включении вынужденной конвекции;
+* **условия гравитации** - начальный угол, динамика изменения угла в день или в секунду, синхранизировать ли тепловые карты со временем моделирования или физическим временем (в случае плавления), величина магнитуды ускорения свободного падения может быть равной нулю при включении вынужденной конвекции;
 * **временные параметры** - конечное время моделирования, конечная величина приращения относительного объема (толщины) расплава, временной шаг моделирования для занесения с Историю, масштаб времени плавления для ускорения расчетов (при этом точность расчетов падает), предельная величина приращения толщины расплава; 
 * **управление процессом моделирования** - диапазон чисел Куранта для адаптации временного шага включая гибридную схему (не рекомендуется), допустимая погрешность при вычислении функции тока ω из уравнения Пуассона, параметры итерационного процесса для давления, лимиты длин массивов для Диагностики и Истории;
 * **параметры объекта** - тип нагрева (температура или тепловой поток), величина нагрева, начальное распределение температуры в полости, условия для температуры при касании границы фазового перехода твердой правой стенки, выбор вещества для моделирования включая произвольное (у которого можно назначить любые параметры);
