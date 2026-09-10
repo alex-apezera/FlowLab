@@ -260,7 +260,7 @@ Diagnostics data is not changed or deleted when the simulation history is playin
 ## Examples
 
 * Initial state after the first application launch: 
-fig.-1
+fig. 1
 <img width="1256" height="973" alt="fig1" src="https://github.com/user-attachments/assets/78f96d9f-ffdc-49f3-8109-820fe5910b3f" />
 
 * Visualization screen for an ALE-based simulation without melting in a cavity with an ice block. The simulation time is 60 seconds:
@@ -346,7 +346,7 @@ FlowLab — программный комплекс для численного 
 - [Установка и запуск расчета](#установка-и-запуск-расчета)
 - [Входные параметры](#входные-параметры)
 - [Выходные данные](#выходные-данные)
-- [Примеры расчётов](#примеры-расчётов)
+- [Примеры расчетов](#примеры-расчетов)
 - [Производительность](#производительность)
 - [Ограничения модели](#ограничения-модели)
 - [Лицензия](#лицензия)
@@ -463,7 +463,8 @@ FlowLab — программный комплекс для численного 
 
 Копии экранов (скриншоты) для экономии места приведены в английской версии. 
 
-* Начальное состояние после первого запуска программы: fig.-1
+* Начальное состояние после первого запуска программы: 
+fig.-1
 <img width="1256" height="973" alt="fig1" src="https://github.com/user-attachments/assets/78f96d9f-ffdc-49f3-8109-820fe5910b3f" />
 
 
