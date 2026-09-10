@@ -151,7 +151,7 @@ The visualization screen contains the following areas:
 
 * **Control panel:** contains buttons
 1) Start/Pause - start/pause the solving process, 
-2) History - Saving History frames to a file using JSON or a compressed binary format. Loading History frames from a list of files,
+2) History - saving History frames to a file using JSON or a compressed binary format. Loading History frames from a list of files,
 > **note** - after loading the file, you can proceed with the calculation; however, some parameters need to be adjusted if the calculation session is already configured for a different task
 3) Reset - the initial state of fields and variables is set, with the exception of time, 
 4) Diagnostics - a pop-up window displaying diagnostic parameters and graphs, with the ability to switch the graph content and initiate the iterative process for calculating the stream function ω from the Poisson equation, 
@@ -168,8 +168,7 @@ The visualization screen contains the following areas:
 
 * **Diagnostics pop-up window.** see comment 4) to Control panel.
 
-* **Settings pop-up window.** see comment 5) to Control panel and in detail in the section 
-- [Input-parameters](#input-parameters).
+* **Settings pop-up window.** see comment 5) to Control panel and in detail in the section [Input-parameters](#input-parameters).
 
 > An example of the initial screen is provided in the `Examples` section.
 
@@ -212,10 +211,10 @@ The code may also work on older platforms because it uses only the following fra
 1. Download the project to your computer.
 2. Open the executable project file.
 3. Enter your account details.
-4. Select the required simulator configuration.
+4. Select the required `release` XCode configuration.
 5. Run the application.
 
-By default, the application uses the `Custom` material, a simulation time of 60 seconds. Diagnostics can be enabled in the application settings.
+> By default, the application uses the `Custom` material, a simulation time of 60 seconds. Diagnostics can be enabled in the application settings.
 
 ## Input parameters
 
@@ -261,12 +260,13 @@ Diagnostics data is not changed or deleted when the simulation history is playin
 ## Examples
 
 * Initial state after the first application launch:
-(**fig. 1**)
+(#fig.-1)
+<img width="1256" height="973" alt="fig1" src="https://github.com/user-attachments/assets/78f96d9f-ffdc-49f3-8109-820fe5910b3f" />
 
 * Visualization screen for an ALE-based simulation without melting in a cavity with an ice block. The simulation time is 60 seconds:
 
   1. intermediate state with streamlines:
-  (**fig. 2**)
+  (#fig.-2)
   
   2. temperature field shown as a thermal map:
   (**fig. 3**)
@@ -424,7 +424,7 @@ FlowLab — программный комплекс для численного 
 
 Все файлы имеют внутри пометки типа MARK на английском, и достаточные комментарии на русском. Поскольку код пишется на английском - смысловая нагрузка отражена в названиях свойств и методов.
 
-* Основная чисть проекта размещена в папке Navier-Stokes, где размещены Модель данных, История, Решатель, Визуализатор.
+* Основная часть проекта размещена в папке Navier-Stokes, где размещены Модель данных, История, Решатель, Визуализатор.
 * Модель данных содержит файлы: финальный класс решателя с публикуемыми переменными полей и параметров, вычисляемые параметры и свойства, моделируемые вещества со своими свойствами, глобальные параметры, тип нагрева, параметры для запоминания состояния.
 * История содержит файлы с параметрами и методами управления запоминанием текущего состояния, включая сохранение и загрузку Истории на диск в различных форматах (со сжатием данных).
 * Решатель с папками и файлами для управления решением уравнений.
@@ -437,7 +437,8 @@ FlowLab — программный комплекс для численного 
 
 ## Установка и запуск расчета
 
-Загрузить код на рабочий стол, открыть исполняемый файл, ввести аккаунт. Настроить релизную версию компилятора. Запустить программу. Будет по умолчанию использоваться вещество Custom (по параметрам похожее на Эйкозан), время моделирования установлено на 60с. Можно включить опцию Диагностики.
+Загрузить код на рабочий стол, открыть исполняемый файл, ввести аккаунт. Настроить релизную версию компилятора. Запустить программу. 
+> Будет по умолчанию использоваться вещество Custom (по параметрам похожее на Эйкозан), время моделирования установлено на 60 секунд. Можно включить опцию Диагностики.
 
 ## Входные параметры
 
@@ -452,7 +453,7 @@ FlowLab — программный комплекс для численного 
 * **временные параметры** - конечное время моделирования, конечная величина приращения относительного объема (толщины) расплава, временной шаг моделирования для занесения с Историю, масштаб времени плавления для ускорения расчетов (при этом точность расчетов падает), предельная величина приращения толщины расплава; 
 * **управление процессом моделирования** - диапазон чисел Куранта для адаптации временного шага включая гибридную схему (не рекомендуется), допустимая погрешность при вычислении функции тока ω из уравнения Пуассона, параметры итерационного процесса для давления, лимиты длин массивов для Диагностики и Истории;
 * **параметры объекта** - тип нагрева (температура или тепловой поток), величина нагрева, начальное распределение температуры в полости, условия для температуры при касании границы фазового перехода твердой правой стенки, выбор вещества для моделирования включая произвольное (у которого можно назначить любые параметры);
-* **включение/выключение вынужденной конвекции** - включить/выключить сток вверху и внизу на левой границе (по умолчанию сток - на горизонтальных границах). Установить/редвктировать: скорость вдува, превышение температуры вдува относительно установленной на горячей стенке, угол вдува, координаты участка вдува
+* **включение/выключение вынужденной конвекции** - включить/выключить сток вверху и внизу на левой границе (по умолчанию сток - на горизонтальных границах). Установить/редактировать: скорость вдува, превышение температуры вдува относительно установленной на горячей стенке, угол вдува, координаты участка вдува
 
 ## Выходные данные
 
@@ -462,11 +463,11 @@ FlowLab — программный комплекс для численного 
 
 Копии экранов (скриншоты) для экономии места приведены в английской версии. 
 
-* Начальное состояние после первого запуска программы: (**fig. 1**)
+* Начальное состояние после первого запуска программы: [fig.-1](#fig.-1)
 
 * Состояние экрана визуализации для задачи на основе метода ALE "Тепловая конвекция (без плавления) внутри полости с Эйкозаном" (время моделирования - 60с):
 
-1) промежуточный вариант с линиями тока (**fig. 2**)
+1) промежуточный вариант с линиями тока fig. 2
 
 2) поле температуры (тепловая карта - ТК) (**fig. 3**)
 
