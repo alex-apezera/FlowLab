@@ -21,7 +21,7 @@ FlowLab is a software package for the numerical solution of two-dimensional Navi
 - [Visualization](#visualization)
 - [Project-structure](#project-structure)
 - [Requirements](#requirements)
--[Installation-and-running-a-simulation](#installation-and-running-a-simulation)
+- [Installation-and-running-a-simulation](#installation-and-running-a-simulation)
 - [Input-parameters](#input-parameters)
 - [Output-data](#output-data)
 - [Examples](#examples)
