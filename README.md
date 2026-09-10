@@ -262,12 +262,12 @@ Diagnostics data is not changed or deleted when the simulation history is playin
 * Previous example based on the EPM method, with melting of a solid and temperature and diagnostic graphs:
 (**fig. 4**)
 
-  >The stationary flow field has not yet reached a steady state. The difference between the flows is caused by the dependence of thermal conductivity on temperature. The figures show the result of the simulation at the **Spent** time compared with the ALE method.
+  > **Comment:** The stationary flow field has not yet reached a steady state. The difference between the flows is caused by the dependence of thermal conductivity on temperature. The figures show the result of the simulation at the **Spent** time compared with the ALE method.
 
-* Example of a temperature field using the ALE method for water with an initial melting temperature of 0.3 relative to the cavity height:
+* Example of a temperatute field (ALE method) for water melting with an initial melt thickness of 0.3 of the height.:
 (**fig. 5**)
 
-* Example of a temperature field using the EPM method for water with an ice block inserted into the upper part of the cavity and a heat-conducting object in the center. The initial temperature is 0.3 relative to the cavity width:
+* Example of a temperature field using the EPM method for water with an ice block inserted at a certain stage into the upper part of the cavity and a heat-conducting object in the center. The initial melt thickness is 0.3 relative to the cavity width:
 (**fig. 6**)
 
 * Example of an EPM temperature field for paraffin melting under zero gravity, with liquid-phase inflow and free outflow at the left boundary:
@@ -282,9 +282,9 @@ The following techniques are used to improve performance:
 
 * all two-dimensional arrays of floating-point values are converted into one-dimensional arrays;
 
-* in computationally intensive loops, internal-point arrays are homogeneous and are accessed using indices to avoid allocating a large number of temporary arrays;
+* in computationally intensive loops, internal-point arrays are homogeneous (pointers type) and are accessed using indices to avoid allocating a large number of temporary arrays;
 
-* thermal-map and diagnostics visualization is disabled during calculations;
+* thermal-map and diagnostics visualization is disabled during calculations (is recommended);
 
 * parallel calculations are supported for the main equation-solving processes. However, due to significant overhead, parallel calculations may be slower than serial calculations for smaller grids. Additional experiments are required.
 
@@ -294,9 +294,9 @@ Only laminar flows of an incompressible fluid are considered.
 
 The Prandtl and Rayleigh numbers are calculated using their actual values. The temperature difference must not exceed 40 degrees; temperature-dependent physical properties are interpolated over this range.
 
-The smallest tested grid size is 40 × 40. The largest tested grid size is 300 × 300. The grid aspect ratio must not exceed 3.0, since it affects stability and convergence.
+The smallest tested grid size is 40 × 40. The largest tested grid size is 300 × 300. The grid stretching factors must not exceed 3.0, since it affects stability and convergence.
 
-All parameters and variables are Double type accuracy.
+Calculation precision is limited by the Double type.
 
 ## License
 
@@ -452,7 +452,7 @@ FlowLab — программный комплекс для численного 
 
 * Предыдущий пример (но на основе метода EPM) с переключением на визуализацию тепловых потоков на стенках q(t) и другими диагностическими графиками: (**fig. 4**)
 
->Здесь видно, что стационарный режим пока не достигнут и имеется разница между потоками за счет зависимости теплопроводности от температуры; видна разница по затраченному процессором времени расчетов (**Spent**) по сравнению с методом ALE:
+> **Комментарий:** Здесь видно, что стационарный режим пока не достигнут и имеется разница между потоками за счет зависимости теплопроводности от температуры; видна разница по затраченному процессором времени расчетов (**Spent**) по сравнению с методом ALE:
 
 * Пример ТК (метод ALE) плавления Воды с начальной толщиной расплава 0.3 от высоты: (**fig. 5**)
 
@@ -468,7 +468,7 @@ FlowLab — программный комплекс для численного 
 
 * все двумерные массивы полей переменных конвертированы в одномерные, а индексы узлов вычисляются по специальным формулам;
 * в тяжелых циклах (внутренние точки) все (теперь одномерные) массивы вызываются с помощью указателей для избежания встроенного контроля границ массивов;
-* во время расчета предусмотрено отключение визуализации Тепловой карты и диагностики;
+* во время расчета рекомендуется отключение визуализации Тепловой карты и диагностики;
 * также предусмотрена организация параллельных вычислений (конкурентные вычисления для потоков) для основных процессов решения уравнений, однако из-за существенных накладных расходов при этом производительность на данных сетках меньше, чем без параллельных вычислений, и требуются дальнейшиу эксперименты.
 
 ## Ограничения модели
