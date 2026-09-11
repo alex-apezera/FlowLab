@@ -283,22 +283,31 @@ Diagnostics data is not changed or deleted when the simulation history is playin
 * Example using the ALE method for water melting with an initial melt thickness of 0.2 of the domain height:
 
   **fig. 5** temperature field
+<img width="1256" height="973" alt="fig5" src="https://github.com/user-attachments/assets/08a32cc6-a09f-4d93-835a-30dd62480708" />
    
 > **Comment:** The nonlinear temperature dependence of β—including the density inversion point—is taken into account, as is the temperature dependence of other water properties (as is the case with other real substances). It can be seen that melting proceeds more intensely in the upper region due to the warmer liquid layers, given that the maximum temperature is 10°C. The calculation is accelerated by a tenfold increase in the time scale.
 
 * Example of water melting with solid bodies placed within the melt and an initial melt thickness of 0.3 of the domain width, based on the EPM method:
 
   **fig. 6** temperature field
-  
+<img width="1256" height="973" alt="fig6" src="https://github.com/user-attachments/assets/4a5c694c-44d6-495e-add4-99f42ec2c3c8" />
+
 > **Comment:** The solid bodies (of identical size) consist of ice (placed in the upper part of the cavity at a specific moment to clearly demonstrate its melting) and a stone (with a specified thermal conductivity, placed in the center of the cavity). At the moment shown, ice that has not yet fully melted is visible in the upper section, while a solid body exhibiting a temperature distribution characteristic of the heat conduction mode is shown in the middle of the melt.
 
 * Example based on EPM methgod temperature field for paraffin melting under zero gravity, with liquid-phase inflow and free outflow at the left boundary:
 
-  **fig. 7** temperature field
+  **fig. 7** temperature field at an early stage
+<img width="1256" height="973" alt="fig7" src="https://github.com/user-attachments/assets/6836aec8-2914-4607-8fd7-47319b6d90a7" />
+  **fig. 7** evolving temperature field
+<img width="1256" height="973" alt="fig7a" src="https://github.com/user-attachments/assets/504b2dd9-2409-45d1-b2c3-90103ae540d4" />
 
 * Example of an EPM temperature field for natural convection in an air cavity with a gravity angle of 30 degrees:
 
   **fig. 8** temperature field
+<img width="1256" height="973" alt="fig8" src="https://github.com/user-attachments/assets/da2efeb9-1815-46fe-89e7-255659de14c8" />
+
+  **fig. 8a** heat fluxes on walls
+<img width="1256" height="973" alt="fig8a" src="https://github.com/user-attachments/assets/6de7657e-6604-4301-982d-291fe98a7829" />
 
 > **Comment:** For air, the amplitude of value fluctuations (as seen in the diagnostics graphs) is more pronounced due to its lower viscosity and density compared to paraffins and water; consequently, the non-stationary phase in the calculations is longer. Nevertheless, a trend toward the isotherms aligning perpendicular to the direction of gravity is already discernible.
 
@@ -501,26 +510,31 @@ FlowLab — программный комплекс для численного 
 * Пример плавления воды с начальной толщиной расплава 0.2 от высоты полости на основе метода ALE: 
 
   **fig. 5** поле температуры
-
+<img width="1256" height="973" alt="fig5" src="https://github.com/user-attachments/assets/08a32cc6-a09f-4d93-835a-30dd62480708" />
 > **Комментарий:** Учитывается нелинейная зависимость β от температуры с точкой инверсии плотности, а также ависимость от температуры других свойств воды (впрочем как и у других реальных веществ). Видно, что в верхней части плавление идет более интенсивно за счет более теплых слоев жидкости, так как максимальная температура равна 10 ºС. Расчет ускорен за счет увеличенного в 10 раз масштаба времени.
 
 * Пример плавления воды с размещением внутри расплава твердых тел и начальной толщиной расплава 0.3 от ширины полости на основе метода EPM: 
 
   **fig. 6** поле температуры
-  
+<img width="1256" height="973" alt="fig6" src="https://github.com/user-attachments/assets/4a5c694c-44d6-495e-add4-99f42ec2c3c8" />
+
 > **Комментарий:** Твердые тела (одинакового размера) представляют собой лед (размещен в верхней части полости в определенный момент времени для наглядной демонстрации его плавления) и камня (с заданной теплопроводностью льда, размещен в центре полости). В рассматриваемый момент времени видно, что в верхей части имеется до конца не расплавившийся лед, а в средней части расплава показано твердое тело с  характерным для режима теплопроводности распределением температуры.
   
 * Пример плавления парафина в невесомости с вдувом жидкой фазы и свободным стоком на левой границе и начальной толщиной расплава 0.3 от ширины полости на основе метода EPM: 
 
   **fig. 7** поле температуры на начальной стадии
-  
-  **fig. 7а** поле температуры в развитии
+<img width="1256" height="973" alt="fig7" src="https://github.com/user-attachments/assets/6836aec8-2914-4607-8fd7-47319b6d90a7" />
 
+  **fig. 7а** поле температуры в развитии
+<img width="1256" height="973" alt="fig7a" src="https://github.com/user-attachments/assets/504b2dd9-2409-45d1-b2c3-90103ae540d4" />
   
 * Пример естественной конвекции в воздушной полости с углом наклона к горизонту в 30 градусов: 
 
   **fig. 8** поле температуры 
-  
+<img width="1256" height="973" alt="fig8" src="https://github.com/user-attachments/assets/da2efeb9-1815-46fe-89e7-255659de14c8" />
+
+   **fig. 8a** тепловые потоки на стенках
+ <img width="1256" height="973" alt="fig8a" src="https://github.com/user-attachments/assets/6de7657e-6604-4301-982d-291fe98a7829" />
 > **Комментарий:** У воздуха амплитуда колебаний значений величин (что видно на графиках Диагностики) более выражена вследствие меньшей вязкости и плотности, чем у парафинов и воды, поэтому нестационарная фаза в расчетах больше. Однако уже просматривается тенденция к расположению изотерм перпендикулярно направлению гравитации.
 
 ## Производительность
