@@ -259,40 +259,48 @@ Diagnostics data is not changed or deleted when the simulation history is playin
 
 ## Examples
 
-* **fig. 1** Initial state after the first application launch. 
+* **fig. 1** Initial state after the first application launch
 <img width="1256" height="973" alt="fig1" src="https://github.com/user-attachments/assets/78f96d9f-ffdc-49f3-8109-820fe5910b3f" />
 
-* Visualization screen for an ALE-based simulation without melting in a cavity with diagnostic plots. The simulation time is 90 seconds:
+* Visualization screen for an ALE-based simulation with natural convection without melting in a cavity with diagnostic plots. The simulation time is 90 seconds:
 
-  1. **fig. 2** intermediate state (t=60s) with streamlines shown as a thermal map
+  **fig. 2** intermediate state (t=60s) with streamlines shown as a thermal map
   <img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/17880486-2851-4e2e-a5a4-d2bd292ff906" />
 
-  2. **fig. 3** temperature field shown as a thermal map
+  **fig. 3** temperature field shown as a thermal map
   <img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
-  > **Comment:** It is evident that the temperature field is nearly uniform due to intense mixing, with significant gradients present only near the vertical boundaries. The streamlines are closed, indicating the cellular nature of the flow.
+> **Comment:** It is evident that the temperature field is nearly uniform due to intense mixing, with significant gradients present only near the vertical boundaries. The streamlines are closed, indicating the cellular nature of the flow.
   
 * Previous example based on the EPM method:
 
-  1. **fig. 4** temperature field
+  **fig. 4** temperature field
   <img width="1256" height="973" alt="fig4" src="https://github.com/user-attachments/assets/0b9f946d-9851-46d4-a6b9-312db8f4c71c" />
-  2. **fig. 4a** heat fluxes at the walls, q(t)
+  **fig. 4a** heat fluxes at the walls, q(t)
   <img width="1256" height="973" alt="fig4a" src="https://github.com/user-attachments/assets/31523b26-594f-4e5f-b176-6d1a3f4580b8" />
 
-  > **Comment:** The stationary flow field has not yet reached a steady state also. The difference between the flows is caused by the dependence of thermal conductivity on temperature. The figures show the result of the simulation at the **Spent** time compared with the ALE method by using a non-uniform grid. Attention should also be drawn to the differences in results and diagnostics arising from the use of different pressure calculation methods.
+> **Comment:** The stationary flow field has not yet reached a steady state also. The difference between the flows is caused by the dependence of thermal conductivity on temperature. The figures show the result of the simulation at the **Spent** time compared with the ALE method by using a non-uniform grid. Attention should also be drawn to the differences in results and diagnostics arising from the use of different pressure calculation methods.
 
-* Example of a temperatute field (ALE method) for water melting with an initial melt thickness of 0.3 of the height:
-fig. 5
+* Example using the ALE method for water melting with an initial melt thickness of 0.2 of the domain height:
 
-* Example of a temperature field using the EPM method for water with an ice block inserted at a certain stage into the upper part of the cavity and a heat-conducting object in the center. The initial melt thickness is 0.3 relative to the cavity width:
-fig. 6
+  **fig. 5** temperature field
+   
+> **Comment:** The nonlinear temperature dependence of β—including the density inversion point—is taken into account, as is the temperature dependence of other water properties (as is the case with other real substances). It can be seen that melting proceeds more intensely in the upper region due to the warmer liquid layers, given that the maximum temperature is 10°C. The calculation is accelerated by a tenfold increase in the time scale.
 
-* Example of an EPM temperature field for paraffin melting under zero gravity, with liquid-phase inflow and free outflow at the left boundary:
-fig. 7
+* Example of water melting with solid bodies placed within the melt and an initial melt thickness of 0.3 of the domain width, based on the EPM method:
+
+  **fig. 6** temperature field
+  
+> **Comment:** The solid bodies (of identical size) consist of ice (placed in the upper part of the cavity at a specific moment to clearly demonstrate its melting) and a stone (with a specified thermal conductivity, placed in the center of the cavity). At the moment shown, ice that has not yet fully melted is visible in the upper section, while a solid body exhibiting a temperature distribution characteristic of the heat conduction mode is shown in the middle of the melt.
+
+* Example based on EPM methgod temperature field for paraffin melting under zero gravity, with liquid-phase inflow and free outflow at the left boundary:
+
+  **fig. 7** temperature field
 
 * Example of an EPM temperature field for natural convection in an air cavity with a gravity angle of 30 degrees:
-fig. 8
 
-  > **Comment:** For air, the amplitude of value fluctuations (as seen in the diagnostics graphs) is more pronounced due to its lower viscosity and density compared to paraffins and water; consequently, the non-stationary phase in the calculations is longer. Nevertheless, a trend toward the isotherms aligning perpendicular to the direction of gravity is already discernible.
+  **fig. 8** temperature field
+
+> **Comment:** For air, the amplitude of value fluctuations (as seen in the diagnostics graphs) is more pronounced due to its lower viscosity and density compared to paraffins and water; consequently, the non-stationary phase in the calculations is longer. Nevertheless, a trend toward the isotherms aligning perpendicular to the direction of gravity is already discernible.
 
 ## Performance
 
@@ -473,32 +481,46 @@ FlowLab — программный комплекс для численного 
 <img width="1256" height="973" alt="fig1" src="https://github.com/user-attachments/assets/78f96d9f-ffdc-49f3-8109-820fe5910b3f" />
 
 
-* Состояние экрана визуализации для задачи на основе метода ALE "Тепловая конвекция (без плавления) внутри полости с Эйкозаном" с диагностическими графиками. Время моделирования - 90 секунд):
+* Состояние экрана визуализации для задачи на основе метода ALE "Естественная конвекция (без плавления) внутри полости с Эйкозаном" с диагностическими графиками. Время моделирования - 90 секунд):
 
-  1) **fig. 2** промежуточный вариант (t=60c) с линиями тока (тепловая карта - ТК).
+  **fig. 2** промежуточный вариант (t=60c) с линиями тока (тепловая карта - ТК)
   <img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/17880486-2851-4e2e-a5a4-d2bd292ff906" />
 
-  2) **fig. 3** поле температуры (тепловая карта).
+  **fig. 3** поле температуры (тепловая карта)
   <img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
 > **Комментарий:** Видно, что поле температуры почти однородно вследствие интенсивного перемешивания и лишь около вертикальных границ имеюся существенные градиенты. Линии тока носят замкнутый характер, что свидетельствует о ячеистой природе течения.
 
 * Предыдущий пример, но на основе метода EPM: 
-  1) **fig. 4** поле температуры
+  **fig. 4** поле температуры
   <img width="1256" height="973" alt="fig4" src="https://github.com/user-attachments/assets/0b9f946d-9851-46d4-a6b9-312db8f4c71c" />
 
-  2) **fig. 4а** тепловые потоки q(t) на стенках
+  **fig. 4а** тепловые потоки q(t) на стенках
   <img width="1256" height="973" alt="fig4a" src="https://github.com/user-attachments/assets/31523b26-594f-4e5f-b176-6d1a3f4580b8" />
-
 > **Комментарий:** Здесь видно, что стационарный режим также пока не достигнут и имеется разница между потоками за счет зависимости теплопроводности от температуры; видна разница по затраченному процессором времени расчетов (**Spent**) по сравнению с методом ALE за счет оспользования невавномерной сетки. Следует также обратить внимание на различия в результатах и ​​диагностике, обусловленные использованием различных методов расчета давления.
 
-* Пример ТК (метод ALE) плавления Воды с начальной толщиной расплава 0.3 от высоты: fig. 5
+* Пример плавления воды с начальной толщиной расплава 0.2 от высоты полости на основе метода ALE: 
 
-* Пример ТК (метод - EPM) плавления Воды с включением льда (на определённом этапе, в верхней части полости) и камня (с теплопроводностью льда, в центре полости) в область расплава с начальной толщиной расплава 0.3 от ширины области: fig. 6
+  **fig. 5** поле температуры
 
-* Пример ТК (EPM) плавления Эйкозана в невесомости с вдувом жидкой фазы и свободным стоком на левой границе: fig. 7
+> **Комментарий:** Учитывается нелинейная зависимость β от температуры с точкой инверсии плотности, а также ависимость от температуры других свойств воды (впрочем как и у других реальных веществ). Видно, что в верхней части плавление идет более интенсивно за счет более теплых слоев жидкости, так как максимальная температура равна 10 ºС. Расчет ускорен за счет увеличенного в 10 раз масштаба времени.
 
-* Пример ТК (EPM) естественной конвекции в воздушной полости с углом наклона к горизонту в 30 градусов: fig. 8
+* Пример плавления воды с размещением внутри расплава твердых тел и начальной толщиной расплава 0.3 от ширины полости на основе метода EPM: 
 
+  **fig. 6** поле температуры
+  
+> **Комментарий:** Твердые тела (одинакового размера) представляют собой лед (размещен в верхней части полости в определенный момент времени для наглядной демонстрации его плавления) и камня (с заданной теплопроводностью льда, размещен в центре полости). В рассматриваемый момент времени видно, что в верхей части имеется до конца не расплавившийся лед, а в средней части расплава показано твердое тело с  характерным для режима теплопроводности распределением температуры.
+  
+* Пример плавления парафина в невесомости с вдувом жидкой фазы и свободным стоком на левой границе и начальной толщиной расплава 0.3 от ширины полости на основе метода EPM: 
+
+  **fig. 7** поле температуры на начальной стадии
+  
+  **fig. 7а** поле температуры в развитии
+
+  
+* Пример естественной конвекции в воздушной полости с углом наклона к горизонту в 30 градусов: 
+
+  **fig. 8** поле температуры 
+  
 > **Комментарий:** У воздуха амплитуда колебаний значений величин (что видно на графиках Диагностики) более выражена вследствие меньшей вязкости и плотности, чем у парафинов и воды, поэтому нестационарная фаза в расчетах больше. Однако уже просматривается тенденция к расположению изотерм перпендикулярно направлению гравитации.
 
 ## Производительность
