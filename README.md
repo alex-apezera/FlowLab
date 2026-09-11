@@ -306,7 +306,7 @@ Diagnostics data is not changed or deleted when the simulation history is playin
   **fig. 8** temperature field
 <img width="1256" height="973" alt="fig8" src="https://github.com/user-attachments/assets/da2efeb9-1815-46fe-89e7-255659de14c8" />
 
-  **fig. 8a** heat fluxes on walls
+  **fig. 8a** heat fluxes at the walls
 <img width="1256" height="973" alt="fig8a" src="https://github.com/user-attachments/assets/6de7657e-6604-4301-982d-291fe98a7829" />
 
 > **Comment:** For air, the amplitude of value fluctuations (as seen in the diagnostics graphs) is more pronounced due to its lower viscosity and density compared to paraffins and water; consequently, the non-stationary phase in the calculations is longer. Nevertheless, a trend toward the isotherms aligning perpendicular to the direction of gravity is already discernible.
