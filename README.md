@@ -1,4 +1,4 @@
-[Русский](#русский) | [English](#english)
+<img width="1256" height="973" alt="fig4a" src="https://github.com/user-attachments/assets/bcb59c9e-0a7b-4dac-9be1-90625fba6ed6" />[Русский](#русский) | [English](#english)
 
 ## English
 
@@ -264,17 +264,19 @@ Diagnostics data is not changed or deleted when the simulation history is playin
 
 * Visualization screen for an ALE-based simulation without melting in a cavity with diagnostic plots. The simulation time is 90 seconds:
 
-  1. **fig. 2** intermediate state (t=60s) with streamlines shown as a thermal map.
+  1. **fig. 2** intermediate state (t=60s) with streamlines shown as a thermal map
   <img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/17880486-2851-4e2e-a5a4-d2bd292ff906" />
 
-  2. **fig. 3** temperature field shown as a thermal map.
+  2. **fig. 3** temperature field shown as a thermal map
   <img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
   > **Comment:** It is evident that the temperature field is nearly uniform due to intense mixing, with significant gradients present only near the vertical boundaries. The streamlines are closed, indicating the cellular nature of the flow.
   
 * Previous example based on the EPM method:
-fig. 4 (temperature field)
 
-fig. 4a (heat fluxes at the walls, q(t))
+  1. **fig. 4** temperature field
+  <img width="1256" height="973" alt="fig4" src="https://github.com/user-attachments/assets/0b9f946d-9851-46d4-a6b9-312db8f4c71c" />
+  2. **fig. 4a** heat fluxes at the walls, q(t)
+  <img width="1256" height="973" alt="fig4a" src="https://github.com/user-attachments/assets/31523b26-594f-4e5f-b176-6d1a3f4580b8" />
 
   > **Comment:** The stationary flow field has not yet reached a steady state also. The difference between the flows is caused by the dependence of thermal conductivity on temperature. The figures show the result of the simulation at the **Spent** time compared with the ALE method by using a non-uniform grid. Attention should also be drawn to the differences in results and diagnostics arising from the use of different pressure calculation methods.
 
@@ -481,9 +483,11 @@ FlowLab — программный комплекс для численного 
 > **Комментарий:** Видно, что поле температуры почти однородно вследствие интенсивного перемешивания и лишь около вертикальных границ имеюся существенные градиенты. Линии тока носят замкнутый характер, что свидетельствует о ячеистой природе течения.
 
 * Предыдущий пример, но на основе метода EPM: 
-fig. 4 (поле температуры)
+  1) **fig. 4** поле температуры
+  <img width="1256" height="973" alt="fig4" src="https://github.com/user-attachments/assets/0b9f946d-9851-46d4-a6b9-312db8f4c71c" />
 
-fig. 4а (тепловые потоки q(t) на стенках)
+  2) **fig. 4а** тепловые потоки q(t) на стенках
+  <img width="1256" height="973" alt="fig4a" src="https://github.com/user-attachments/assets/31523b26-594f-4e5f-b176-6d1a3f4580b8" />
 
 > **Комментарий:** Здесь видно, что стационарный режим также пока не достигнут и имеется разница между потоками за счет зависимости теплопроводности от температуры; видна разница по затраченному процессором времени расчетов (**Spent**) по сравнению с методом ALE за счет оспользования невавномерной сетки. Следует также обратить внимание на различия в результатах и ​​диагностике, обусловленные использованием различных методов расчета давления.
 
