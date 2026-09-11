@@ -1,4 +1,4 @@
-<img width="1256" height="973" alt="fig4a" src="https://github.com/user-attachments/assets/bcb59c9e-0a7b-4dac-9be1-90625fba6ed6" />[Русский](#русский) | [English](#english)
+[Русский](#русский) | [English](#english)
 
 ## English
 
