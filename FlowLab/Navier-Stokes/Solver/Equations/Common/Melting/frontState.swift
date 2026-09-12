@@ -13,7 +13,7 @@ extension NavierStokesSolver {
         
         // Solver parameters
         let dx = h, inv_dx = 1/2/dx
-        let meltCoef = rho_solid * latentHeat
+        let meltCoef = rho * latentHeat
         var q_conv = 0.0
 
         // Aux parameters
