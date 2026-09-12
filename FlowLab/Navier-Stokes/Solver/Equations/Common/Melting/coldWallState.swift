@@ -14,7 +14,7 @@ extension NavierStokesSolver {
         var qE = [Double](repeating: 0, count: ny)
         var qW = [Double](repeating: 0, count: ny)
         
-        let meltCoef = timeScale / rho_solid / latentHeat
+        let meltCoef = timeScale / rho / latentHeat
         let dtdx = dt / dx[0]
         let dx0 = dx[0], dx1 = dx[1]///шаги сетки около границ с учетом симметрии
         var q_conv = 0.0
