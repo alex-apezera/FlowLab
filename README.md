@@ -16,17 +16,17 @@ FlowLab is a software package for the numerical solution of two-dimensional Navi
 
 - [Description](#description)
 - [Physical and mathematical model](#physical-and-mathematical-model)
-- [Numerical-method](#numerical-method)
-- [Additional-features](#additional-features)
+- [Numerical method](#numerical-method)
+- [Additional features](#additional-features)
 - [Visualization](#visualization)
-- [Project-structure](#project-structure)
+- [Project structure](#project-structure)
 - [Requirements](#requirements)
-- [Installation-and-running-a-simulation](#installation-and-running-a-simulation)
-- [Input-parameters](#input-parameters)
-- [Output-data](#output-data)
+- [Installation and running a simulation](#installation-and-running-a-simulation)
+- [Input parameters](#input-parameters)
+- [Output data](#output-data)
 - [Examples](#examples)
 - [Performance](#performance)
-- [Model-limitations](#model-limitations)
+- [Model limitations](#model-limitations)
 - [License](#license)
 - [Contacts](#contacts)
 
@@ -168,7 +168,7 @@ The visualization screen contains the following areas:
 
 * **Diagnostics pop-up window.** see comment 4) to Control panel.
 
-* **Settings pop-up window.** see comment 5) to Control panel and in detail in the section [Input-parameters](#input-parameters).
+* **Settings pop-up window.** see comment 5) to Control panel and in detail in the section [Input parameters](#input-parameters).
 
 > An example of the initial screen is provided in the - [Examples](#examples) section.
 
@@ -371,7 +371,7 @@ FlowLab — программный комплекс для численного 
 - [Установка и запуск расчета](#установка-и-запуск-расчета)
 - [Входные параметры](#входные-параметры)
 - [Выходные данные](#выходные-данные)
-- [Примеры-расчетов](#примеры-расчетов)
+- [Примеры расчетов](#примеры-расчетов)
 - [Производительность](#производительность)
 - [Ограничения модели](#ограничения-модели)
 - [Лицензия](#лицензия)
@@ -450,7 +450,7 @@ FlowLab — программный комплекс для численного 
 
 * **всплывающее окно Настроек** - см. комментарий к п5) Контрольной панели и подробно в разделе [Входные параметры](#входные-параметры).
  
-> Пример начального экрана см. - [Примеры-расчетов](#примеры-расчетов)
+> Пример начального экрана см. - [Примеры расчетов](#примеры-расчетов)
 
 ## Структура проекта
 
@@ -501,10 +501,10 @@ FlowLab — программный комплекс для численного 
 
 * Состояние экрана визуализации для задачи на основе метода ALE "Естественная конвекция (без плавления) внутри полости с Эйкозаном" с диагностическими графиками. Время моделирования - 90 секунд):
 
-  **fig. 2** промежуточный вариант (t=60c) с линиями тока (тепловая карта - ТК)
+  **fig. 2** промежуточный вариант (t=60c) с линиями тока ("тепловая карта" - ТК)
   <img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/17880486-2851-4e2e-a5a4-d2bd292ff906" />
 
-  **fig. 3** поле температуры (тепловая карта)
+  **fig. 3** поле температуры ("тепловая карта")
   <img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
 > **Комментарий:** Видно, что поле температуры почти однородно вследствие интенсивного перемешивания и лишь около вертикальных границ имеюся существенные градиенты. Линии тока носят замкнутый характер, что свидетельствует о ячеистой природе течения.
 
