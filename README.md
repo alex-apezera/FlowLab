@@ -147,12 +147,12 @@ The entire calculation process is displayed on a single screen as parameter valu
 
 The visualization screen contains the following areas:
 
-> **note** - if an external keyboard is used, button presses can be duplicated using hotkeys highlighted in blue
+> **note** - if an external keyboard is used, button presses can be duplicated using hotkeys highlighted in blue.
 
 * **Control panel:** contains buttons
 1) Start/Pause - start/pause the solving process, 
 2) History - saving History frames to a file using JSON or a compressed binary format. Loading History frames from a list of files,
-> **note** - after loading the file, you can proceed with the calculation; however, some parameters need to be adjusted if the calculation session is already configured for a different task
+> **note** - after loading the file, you can proceed with the calculation; however, some parameters need to be adjusted if the calculation session is already configured for a different task.
 3) Reset - the initial state of fields and variables is set, with the exception of time, 
 4) Diagnostics - a pop-up window displaying diagnostic parameters and graphs, with the ability to switch the graph content and initiate the iterative process for calculating the stream function ω from the Poisson equation, 
 5) Settings - pop-up window with adjustable solution process parameters, 
@@ -164,13 +164,13 @@ The visualization screen contains the following areas:
 
 * **History pop-up window:** displays the saved simulation history with a frame player (start/stop also by pressing the space bar).
 
-* **Main chart area:** displays thermal maps with an optional velocity field overlay, temperature and pressure isolines, streamlines with flow-direction arrows, temperature graphs in horizontal sections, heat-flow-in-time graphs on vertical boundaries, and the solid-object insertion editor.
+* **Main chart area:** displays thermal maps with an optional velocity field overlay, temperature and pressure isolines, streamlines with flow-direction arrows, temperature graphs in horizontal sections, heat-flow-in-time graphs on vertical boundaries, and the **solid-object insertion editor**. This editor, which operates exclusively using the EPM method, allows for the manipulation of objects such as circles, rectangles, and arbitrary shapes. Objects can be selected, modified, deleted, and inserted directly into the liquid phase at any stage of the ongoing simulation. Control is managed via the editor's menu using a pointing device or hotkeys. A **pop-up window** is also provided, displaying values ​​for temperature, velocity, pressure, and phase properties at grid nodes. This window is activated by clicking (and holding) on ​​the desired grid node with the pointing device and functions only within the heat map area.
 
 * **Diagnostics pop-up window.** see comment 4) to Control panel.
 
 * **Settings pop-up window.** see comment 5) to Control panel and in detail in the section [Input-parameters](#input-parameters).
 
-> An example of the initial screen is provided in the `Examples` section.
+> An example of the initial screen is provided in the - [Examples](#examples) section.
 
 ## Project structure
 
@@ -313,6 +313,8 @@ Diagnostics data is not changed or deleted when the simulation history is playin
 
 ## Performance
 
+> **Note:** The **Process** section within the **information area** displays parameters synchronized with the current process: start time, elapsed computer time, memory usage, single-core CPU usage percentage, number of generated History frames, number of computational steps, model time, and the model time increment. The increment can be adjusted (using the button itself to reset to the default value, or the **[** and **]** hotkeys) to decrease or increase the value; however, during the process, the increment will vary according to the established algorithm.
+
 The following techniques are used to improve performance:
 
 * all two-dimensional arrays of floating-point values are converted into one-dimensional arrays;
@@ -369,7 +371,7 @@ FlowLab — программный комплекс для численного 
 - [Установка и запуск расчета](#установка-и-запуск-расчета)
 - [Входные параметры](#входные-параметры)
 - [Выходные данные](#выходные-данные)
-- [Примеры расчетов](#примеры-расчетов)
+- [Примеры-расчетов](#примеры-расчетов)
 - [Производительность](#производительность)
 - [Ограничения модели](#ограничения-модели)
 - [Лицензия](#лицензия)
@@ -426,7 +428,8 @@ FlowLab — программный комплекс для численного 
 Весь процесс расчетов отображается на одной странице экрана в виде набора параметров, полей и графиков. Для компактных устройств типа iPhone используется скроллинг. Управление процессом осуществляется с помощью контрольной панели манипулятором (мышь, тачпад), а также горячими клавишами. Интерфейс задан на английском языке и интуитивно понятен.
 
 На странице визуализации имеются следующие зоны (см Примеры расчетов) -
-> **примечание** - если используется выносная клавиатура, нажатие кнопок можно дублировать горячими клавишами, которые выделены синим цветом
+> **примечание** - если используется выносная клавиатура, нажатие кнопок можно дублировать горячими клавишами, которые выделены синим цветом.
+
 * **контрольная панель:** здесь находятся кнопки 
 1) Старта/Паузы - запуск/пауза процесса решения, 
 2) Истории - сохранение кадров Истории в файл с использованием формата JSON или бинарного формата со сжатием. Загрузка кадров Истории из списка файлов,
@@ -434,14 +437,20 @@ FlowLab — программный комплекс для численного 
 3) Сброса - устанавливается начальное состояние полей и переменных, за исключением времени, 
 4) Диагностики - всплывающее окно с диагностическими параметрами и графиками с возможностью переключения содержания графиков и запуском итерационного процесса вычисления функции тока ω из уравнения Пуассона, 
 5) Настройки - всплывающее окно с изменяемыми параметрами процесса решения, 
-6) Ускорения - с целью ускорения вычислений выключает Область основного графика;
-* **информационная зона:** состояние гравитации, состояние вектора скорости, параметры Решения, Области, Вещества, Процесса (с возможностью ручного регулирования шага по времени), Плавления;
-* **управление графиками:** выбор графика, кнопка активизации плавления, кнопки управления режимами тепловой карты;
-* **всплывающее окно просмотра Истории** с проигрывателем кадров (запуск/останов также по нажатию на пробел);
-* **область основного графика:** тепловые карты (с опциональным наложением поля скорости и изолиниями) температуры, давления, линий тока с указанием направления потока; графики температуры в горизонтальных сечениях, тепловых потоков во времени на вертикальных границах; редактор включений твердых объектов;
+6) Ускорения - с целью ускорения вычислений выключает Область основного графика.
+* **информационная зона:** состояние гравитации, состояние вектора скорости, параметры Решения, Области, Вещества, Процесса (с возможностью ручного регулирования шага по времени), Плавления.
+
+* **управление графиками:** выбор графика, кнопка активизации плавления, кнопки управления режимами тепловой карты.
+
+* **всплывающее окно просмотра Истории** с проигрывателем кадров (запуск/останов также по нажатию на пробел).
+
+* **область основного графика:** тепловые карты (с опциональным наложением поля скорости и изолиниями) температуры, давления, линий тока с указанием направления потока; графики температуры в горизонтальных сечениях, тепловых потоков во времени на вертикальных границах; редактор **включений твердых объектов**. Данный редактор, работающий только с методом EPM, позволяет манипулировать с объектами типа круга, прямоугольника, объекта произвольной формы. Объекты можно выбирать, модифицировать, стирать и вставлять непосредственно в жидкую фазу на любом этапе текущего моделирования. Управление осуществляется по прилагаемому в редакторе меню с помощью манипулятора или горячих клавиш.  Предусмотрено также **всплывающее окно** с величинами температуры, скоростей, давления и свойства фазы в узлах сетки. Окно вызывается путем нажатия (и удержания) манипулятором на требуемый узел сетки, и работает только в зоне тепловой карты. 
+
 * **всплывающее окно Диагностики** - см. комментарий к п4) Контрольной панели. 
-* **всплывающее окно Настроек** - см. комментарий к п5) Контрольной панели и подробно в разделе [Входные параметры](#входные-параметры). 
-> Пример начального экрана см. Примеры расчетов
+
+* **всплывающее окно Настроек** - см. комментарий к п5) Контрольной панели и подробно в разделе [Входные параметры](#входные-параметры).
+ 
+> Пример начального экрана см. - [Примеры-расчетов](#примеры-расчетов)
 
 ## Структура проекта
 
@@ -455,7 +464,7 @@ FlowLab — программный комплекс для численного 
 
 ## Требования
 
-Поскольку начало проекта - июнь 2025, код ориентирован на актуальные тогда ресурсы iOS и XCode, процессор М1. Проверялся на Mac и iPhone 15. 
+Поскольку начало проекта - июнь 2025, код ориентирован на актуальные тогда ресурсы iOS и XCode (версия 26), процессор М1. Проверялся на Mac и iPhone 15. 
 Возможно код работает и на более ранних платформах, поскольку использованы только фреймворки Foundation, SwiftUI, Combine, UniformTypeIdentifiers.
 
 ## Установка и запуск расчета
@@ -538,6 +547,8 @@ FlowLab — программный комплекс для численного 
 > **Комментарий:** У воздуха амплитуда колебаний значений величин (что видно на графиках Диагностики) более выражена вследствие меньшей вязкости и плотности, чем у парафинов и воды, поэтому нестационарная фаза в расчетах больше. Однако уже просматривается тенденция к расположению изотерм перпендикулярно направлению гравитации.
 
 ## Производительность
+
+> **Примечание:** В разделе **Process** в **информационной зоне** имеются синхронизированные с текущим процессом параметры времени старта, затраченного компьютером времени, потребляемой памяти, процент использования одного ядра процессора, количество сформированных кадров Истории, количество вычислительных шагов, модельное время и его пошаговое приращение. Последним можно управлять (используя саму кнопку, когда устанавливается заданное по умолчанию значение, или горячие клавиши **[, ]**) в сторону понижения или повышения, однако во время процесса приращение будет меняться в соответствии с установленным алгоритмом.
 
 Для увеличения производительности использовались следующие способы:
 
