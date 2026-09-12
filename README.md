@@ -79,14 +79,14 @@ $$
 * Initial conditions:
 
 $$
-\mathbf{V}=0,\qquad T=T_0,
+\mathbf{V}=0,\qquad T=T_x,
 $$
 
-  where $T_0$ is a constant temperature, or a linear temperature distribution from $T_{\max}$ to $T_{\min}$. On a selected section of a hot wall, the temperature may also be specified as a constant value.
+  where $T_x$ is a constant temperature, or a linear temperature distribution from $T_{\max}$ to $T_{\min}$. On a selected section of a hot wall, the velocity may also be specified as a constant value.
 
 * Boundary conditions:
 
-  the no-slip condition is applied on all walls, except for the sections used to model an inflow and an outflow. A constant temperature or a heat flux is specified on the left and right boundaries. Adiabatic conditions are applied to the horizontal walls.
+ the no-slip condition at all boundaries (except for sections with forced convection involving injection and free outflow); constant temperature or heat flux at the left and right boundaries, and adiabatic conditions at the horizontal walls.
 
 * Reference temperature for β calculations:
 
@@ -97,7 +97,7 @@ $$
 * Melting is calculated using the Stefan condition:
 
 $$
--\lambda\frac{dT}{dn}=\rho_{solid}\cdot L\frac{dn}{dt}.
+-\lambda\frac{dT}{dn}=\rho\L\frac{dn}{dt}.
 $$
 
 * The phase-transition boundary is described by a level-set function.
@@ -392,10 +392,10 @@ FlowLab — программный комплекс для численного 
 * Энергии: ∂T/∂t + (𝐕·∇)T = α∇²T.
 * Неразрывности: ∇𝐕 = 0.
 * Начальные условия: 𝐕 = 0, T - постоянная температура или линейное по ширине распределение от $T_{max}$ до $T_{min}$, а также 𝐕 = const на определенном участке горячей стенки.
-* Граничные условия: прилипание на всех границах (за исключением участков вдува и стока), постоянная температура или тепловой поток на левой и правой границах, адиабатные условия на горизонтальных стенках.
-* Обозначения стандартные для задач теплофизики. Референсная температурва $T_0=\frac{T_{\max}+T_{\min}}{2}$.
+* Граничные условия: прилипание на всех границах (за исключением участков с вынужденной конвекцией со вдувом и свободным стоком); постоянная температура или тепловой поток на левой и правой границах и адиабатные условия на горизонтальных стенках.
+* Обозначения стандартные для задач теплофизики. Опорная температурва $T_0=\frac{T_{\max}+T_{\min}}{2}$.
 
-* Плавление: при плавлении на границе разделе фаз используется формула Стефана $-\lambda\frac{dT}{dn}=\rho_{solid}\cdot L\frac{dn}{dt}$.
+* Плавление: при плавлении на границе разделе фаз используется формула Стефана $-\lambda\frac{dT}{dn}=\rho\L\frac{dn}{dt}$.
 
 * Гравитация ḡ: применяется вектор гравитации, имеющий постоянную магнитуду и переменный во времени или постоянный угол.
 * Теплофизические свойства: α, ν, β, λ - предполагаются зависящими от температуры (применятся интерполяционные формулы).
