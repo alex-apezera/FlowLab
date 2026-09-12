@@ -228,15 +228,15 @@ The following parameters can be modified in the **Settings** panel:
 
 * **Cavity geometry:** number of grid nodes, cavity length and width, and initial melt thickness for the EPM method.
 
-* **Gravity:** initial angle and the angle variation rate in degrees per second or day. The thermal map may be synchronized with the simulation time (or with the physical model in melting mode). For forced convection, the magnitude may be equal to zero.
+* **Gravity:** initial angle and the angle variation rate in degrees per second or day. The thermal map may be synchronized with the simulation time (or with the physical time in melting mode). For forced convection, the magnitude may be equal to zero.
 
 * **Time parameters:** total simulation time, final time at which the simulation is stopped, final value of the relative volume (thickness) increment of the melt, simulation time step for recording to History, and the time scale used to accelerate the simulation for meltimg. Increasing the time scale reduces the accuracy of the solution.
 
 * **Simulation controls:** the Courant-number range used to adapt the time step (including the hybrid scheme, which is not recommended); pressure-solver tolerance and relax factor; the number of iterations for the Poisson equation; limits of array dimensions for Diagnostics parameters and Hostory.
 
-* **Object parameters:** heating type (T or q), heating value; initial temperature distribution in the cavity; temperature conditions when the phase boundary is crossed; phase-transition temperature; and material (substance) selection for modeling. Any substance may be selected.  Parameters of Custom substance may be modified.
+* **Object parameters:** heating type (T or q), heating value; initial temperature distribution in the cavity; temperature conditions at the point where the phase transition boundary touches the solid right-hand wall; material (substance) selection for modeling. Custom substance may be selected.  Parameters of Custom substance may be modified.
 
-* **Forced convection:** can be enabled or disabled. The inflow may be located at the top or bottom boundary by default, or at the left boundary. The following parameters can be specified:
+* **Forced convection ("Wind"):** can be enabled or disabled. The inflow may be located at the top or bottom boundary by default, or at the left boundary. The following parameters can be specified:
   flow velocity, temperature excess relative to the temperature specified on the hot wall, inflow angle, and inflow-section coordinates.
 
 ## Output data
@@ -251,9 +251,11 @@ The main data includes:
 * heat-flow graphs for vertical walls;
 * Diagnostics data.
 
-Diagnostics data is not changed or deleted when the simulation history is playing.
+Diagnostics data is not changed when the simulation history is playing.
 
 ## Examples
+
+Screenshots of typical tasks are presented here.
 
 * **fig. 1** Initial state after the first application launch
 <img width="1256" height="973" alt="fig1" src="https://github.com/user-attachments/assets/78f96d9f-ffdc-49f3-8109-820fe5910b3f" />
@@ -265,12 +267,14 @@ Diagnostics data is not changed or deleted when the simulation history is playin
 
   **fig. 3** temperature field shown as a thermal map
   <img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
+  
 > **Comment:** It is evident that the temperature field is nearly uniform due to intense mixing, with significant gradients present only near the vertical boundaries. The streamlines are closed, indicating the cellular nature of the flow.
   
 * Previous example based on the EPM method:
 
   **fig. 4** temperature field
   <img width="1256" height="973" alt="fig4" src="https://github.com/user-attachments/assets/0b9f946d-9851-46d4-a6b9-312db8f4c71c" />
+  
   **fig. 4a** heat fluxes at the walls, q(t)
   <img width="1256" height="973" alt="fig4a" src="https://github.com/user-attachments/assets/31523b26-594f-4e5f-b176-6d1a3f4580b8" />
 
@@ -294,6 +298,7 @@ Diagnostics data is not changed or deleted when the simulation history is playin
 
   **fig. 7** temperature field at an early stage
 <img width="1256" height="973" alt="fig7" src="https://github.com/user-attachments/assets/6836aec8-2914-4607-8fd7-47319b6d90a7" />
+
   **fig. 7** evolving temperature field
 <img width="1256" height="973" alt="fig7a" src="https://github.com/user-attachments/assets/504b2dd9-2409-45d1-b2c3-90103ae540d4" />
 
@@ -327,7 +332,7 @@ Only laminar flows of an incompressible fluid are considered.
 
 The Prandtl and Rayleigh numbers are calculated using their actual values. The temperature difference must not exceed 40 degrees; temperature-dependent physical properties are interpolated over this range.
 
-The smallest tested grid size is 40 × 40. The largest tested grid size is 300 × 300. The grid stretching factors must not exceed 3.0, since it affects stability and convergence.
+The smallest tested grid size is 40 × 40. The largest tested grid size is 300 × 300. The grid stretching factors must not exceed 5.0, since it affects stability and convergence.
 
 Calculation precision is limited by the Double type.
 
@@ -473,12 +478,19 @@ FlowLab — программный комплекс для численного 
 > **Примечание:** Для ввода параметров в текстовых и цифровых полях необходимо подтверждать изменения путем нажатия на возвтат каретки и далее на галочку.
 
 Для требуемого пользовательского расчета используется панель Настройки, где можно изменить:
+
 * **методы расчета** - модель (ALE или EPM, где устанавливается интервал плавнения), включить/выключить Плавление (и с какого шага), применить/отменить параллельные вычисления (конкурентные расчеты) для различных методов решения уравнений;
+
 * **геометрия полости** - количество узлов сетки, длина и ширина полости, начальная толщина расплава (для метода EPM);
+
 * **условия гравитации** - начальный угол, динамика изменения угла в день или в секунду, синхранизировать ли тепловые карты со временем моделирования или физическим временем (в случае плавления), величина магнитуды ускорения свободного падения может быть равной нулю при включении вынужденной конвекции;
+
 * **временные параметры** - конечное время моделирования, конечная величина приращения относительного объема (толщины) расплава, временной шаг моделирования для занесения с Историю, масштаб времени плавления для ускорения расчетов (при этом точность расчетов падает), предельная величина приращения толщины расплава; 
+
 * **управление процессом моделирования** - диапазон чисел Куранта для адаптации временного шага включая гибридную схему (не рекомендуется), допустимая погрешность при вычислении функции тока ω из уравнения Пуассона, параметры итерационного процесса для давления, лимиты длин массивов для Диагностики и Истории;
-* **параметры объекта** - тип нагрева (температура или тепловой поток), величина нагрева, начальное распределение температуры в полости, условия для температуры при касании границы фазового перехода твердой правой стенки, выбор вещества для моделирования включая произвольное (у которого можно назначить любые параметры);
+
+* **параметры объекта** - тип нагрева (температура или тепловой поток), величина нагрева, начальное распределение температуры в полости, условия для температуры при касании границей фазового перехода твердой правой стенки, выбор вещества для моделирования включая произвольное (у которого можно назначить любые параметры);
+
 * **включение/выключение вынужденной конвекции** - включить/выключить сток вверху и внизу на левой границе (по умолчанию сток - на горизонтальных границах). Установить/редактировать: скорость вдува, превышение температуры вдува относительно установленной на горячей стенке, угол вдува, координаты участка вдува
 
 ## Выходные данные
@@ -487,11 +499,10 @@ FlowLab — программный комплекс для численного 
 
 ## Примеры расчетов
 
-Копии экранов (скриншоты) для экономии места приведены в английской версии. 
+Здесь представлены копии экранов (скриншоты) типовых задач.
 
 * **fig. 1** Начальное состояние после первого запуска программы: 
 <img width="1256" height="973" alt="fig1" src="https://github.com/user-attachments/assets/78f96d9f-ffdc-49f3-8109-820fe5910b3f" />
-
 
 * Состояние экрана визуализации для задачи на основе метода ALE "Естественная конвекция (без плавления) внутри полости с Эйкозаном" с диагностическими графиками. Время моделирования - 90 секунд):
 
@@ -500,20 +511,24 @@ FlowLab — программный комплекс для численного 
 
   **fig. 3** поле температуры ("тепловая карта")
   <img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
+  
 > **Комментарий:** Видно, что поле температуры почти однородно вследствие интенсивного перемешивания и лишь около вертикальных границ имеюся существенные градиенты. Линии тока носят замкнутый характер, что свидетельствует о ячеистой природе течения.
 
 * Предыдущий пример, но на основе метода EPM: 
+
   **fig. 4** поле температуры
   <img width="1256" height="973" alt="fig4" src="https://github.com/user-attachments/assets/0b9f946d-9851-46d4-a6b9-312db8f4c71c" />
 
   **fig. 4а** тепловые потоки q(t) на стенках
   <img width="1256" height="973" alt="fig4a" src="https://github.com/user-attachments/assets/31523b26-594f-4e5f-b176-6d1a3f4580b8" />
+  
 > **Комментарий:** Здесь видно, что стационарный режим также пока не достигнут и имеется разница между потоками за счет зависимости теплопроводности от температуры; видна разница по затраченному процессором времени расчетов (**Spent**) по сравнению с методом ALE за счет оспользования невавномерной сетки. Следует также обратить внимание на различия в результатах и ​​диагностике, обусловленные использованием различных методов расчета давления.
 
 * Пример плавления воды с начальной толщиной расплава 0.2 от высоты полости на основе метода ALE: 
 
   **fig. 5** поле температуры
 <img width="1256" height="973" alt="fig5" src="https://github.com/user-attachments/assets/08a32cc6-a09f-4d93-835a-30dd62480708" />
+
 > **Комментарий:** Учитывается нелинейная зависимость β от температуры с точкой инверсии плотности, а также ависимость от температуры других свойств воды (впрочем как и у других реальных веществ). Видно, что в верхней части плавление идет более интенсивно за счет более теплых слоев жидкости, так как максимальная температура равна 10 ºС. Расчет ускорен за счет увеличенного в 10 раз масштаба времени.
 
 * Пример плавления воды с размещением внутри расплава твердых тел и начальной толщиной расплава 0.3 от ширины полости на основе метода EPM: 
@@ -538,6 +553,7 @@ FlowLab — программный комплекс для численного 
 
    **fig. 8a** тепловые потоки на стенках
  <img width="1256" height="973" alt="fig8a" src="https://github.com/user-attachments/assets/6de7657e-6604-4301-982d-291fe98a7829" />
+ 
 > **Комментарий:** У воздуха амплитуда колебаний значений величин (что видно на графиках Диагностики) более выражена вследствие меньшей вязкости и плотности, чем у парафинов и воды, поэтому нестационарная фаза в расчетах больше. Однако уже просматривается тенденция к расположению изотерм перпендикулярно направлению гравитации.
 
 ## Производительность
@@ -554,7 +570,7 @@ FlowLab — программный комплекс для численного 
 ## Ограничения модели
 
 Рассматриваются только ламинарные течения в несжимаемой среде, числа подобия Re и Ra вычисляются по фактическим значениям переменных. Разность температур не должна превышать 40º (интерполяция температурных зависимостей физических параметров рассматриваемых веществ настроена на данный диапазон). 
-Размерность сетки не тестировалась ниже чем 40х40 и мельче чем 300х300, а коэффициенты растяжения сетки не более чем 3.0 (влияет на устойчивость и сходимость). 
+Размерность сетки не тестировалась ниже чем 40х40 и мельче чем 300х300, а коэффициенты растяжения сетки не более чем 5.0 (влияет на устойчивость и сходимость). 
 Точность вычислений ограничена типом Double.
 
 ## Лицензия
