@@ -570,4 +570,3 @@ FlowLab — программный комплекс для численного 
 ## Контакты
 
 Почта: `apezera@icloud.com`, `apezera@yandex.ru`. Буду рад замечаниям и предложениям.
-<img width="1256" height="973" alt="fig4" src="https://github.com/user-attachments/assets/1041727c-ece8-4c8f-9bcc-47b2bd47f88a" />
