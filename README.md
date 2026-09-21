@@ -52,7 +52,8 @@ $\mathbf{g}$ - gravity vector,
 ν - cinematic viscosity, 
 L - latent heat, 
 n - normal to the melt surface, 
-ρ - density (liquid), ψ, ω - stream function.
+ρ - density (liquid), 
+> ψ, ω - stream function.
 
 The following equations are solved:
 
@@ -232,8 +233,7 @@ The following parameters can be modified in the **Settings** panel:
 
 * **Object parameters:** heating type (T or q), heating value; initial temperature distribution in the cavity; temperature conditions at the point where the phase transition boundary touches the solid right-hand wall; material (substance) selection for modeling. Custom substance may be selected.  Parameters of Custom substance may be modified.
 
-* **Forced convection ("Wind"):** can be enabled or disabled. The inflow may be located at the top or bottom boundary by default, or at the left boundary. The following parameters can be specified:
-  flow velocity, temperature excess relative to the temperature specified on the hot wall, inflow angle, and inflow-section coordinates.
+* **Forced convection ("Wind"):** can be enabled or disabled. The following parameters can be specified: inlet flow velocity, temperature excess relative to the temperature specified on the hot wall, inflow angle, and inflow-section coordinates; enable/disable free outflow at the top and bottom of the left boundary (by default, free outflow is on the horizontal boundaries)
 
 ## Output data
 
@@ -254,7 +254,7 @@ Diagnostics data is not changed when the simulation history is playing.
 Screenshots of typical tasks are presented here.
 
 * **fig. 1** Initial state after the first application launch
-<img width="1256" height="973" alt="fig1" src="https://github.com/user-attachments/assets/78f96d9f-ffdc-49f3-8109-820fe5910b3f" />
+<img width="1263" height="968" alt="Снимок экрана — 2026-09-20 в 01 16 28" src="https://github.com/user-attachments/assets/64f861a3-1f21-48c8-bccf-137ab4557ca6" />
 
 * Visualization screen for an ALE-based simulation with natural convection without melting in a cavity with diagnostic plots. The simulation time is 90 seconds:
 
@@ -487,7 +487,7 @@ FlowLab — программный комплекс для численного 
 
 * **параметры объекта** - тип нагрева (температура или тепловой поток), величина нагрева, начальное распределение температуры в полости, условия для температуры при касании границей фазового перехода твердой правой стенки, выбор вещества для моделирования включая произвольное (у которого можно назначить любые параметры);
 
-* **включение/выключение вынужденной конвекции** - включить/выключить сток вверху и внизу на левой границе (по умолчанию сток - на горизонтальных границах). Установить/редактировать: скорость вдува, превышение температуры вдува относительно установленной на горячей стенке, угол вдува, координаты участка вдува
+* **включение/выключение вынужденной конвекции** -  установить/редактировать: скорость вдува, превышение температуры вдува относительно установленной на горячей стенке, угол вдува, координаты участка вдува; включить/выключить свободный сток вверху и внизу на левой границе (по умолчанию сток - на горизонтальных границах).
 
 ## Выходные данные
 
@@ -498,7 +498,7 @@ FlowLab — программный комплекс для численного 
 Здесь представлены копии экранов (скриншоты) типовых задач.
 
 * **fig. 1** Начальное состояние после первого запуска программы: 
-<img width="1256" height="973" alt="fig1" src="https://github.com/user-attachments/assets/78f96d9f-ffdc-49f3-8109-820fe5910b3f" />
+<img width="1263" height="968" alt="Снимок экрана — 2026-09-20 в 01 16 28" src="https://github.com/user-attachments/assets/64f861a3-1f21-48c8-bccf-137ab4557ca6" />
 
 * Состояние экрана визуализации для задачи на основе метода ALE "Естественная конвекция (без плавления) внутри полости с Эйкозаном" с диагностическими графиками. Время моделирования - 90 секунд):
 
