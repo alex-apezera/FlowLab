@@ -141,11 +141,8 @@ During the simulation, the state of each time step is saved at specified time in
 ## Visualization
 
 The entire calculation process is displayed on a single screen as parameter values, fields, and graphs. On compact devices such as an iPhone, scrolling is used. The simulation is controlled using a touch panel, a mouse, or a trackpad, as well as keyboard shortcuts. The interface is in English and is intuitive.
-
 The visualization screen contains the following areas (see [Examples](#examples) section):
-
-> **note** - if an external keyboard is used, button presses can be duplicated using hotkeys highlighted in blue.
-
+> **note** - if an external keyboard is used, button presses can be duplicated using hotkeys highlighted in blue. Hotkeys info is available on [?] button.
 * **Control panel:** contains buttons
 1) Start/Pause - start/pause the solving process, 
 2) History - saving History frames to a file using JSON or a compressed binary format. Loading History frames from a list of files,
@@ -157,7 +154,7 @@ The visualization screen contains the following areas (see [Examples](#examples)
 
 * **Information panel:** displays the gravitational acceleration, flow velocity, solution parameters, grid properties, substance properties, process parameters, and the current time step. The time step may be adjusted manually.
 
-* **Graph controls:** used to select a graph and activate the melting visualization, as well as to select the thermal-map display mode.
+* **Graph controls:** used to select a graph and activate the melting visualization, as well as to select the thermal-map display mode (hovering the cursor over these buttons displays a tooltip).
 
 * **History pop-up window:** displays the saved simulation history with a frame player (start/stop also by pressing the space bar).
 
@@ -428,7 +425,7 @@ FlowLab — программный комплекс для численного 
 Весь процесс расчетов отображается на одной странице экрана в виде набора параметров, полей и графиков. Для компактных устройств типа iPhone используется скроллинг. Управление процессом осуществляется с помощью контрольной панели манипулятором (мышь, тачпад), а также горячими клавишами. Интерфейс задан на английском языке и интуитивно понятен.
 
 На странице визуализации имеются следующие зоны (см. [Примеры расчетов](#примеры-расчетов))
-> **примечание** - если используется выносная клавиатура, нажатие кнопок можно дублировать горячими клавишами, которые выделены синим цветом.
+> **примечание** - если используется выносная клавиатура, нажатие кнопок можно дублировать горячими клавишами, которые выделены синим цветом. Горячие клавиши доступны при нажатии на [?].
 
 * **контрольная панель:** здесь находятся кнопки 
 1) Старта/Паузы - запуск/пауза процесса решения, 
@@ -440,7 +437,7 @@ FlowLab — программный комплекс для численного 
 6) Ускорения - с целью ускорения вычислений выключает Область основного графика.
 * **информационная зона:** состояние гравитации, состояние вектора скорости, параметры Решения, Области, Вещества, Процесса (с возможностью ручного регулирования шага по времени), Плавления.
 
-* **управление графиками:** выбор графика, кнопка активизации плавления, кнопки управления режимами тепловой карты.
+* **управление графиками:** выбор графика, кнопка активизации плавления, кнопки управления режимами тепловой карты (при наведении курсора на эти кнопки появляется подсказка). 
 
 * **всплывающее окно просмотра Истории** с проигрывателем кадров (запуск/останов также по нажатию на пробел).
 
