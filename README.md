@@ -258,28 +258,29 @@ Screenshots of typical tasks are presented here.
 
 * Visualization screen for an ALE-based simulation with natural convection without melting in a cavity with diagnostic plots. The simulation time is 90 seconds:
 
-  **fig. 2** intermediate state (t=60s) with streamlines shown as a thermal map
-  <img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/17880486-2851-4e2e-a5a4-d2bd292ff906" />
+  **fig. 2** intermediate state (t=60s) with streamlines shown as a thermal map  
+<img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/17880486-2851-4e2e-a5a4-d2bd292ff906" />
 
-  **fig. 3** temperature field shown as a thermal map
-  <img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
+  **fig. 3** temperature field shown as a thermal map  
+<img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
   
 > **Comment:** It is evident that the temperature field is nearly uniform due to intense mixing, with significant gradients present only near the vertical boundaries. The streamlines are closed, indicating the cellular nature of the flow.
   
 * Previous example based on the EPM method:
 
-  **fig. 4** temperature field
-  <img width="1256" height="973" alt="fig4" src="https://github.com/user-attachments/assets/0b9f946d-9851-46d4-a6b9-312db8f4c71c" />
+  **fig. 4** temperature field  
+<img width="1256" height="973" alt="fig4" src="https://github.com/user-attachments/assets/0b9f946d-9851-46d4-a6b9-312db8f4c71c" />
   
-  **fig. 4a** heat fluxes at the walls, q(t)
-  <img width="1256" height="973" alt="fig4a" src="https://github.com/user-attachments/assets/31523b26-594f-4e5f-b176-6d1a3f4580b8" />
+  **fig. 4a** heat fluxes at the walls, q(t)  
+<img width="1256" height="973" alt="fig4a" src="https://github.com/user-attachments/assets/31523b26-594f-4e5f-b176-6d1a3f4580b8" />
 
 > **Comment:** The stationary flow field has not yet reached a steady state also. The difference between the flows is caused by the dependence of thermal conductivity on temperature. The figures show the result of the simulation at the **Spent** time compared with the ALE method by using a non-uniform grid. Attention should also be drawn to the differences in results and diagnostics arising from the use of different pressure calculation methods.
 
 * Example using the ALE method for water melting with an initial melt thickness of 20mm and a final thicness of 60mm:
 
   **fig. 5** temperature field
-<img width="1256" height="973" alt="fig5" src="https://github.com/user-attachments/assets/08a32cc6-a09f-4d93-835a-30dd62480708" />
+<img width="1263" height="968" alt="Снимок экрана — 2026-09-21 в 21 20 00" src="https://github.com/user-attachments/assets/42b51311-b907-490e-bc02-af8c1f5b42f9" />
+  
    
 > **Comment:** The nonlinear temperature dependence of β—including the density inversion point—is taken into account, as is the temperature dependence of other water properties (as is the case with other real substances). It can be seen that melting proceeds more intensely in the upper region due to the warmer liquid layers, given that the maximum temperature is 10°C. 
 
@@ -502,28 +503,28 @@ FlowLab — программный комплекс для численного 
 
 * Состояние экрана визуализации для задачи на основе метода ALE "Естественная конвекция (без плавления) внутри полости с Эйкозаном" с диагностическими графиками. Время моделирования - 90 секунд):
 
-  **fig. 2** промежуточный вариант (t=60c) с линиями тока ("тепловая карта" - ТК)
-  <img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/17880486-2851-4e2e-a5a4-d2bd292ff906" />
+  **fig. 2** промежуточный вариант (t=60c) с линиями тока ("тепловая карта" - ТК)  
+<img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/17880486-2851-4e2e-a5a4-d2bd292ff906" />
 
-  **fig. 3** поле температуры ("тепловая карта")
-  <img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
+  **fig. 3** поле температуры ("тепловая карта") 
+<img width="1256" height="973" alt="fig3" src="https://github.com/user-attachments/assets/18d796a6-9726-47eb-b35a-5c88ac235300" />
   
 > **Комментарий:** Видно, что поле температуры почти однородно вследствие интенсивного перемешивания и лишь около вертикальных границ имеюся существенные градиенты. Линии тока носят замкнутый характер, что свидетельствует о ячеистой природе течения.
 
 * Предыдущий пример, но на основе метода EPM: 
 
-  **fig. 4** поле температуры
-  <img width="1256" height="973" alt="fig4" src="https://github.com/user-attachments/assets/0b9f946d-9851-46d4-a6b9-312db8f4c71c" />
+  **fig. 4** поле температуры  
+<img width="1256" height="973" alt="fig4" src="https://github.com/user-attachments/assets/0b9f946d-9851-46d4-a6b9-312db8f4c71c" />
 
-  **fig. 4а** тепловые потоки q(t) на стенках
-  <img width="1256" height="973" alt="fig4a" src="https://github.com/user-attachments/assets/31523b26-594f-4e5f-b176-6d1a3f4580b8" />
+  **fig. 4а** тепловые потоки q(t) на стенках  
+<img width="1256" height="973" alt="fig4a" src="https://github.com/user-attachments/assets/31523b26-594f-4e5f-b176-6d1a3f4580b8" />
   
 > **Комментарий:** Здесь видно, что стационарный режим также пока не достигнут и имеется разница между потоками за счет зависимости теплопроводности от температуры; видна разница по затраченному процессором времени расчетов (**Spent**) по сравнению с методом ALE за счет оспользования невавномерной сетки. Следует также обратить внимание на различия в результатах и ​​диагностике, обусловленные использованием различных методов расчета давления.
 
 * Пример плавления воды с начальной толщиной расплава 20мм и конечной - 60мм  на основе метода ALE: 
 
   **fig. 5** поле температуры
-<img width="1256" height="973" alt="fig5" src="https://github.com/user-attachments/assets/08a32cc6-a09f-4d93-835a-30dd62480708" />
+<img width="1263" height="968" alt="Снимок экрана — 2026-09-21 в 21 20 00" src="https://github.com/user-attachments/assets/42b51311-b907-490e-bc02-af8c1f5b42f9" />
 
 > **Комментарий:** Учитывается нелинейная зависимость β от температуры с точкой инверсии плотности, а также ависимость от температуры других свойств воды (впрочем как и у других реальных веществ). Видно, что в верхней части плавление идет более интенсивно за счет более теплых слоев жидкости, так как максимальная температура равна 10 ºС. 
 
