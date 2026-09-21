@@ -159,7 +159,7 @@ extension Visualizator {
             Text("(min \(minW, specifier: form),")
             Text("max \(maxW, specifier: form))\(dimW);")
             Text("rise:").bold()
-            Text("\(widthC*3600*scale, specifier: form)\(dimH).")
+            Text("\(widthC*3600*scale, specifier: "%.2f")\(dimH).")
             Text("Time:").bold()
             Text("init \(formattedTime(initTime)),")
             Text("full \(formattedTime(fullTime)),")

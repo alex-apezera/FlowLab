@@ -276,12 +276,12 @@ Screenshots of typical tasks are presented here.
 
 > **Comment:** The stationary flow field has not yet reached a steady state also. The difference between the flows is caused by the dependence of thermal conductivity on temperature. The figures show the result of the simulation at the **Spent** time compared with the ALE method by using a non-uniform grid. Attention should also be drawn to the differences in results and diagnostics arising from the use of different pressure calculation methods.
 
-* Example using the ALE method for water melting with an initial melt thickness of 0.2 of the domain height:
+* Example using the ALE method for water melting with an initial melt thickness of 20mm and a final thicness of 60mm:
 
   **fig. 5** temperature field
 <img width="1256" height="973" alt="fig5" src="https://github.com/user-attachments/assets/08a32cc6-a09f-4d93-835a-30dd62480708" />
    
-> **Comment:** The nonlinear temperature dependence of β—including the density inversion point—is taken into account, as is the temperature dependence of other water properties (as is the case with other real substances). It can be seen that melting proceeds more intensely in the upper region due to the warmer liquid layers, given that the maximum temperature is 10°C. The calculation is accelerated by a tenfold increase in the time scale.
+> **Comment:** The nonlinear temperature dependence of β—including the density inversion point—is taken into account, as is the temperature dependence of other water properties (as is the case with other real substances). It can be seen that melting proceeds more intensely in the upper region due to the warmer liquid layers, given that the maximum temperature is 10°C. 
 
 * Example of water melting with solid bodies placed within the melt and an initial melt thickness of 0.3 of the domain width, based on the EPM method:
 
@@ -520,12 +520,12 @@ FlowLab — программный комплекс для численного 
   
 > **Комментарий:** Здесь видно, что стационарный режим также пока не достигнут и имеется разница между потоками за счет зависимости теплопроводности от температуры; видна разница по затраченному процессором времени расчетов (**Spent**) по сравнению с методом ALE за счет оспользования невавномерной сетки. Следует также обратить внимание на различия в результатах и ​​диагностике, обусловленные использованием различных методов расчета давления.
 
-* Пример плавления воды с начальной толщиной расплава 0.2 от высоты полости на основе метода ALE: 
+* Пример плавления воды с начальной толщиной расплава 20мм и конечной - 60мм  на основе метода ALE: 
 
   **fig. 5** поле температуры
 <img width="1256" height="973" alt="fig5" src="https://github.com/user-attachments/assets/08a32cc6-a09f-4d93-835a-30dd62480708" />
 
-> **Комментарий:** Учитывается нелинейная зависимость β от температуры с точкой инверсии плотности, а также ависимость от температуры других свойств воды (впрочем как и у других реальных веществ). Видно, что в верхней части плавление идет более интенсивно за счет более теплых слоев жидкости, так как максимальная температура равна 10 ºС. Расчет ускорен за счет увеличенного в 10 раз масштаба времени.
+> **Комментарий:** Учитывается нелинейная зависимость β от температуры с точкой инверсии плотности, а также ависимость от температуры других свойств воды (впрочем как и у других реальных веществ). Видно, что в верхней части плавление идет более интенсивно за счет более теплых слоев жидкости, так как максимальная температура равна 10 ºС. 
 
 * Пример плавления воды с размещением внутри расплава твердых тел и начальной толщиной расплава 0.3 от ширины полости на основе метода EPM: 
 
