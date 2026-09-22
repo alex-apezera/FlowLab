@@ -23,44 +23,85 @@ extension Visualizator {
                 } label: {
                     Image(systemName:  "questionmark.square")
                 }.keyboardShortcut("/", modifiers: [.shift])
-
+                
                 Picker("Switcher", selection: $selectedVisualization) {
                     ForEach(0..<visualizationOptions.count, id: \.self) { index in
                         Text(visualizationOptions[index]).tag(index)
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
+                .help("Select object to visualize")
                 
                 // Переключатели режимов решения и просмотра (ВКЛ/ВЫКЛ)
                 
                 /// процесс плавления
                 Toggle(solver.params.allowMelt ? "𝗆❄️" : "𝗆💧", isOn: $solver.params.allowMelt).clipMode()
                     .keyboardShortcut("m", modifiers: [])
+                    .help("Allow melting")
+                
                 /// линия фронта плавления на тепловых картах
                 Toggle("🌗", isOn: $showFrontLine).clipMode()
+                    .help("Show melting front line")
+                    .keyboardShortcut("1", modifiers: [.option])
+                
                 /// наложение скоростей на тепловые карты
                 Toggle("+𝐕", isOn: $addVelocityField).clipMode()
+                    .help("Velocity overlay")
+                    .keyboardShortcut("2", modifiers: [.option])
+                
                 /// цветовая схема тепловой карты
                 Toggle("🌈", isOn: $toggleColorScheme).clipMode()
+                    .help("Toggle thermal map color scheme")
+                    .keyboardShortcut("3", modifiers: [.option])
+                
                 /// цвет стрелок вектора скорости
                 Toggle("🚥 𝐕", isOn: $toggleVelocityColor).clipMode()
-                    .background {
-                        ForEach(0..<visualizationOptions.count, id: \.self) { index in
-                            Button("") { selectedVisualization = index }
-                                .keyboardShortcut(
-                                    KeyEquivalent(Character("\(index + 1)")),
-                                    modifiers: []
-                                )
-                                .hidden()
-                        }
+                    .help("Velocity color cheme toggle")
+                    .keyboardShortcut("4", modifiers: [.option])
+                
+                // Плотность стрелок для скоростей
+                Stepper("⇶ \(arrowDensity)") {
+                    arrowDensity += 1
+                } onDecrement: {
+                    if arrowDensity > 1 {
+                        arrowDensity  -= 1
                     }
+                }
+                .help("Set the velocity arrow density")
+                .clipMode(150)
+                
+                // Масштаб стрелок для скоростей
+                Stepper("⇡ \(arrowScale, specifier: "%.1f")") {
+                    arrowScale *= 2
+                } onDecrement: {
+                    if arrowScale >= 0.5 {
+                        arrowScale /= 2
+                    }
+                }
+                .keyboardShortcut("6", modifiers: [.option])
+                .help("Set the velocity arrow density")
+                .clipMode(160)
+                
+                // Масштаб тепловой карты
+                Stepper("↕️\(scale, specifier: "%.1f")") {
+                    if scale < maximumScale {
+                        withAnimation(.easeInOut(duration: 0.5)) { scale += step }
+                    }
+                } onDecrement: {
+                    if scale > minimumScale {
+                        withAnimation(.easeInOut(duration: 0.5)) { scale -= step }
+                    }
+                }
+                .keyboardShortcut("7", modifiers: [.option])
+                .help("Thermal map scale")
+                .clipMode(160)
                 
                 // Сброс трансформаций тепловой карты
                 Button(action: resetTransformations) {
                     Image(systemName: "arrow.2.circlepath.circle")
                 }
                 .keyboardShortcut(.escape, modifiers: [])
-                .help("Thermal map scale")
+                .help("Reset transformations")
             }
         }
         // Управление запуском/остановкой процесса плавления
@@ -81,5 +122,47 @@ extension Visualizator {
         }
         .contentShape(Rectangle())  /// зона кликабельности
         .padding(.horizontal)
+        .background { /// горячие клавиши: дублирование действий
+            // Дублирование Picker
+            ForEach(0..<visualizationOptions.count, id: \.self) { index in
+                Button("") { selectedVisualization = index }
+                    .keyboardShortcut(
+                        KeyEquivalent(Character("\(index + 1)")),
+                        modifiers: []
+                    )
+                    .hidden()
+            }
+            
+            // Дублирование: плотность стрелок для скоростей
+            Button("") { arrowDensity += 1 }
+                .keyboardShortcut("5", modifiers: [.option])
+            Button("") {
+                if arrowDensity > 1 { arrowDensity  -= 1 }
+            }
+            .keyboardShortcut("5", modifiers: [.shift, .option])
+
+            // Дублирование: масштаб стрелок для скоростей
+            Button("") { arrowScale *= 2 }
+                .keyboardShortcut("6", modifiers: [.option])
+            Button("") {
+                if arrowScale >= 0.5 { arrowScale /= 2 }
+            }
+            .keyboardShortcut("6", modifiers: [.shift, .option])
+
+            // Дублирование: масштаб тепловой карты
+            Button("") {
+                if scale < maximumScale {
+                    withAnimation(.easeInOut(duration: 0.5)) { scale += step }
+                }
+            }
+            .keyboardShortcut("7", modifiers: [.option])
+            Button("") {
+                if scale > minimumScale {
+                    withAnimation(.easeInOut(duration: 0.5)) { scale -= step }
+                }
+            }
+            .keyboardShortcut("7", modifiers: [.shift, .option])
+
+        }
     }
 }

@@ -43,12 +43,16 @@ struct ShortKeysView: View {
                 Section(header: Text("Switching raw")) {
                     Text("?: Shortkeys info")
                     Text("1..7: Selection of the object")
+                    Text("m: Activate/deactivate melting process")
+                    Text("⌥ + 1..4: Selection toggles")
+                    Text("⌥ + 5..7: Increase a value in steppers")
+                    Text("⇧ + ⌥ + 5..7: Decrease a value in steppers")
                     Text(".escape: Reset thermal map transformation ")
                     // Редактирование объектов в жидкости
                     Text("For editing objects in liquid, see 🟦")
                 }
                 // Опции в окне диагностики и истории
-                Section(header: Text("Diagnostics")) {
+                Section(header: Text("In pop-up Diagnostics and Histoty player")) {
                     Text("p: Pressure iterations increase/reduce")
                     Text(">: Toggle plots group")
                     Text(".space: Play/Pause History frames")
