@@ -54,66 +54,13 @@ extension Visualizator {
                                 .hidden()
                         }
                     }
-
-                // Переключатели режимов решения и просмотра
-                
-                /// процесс плавления
-                Toggle(solver.params.allowMelt ? "❄️" : "💧", isOn: $solver.params.allowMelt).clipMode()
-                    .keyboardShortcut("m", modifiers: [])
-                    .help("Activate/deactivate melting process, key: m")
- 
-                /// линия фронта плавления на тепловых картах
-                Toggle("🌗", isOn: $showFrontLine).clipMode()
-                    .help("Melting front line")
- 
-                /// наложение скоростей на тепловые карты
-                Toggle("+𝐕", isOn: $addVelocityField).clipMode()
-                    .help("Velocity superposition")
-
-                /// цветовая схема тепловой карты
-                Toggle("🌈", isOn: $toggleColorScheme).clipMode()
-                    .help("Thermal map color cheme")
-
-                /// цвет стрелок вектора скорости
-                Toggle("🚥 𝐕", isOn: $toggleVelocityColor).clipMode()
-                    .help("Valocity arrows color")
-                
-                // Увеличение/уменьшение плотности стрелок скоростей
-                Stepper("⇶⇉➔  \(arrowDensity)") {
-                    if arrowDensity < 5 { arrowDensity += 1 }
-                } onDecrement: {
-                    if arrowDensity > 1 { arrowDensity -= 1 }
-                }
-                .clipMode(180)
-                .help("Velocity arrows density")
-
-                // Масштабирование стрелок для скоростей
-                Stepper("⬆︎📶  \(arrowScale, specifier: "%.1f")") {
-                    if arrowScale < 20 { arrowScale += 0.5 }
-                } onDecrement: {
-                    if arrowScale > 0 { arrowScale -= 0.25 }
-                }
-                .clipMode(200)
-                .help("Velocity arrows scale")
-
-                // Увеличение/уменьшение масштаба тепловой карты
-                Stepper("↕️  \(scale, specifier: "%.1f")") {
-                    if scale <= maximumScale { withAnimation(.easeInOut(duration: 0.5)) { scale += step } }
-                } onDecrement: {
-                    if scale >= minimumScale { withAnimation(.easeInOut(duration: 0.5)) { scale -= step } }
-                }
-                .clipMode(180)
                 
                 // Сброс трансформаций тепловой карты
                 Button(action: resetTransformations) {
                     Image(systemName: "arrow.2.circlepath.circle")
                 }
+                .keyboardShortcut(.escape, modifiers: [])
                 .help("Thermal map scale")
-
-                // Сброс трансформаций тепловой карты
-                Button(action: resetTransformations) {
-                    Image(systemName: "arrow.2.circlepath.circle")
-                }.keyboardShortcut(.escape, modifiers: [])
             }
         }
         // Управление запуском/остановкой процесса плавления
