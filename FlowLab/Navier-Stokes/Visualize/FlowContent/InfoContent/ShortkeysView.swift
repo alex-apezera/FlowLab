@@ -24,6 +24,7 @@ struct ShortKeysView: View {
                     Text("/: Settings view")
                     Text(".tab: Accelerate mode")
                 }
+                
                 // Информация о процессе плавления
                 Section(header: Text("Melting")) {
                     Text("m: Activate/deactivate melting process")
@@ -51,6 +52,7 @@ struct ShortKeysView: View {
                     // Редактирование объектов в жидкости
                     Text("For editing objects in liquid, see 🟦")
                 }
+                
                 // Опции в окне диагностики и истории
                 Section(header: Text("In pop-up Diagnostics and Histoty player")) {
                     Text("p: Pressure iterations increase/reduce")
