@@ -80,7 +80,7 @@ extension Visualizator {
                 }
                 .keyboardShortcut("6", modifiers: [.option])
                 .help("Set the velocity arrow density")
-                .clipMode(160)
+                .clipMode(170)
                 
                 // Масштаб тепловой карты
                 Stepper("↕️\(scale, specifier: "%.1f")") {
