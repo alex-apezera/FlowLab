@@ -22,10 +22,10 @@ extension LiquidFractionEditor {
                 
                 // Смена типа объекта
                 Text("TOOL: \(String(describing: currentTool))").bold().padding(.top, 10)
-                Button("1: Brush") { currentTool = .freehand }.keyboardShortcut("1", modifiers: [.shift])
-                Button("2: Circle") { solver.activeObjectType = .circle; currentTool = .circle }.keyboardShortcut("2", modifiers: [.shift])
-                Button("3: Rectangle") { solver.activeObjectType = .rectangle; currentTool = .rectangle }.keyboardShortcut("3", modifiers: [.shift])
-                Button("4: Eraser") { currentTool = .eraser }.keyboardShortcut("4", modifiers: [.shift])
+                Button("⇧ + 1: Brush") { currentTool = .freehand }.keyboardShortcut("1", modifiers: [.shift])
+                Button("⇧ + 2: Circle") { solver.activeObjectType = .circle; currentTool = .circle }.keyboardShortcut("2", modifiers: [.shift])
+                Button("⇧ + 3: Rectangle") { solver.activeObjectType = .rectangle; currentTool = .rectangle }.keyboardShortcut("3", modifiers: [.shift])
+                Button("⇧ + 4: Eraser") { currentTool = .eraser }.keyboardShortcut("4", modifiers: [.shift])
                 HStack {
                     Button("+") { brushSize += 1 }.keyboardShortcut("+", modifiers: [])
                     Button("-") { brushSize = max(2, brushSize - 1) }.keyboardShortcut("-", modifiers: [])

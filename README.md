@@ -102,7 +102,7 @@ $$
 
 * The gravitational acceleration is assumed to have a constant magnitude and a direction that is either constant in time or changes according to the specified configuration.
 
-* Thermal properties α, ν, β, λ may depend on temperature. Interpolation formulas are used for temperature-dependent properties.
+* Thermal properties α, ν, β, λ may depend on temperature. Interpolation formulas are used for temperature-dependent properties of the real substances.
 
 * Matter is modeled using the following materials:
   water, air without melting, different paraffin materials, and substances with arbitrary (but temperature-independed thermal properties) user-defined properties.
@@ -127,6 +127,7 @@ $$
 * The EPM model uses a uniform square grid.
 
 * The time step is adjusted automatically. The settings include control parameters for the iterative pressure solver and automatic time-step reduction when divergence is detected.
+- At the left and right boundaries, the heat fluxes (q) are calculated using a second-order three-point scheme.
 
 * The calculation is stopped when a specified time or a specified melt volume or melt thickness is reached.
 
@@ -274,24 +275,23 @@ Screenshots of typical tasks are presented here.
   **fig. 4a** heat fluxes at the walls, q(t)  
 <img width="1256" height="973" alt="fig4a" src="https://github.com/user-attachments/assets/31523b26-594f-4e5f-b176-6d1a3f4580b8" />
 
-> **Comment:** The stationary flow field has not yet reached a steady state also. The difference between the flows is caused by the dependence of thermal conductivity on temperature. The figures show the result of the simulation at the **Spent** time compared with the ALE method by using a non-uniform grid. Attention should also be drawn to the differences in results and diagnostics arising from the use of different pressure calculation methods.
+> **Comment:** The stationary flow field has not yet reached a steady state also. The difference between the heat fluxes is caused by the dependence of thermal conductivity on temperature. The figures show the result of the simulation at the **Spent** time compared with the ALE method by using a non-uniform grid. Attention should also be drawn to the differences in results and diagnostics arising from the use of different pressure calculation methods.
 
 * Example using the ALE method for water melting with an initial melt thickness of 20mm and a final thicness of 60mm:
 
   **fig. 5** temperature field
-<img width="1263" height="968" alt="Снимок экрана — 2026-09-21 в 21 20 00" src="https://github.com/user-attachments/assets/42b51311-b907-490e-bc02-af8c1f5b42f9" />
-  
+<img width="1263" height="968" alt="Снимок экрана — 2026-09-21 в 21 20 00" src="https://github.com/user-attachments/assets/42b51311-b907-490e-bc02-af8c1f5b42f9" />  
    
 > **Comment:** The nonlinear temperature dependence of β—including the density inversion point—is taken into account, as is the temperature dependence of other water properties (as is the case with other real substances). It can be seen that melting proceeds more intensely in the upper region due to the warmer liquid layers, given that the maximum temperature is 10°C. 
 
 * Example of water melting with solid bodies placed within the melt and an initial melt thickness of 0.3 of the domain width, based on the EPM method:
 
   **fig. 6** temperature field
-<img width="1256" height="973" alt="fig6" src="https://github.com/user-attachments/assets/4a5c694c-44d6-495e-add4-99f42ec2c3c8" />
+<img width="1232" height="968" alt="Снимок экрана — 2026-09-23 в 14 59 06" src="https://github.com/user-attachments/assets/f86f4a63-220e-4626-8bbf-00957025d696" />
 
-> **Comment:** The solid bodies (of identical size) consist of ice (placed in the upper part of the cavity at a specific moment to clearly demonstrate its melting) and a stone (with a specified thermal conductivity, placed in the center of the cavity). At the moment shown, ice that has not yet fully melted is visible in the upper section, while a solid body exhibiting a temperature distribution characteristic of the heat conduction mode is shown in the middle of the melt.
+> **Comment:** The solid bodies consist of ice (positioned in the upper part of the cavity as a rectangular block touching the vertical boundaries, to clearly demonstrate its melting) and a stone (with an ice thermal conductivity, positioned in the center of the cavity as a circle). At the moment shown, ice that has not yet fully melted is visible in the upper section, while a solid body exhibiting a temperature distribution characteristic of the heat conduction mode is shown in the middle of the melt.
 
-* Example based on EPM methgod temperature field for paraffin melting under zero gravity, with liquid-phase inflow and free outflow at the left boundary:
+* Example of paraffin melting under zero gravity with liquid-phase injection and free outflow at the left boundary, and an initial melt thickness of 30 mm, based on the EPM method:
 
   **fig. 7** temperature field at an early stage
 <img width="1256" height="973" alt="fig7" src="https://github.com/user-attachments/assets/6836aec8-2914-4607-8fd7-47319b6d90a7" />
@@ -311,7 +311,7 @@ Screenshots of typical tasks are presented here.
 
 ## Performance
 
-> **Note:** The **Process** section within the **information area** displays parameters synchronized with the current process: start time, elapsed computer time, memory usage, single-core CPU usage percentage, number of generated History frames, number of computational steps, model time, and the model time increment. The increment can be adjusted (using the button itself to reset to the default value, or the **[** and **]** hotkeys) to decrease or increase the value; however, during the process, the increment will vary according to the established algorithm.
+> **Note:** The **Process** section within the **information area** displays parameters synchronized with the current process: start time, elapsed computer time, memory usage, CPU usage percentage, number of generated History frames, number of computational steps, model time, and the model time increment. 
 
 The following techniques are used to improve performance:
 
@@ -398,7 +398,7 @@ FlowLab — программный комплекс для численного 
 * Плавление: при плавлении на границе раздела фаз используется формула Стефана: $-\lambda\frac{dT}{dn}=\rho L\frac{dn}{dt}$.
 
 * Гравитация ḡ: применяется вектор гравитации, имеющий постоянную магнитуду и переменный во времени или постоянный угол.
-* Теплофизические свойства: α, ν, β, λ - предполагаются зависящими от температуры (применятся интерполяционные формулы).
+* Теплофизические свойства: α, ν, β, λ - предполагаются зависящими от температуры (для реальных веществ - применятся интерполяционные формулы).
 * Вещество: предусмотрено моделирование таких веществ как вода, воздух (без плавления), разные типы парафинов, а также вещества с любыми (но не зависящими от температуры) пользовательскими свойствами.
 
 ## Численный метод
@@ -411,6 +411,7 @@ FlowLab — программный комплекс для численного 
 * Для ALE применяется неравномерная сетка с увеличением шага от границ к центру по формуле гиперболического синуса.
 * Для EPM для уменьшения времени расчетов используется равномерная квадратная сетка.
 * В расчетах используются автоматически настраиваемые параметры временного шага, параметры управления итерационным процессом для давления, а также автоматические откаты при появлении признаков расходимости.
+- На левой и правой границах вычисление тепловых потоков (q) производится по трехточечной схеме второго порядка.
  * Прекращение расчетов задается когда достигается определенное время или определенный объем (или толщина) расплава.
 
 ## Дополнительные возможности
@@ -519,7 +520,7 @@ FlowLab — программный комплекс для численного 
   **fig. 4а** тепловые потоки q(t) на стенках  
 <img width="1256" height="973" alt="fig4a" src="https://github.com/user-attachments/assets/31523b26-594f-4e5f-b176-6d1a3f4580b8" />
   
-> **Комментарий:** Здесь видно, что стационарный режим также пока не достигнут и имеется разница между потоками за счет зависимости теплопроводности от температуры; видна разница по затраченному процессором времени расчетов (**Spent**) по сравнению с методом ALE за счет оспользования невавномерной сетки. Следует также обратить внимание на различия в результатах и ​​диагностике, обусловленные использованием различных методов расчета давления.
+> **Комментарий:** Здесь видно, что стационарный режим также пока не достигнут и имеется разница между тепловыми потоками за счет зависимости теплопроводности от температуры; видна разница по затраченному процессором времени расчетов (**Spent**) по сравнению с методом ALE за счет оспользования невавномерной сетки. Следует также обратить внимание на различия в результатах и ​​диагностике, обусловленные использованием различных методов расчета давления.
 
 * Пример плавления воды с начальной толщиной расплава 20мм и конечной - 60мм  на основе метода ALE: 
 
@@ -528,14 +529,14 @@ FlowLab — программный комплекс для численного 
 
 > **Комментарий:** Учитывается нелинейная зависимость β от температуры с точкой инверсии плотности, а также ависимость от температуры других свойств воды (впрочем как и у других реальных веществ). Видно, что в верхней части плавление идет более интенсивно за счет более теплых слоев жидкости, так как максимальная температура равна 10 ºС. 
 
-* Пример плавления воды с размещением внутри расплава твердых тел и начальной толщиной расплава 0.3 от ширины полости на основе метода EPM: 
+* Пример плавления воды с размещением внутри расплава твердых тел и начальной толщиной расплава 20мм от ширины полости на основе метода EPM: 
 
   **fig. 6** поле температуры
-<img width="1256" height="973" alt="fig6" src="https://github.com/user-attachments/assets/4a5c694c-44d6-495e-add4-99f42ec2c3c8" />
+<img width="1232" height="968" alt="Снимок экрана — 2026-09-23 в 14 59 06" src="https://github.com/user-attachments/assets/f86f4a63-220e-4626-8bbf-00957025d696" />
 
-> **Комментарий:** Твердые тела (одинакового размера) представляют собой лед (размещен в верхней части полости в определенный момент времени для наглядной демонстрации его плавления) и камня (с заданной теплопроводностью льда, размещен в центре полости). В рассматриваемый момент времени видно, что в верхей части имеется до конца не расплавившийся лед, а в средней части расплава показано твердое тело с  характерным для режима теплопроводности распределением температуры.
+> **Комментарий:** Твердые тела  представляют собой лед (размещен в верхней части полости в виде прямоугольного бруска, касающегося вертикальных границ, для наглядной демонстрации его плавления) и камня (с заданной теплопроводностью льда, размещен в центре полости в виде круга). В рассматриваемый момент времени видно, что в верхей части имеется до конца не расплавившийся лед, а в средней части расплава показано твердое тело с  характерным для режима теплопроводности распределением температуры.
   
-* Пример плавления парафина в невесомости с вдувом жидкой фазы и свободным стоком на левой границе и начальной толщиной расплава 0.3 от ширины полости на основе метода EPM: 
+* Пример плавления парафина в невесомости с вдувом жидкой фазы и свободным стоком на левой границе и начальной толщиной расплава 30мм на основе метода EPM: 
 
   **fig. 7** поле температуры на начальной стадии
 <img width="1256" height="973" alt="fig7" src="https://github.com/user-attachments/assets/6836aec8-2914-4607-8fd7-47319b6d90a7" />
@@ -555,7 +556,7 @@ FlowLab — программный комплекс для численного 
 
 ## Производительность
 
-> **Примечание:** В разделе **Process** в **информационной зоне** имеются синхронизированные с текущим процессом параметры времени старта, затраченного компьютером времени, потребляемой памяти, процент использования одного ядра процессора, количество сформированных кадров Истории, количество вычислительных шагов, модельное время и его пошаговое приращение. Последним можно управлять (используя саму кнопку, когда устанавливается заданное по умолчанию значение, или горячие клавиши **[, ]**) в сторону понижения или повышения, однако во время процесса приращение будет меняться в соответствии с установленным алгоритмом.
+> **Примечание:** В разделе **Process** в **информационной зоне** имеются синхронизированные с текущим процессом параметры времени старта, затраченного компьютером времени, потребляемой памяти, процент использования  процессора, количество сформированных кадров Истории, количество вычислительных шагов, модельное время и его пошаговое приращение. 
 
 Для увеличения производительности использовались следующие способы:
 
