@@ -10,13 +10,13 @@ import Foundation
 import Combine
 extension LiquidFractionEditor {
     
-    /// Ручная отрисовка включений твердой фазы врасчетной области
+    /// Ручная отрисовка включений твердой фазы в расчетной области
     func handleInput(at location: CGPoint, in size: CGSize) {
         let cellW = size.width / CGFloat(cols)
         let cellH = size.height / CGFloat(rows)
         
         let cIdx = Int(location.x / cellW)
-        // ИНВЕРСИЯ при вводе: переводим экранный Y в индекс массива r
+        // ИНВЕРСИЯ Y: переводим экранный Y в индекс массива r
         let rIdx = (rows - 1) - Int(location.y / cellH)
         // Для квадрата/круга используем brushSize как диаметр
         let radius = Int(brushSize / 2)

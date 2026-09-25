@@ -133,12 +133,12 @@ $$
 
 ## Additional features
 
-The EPM model supports the simulation of solid objects being introduced into a fluid, both with and without melting. An effective thermal-conductivity model is used in case of solid objects.
+The EPM model supports the simulation of solid objects being introduced into a fluid, both with and without melting. An effective thermal-conductivity model is used in case of solid object.
 
-The solid object may initially have the melting temperature $T_{\{cold}}$. It then undergoes the melting process under the influence of thermal conductivity.
+The solid object may initially have the melting temperature $T_{\{cold}}$. It then undergoes the melting process under the influence of thermal duffusivity. In a solid object, the thermal diffusivity can also be set to zero (α = 0) if it is necessary to simulate specific conditions.
 > **Note:** The EPM method assumes the existence of a "melting interval" where $T_{\{cold}}$ is lower than $T_{\{melt}}$ by a small amount (0.01°C by default).
 
-During the simulation, the state of each time step is saved at specified time intervals. This data is used to generate the simulation history.
+During the simulation, the state of the time step is saved at specified time intervals. This data is used to generate the simulation history.
 
 ## Visualization
 
@@ -416,11 +416,13 @@ FlowLab — программный комплекс для численного 
 
 ## Дополнительные возможности
 
-Для метода EPM можно моделировать включение твердых объектов (с плавлением и без) в жидкой среде, при этом используется метод эффективной теплоемкости. Предполагается что твердый объект с плавлением имеет температуру плавления $T_{\{cold}}$. Твердый объект без плавления имеет начальную температуру плавления $T_{\{cold}}$, а далее прогревается под воздействием теплопроводности.
+Для метода EPM можно моделировать включение твердых объектов (с плавлением и без) в жидкой среде, при этом используется метод эффективной теплоемкости. 
+
+Предполагается что твердый объект с плавлением имеет температуру плавления $T_{\{cold}}$. Твердый объект без плавления имеет начальную температуру плавления $T_{\{cold}}$, а далее прогревается под воздействием температуропроводности; также в твердом объекте температуропроводность можно задать нулевой (α = 0), ели требуется смоделировать особые условия.
 
 > **Примечание:** Метод EPM предполагает, что имеется "интервал плавления", где $T_{\{cold}}$ меньше $T_{\{melt}}$ на небольшую величину (по умолчанию 0,01ºС)
 
-Также в процессе решения происходит запоминание каждого кадра текущего состояния решения через определенные промежутки времени (История).
+Также в процессе решения происходит запоминание  текущего состояния решения через определенные промежутки времени (История).
 
 ## Визуализация
 

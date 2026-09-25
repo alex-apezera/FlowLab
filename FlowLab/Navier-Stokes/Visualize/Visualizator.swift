@@ -21,6 +21,7 @@ struct Visualizator: View {
     @State var meltingActive: Bool = false /// запуск задачи плавления
     @State var useMaxAccelerate: Bool = false /// отключение визуализации
     @State var freezeVelocities: Bool = false /// заморозка скоростей
+    @State var resetSolution = false /// сброс к началу расчетов
 
     // Управление Историей
     @State var currentFrameIndex = 0

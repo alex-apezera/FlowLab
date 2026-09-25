@@ -80,9 +80,10 @@ final class NavierStokesSolver: ObservableObject {
     @Published var d_Factor = 1.0 /// коэф учета диффузии
     @Published var useHybridScheme = false /// переключатель схемы
 
-    // Переключатели и переменные для метода энтальпии-пористости (EPM)
-    @Published var useInitialGradientT = true /// установить  градиент Т
+    // Переключатели и переменные для метода EPM
+    @Published var useInitialGradientT = true /// установить  градиент Т для начала расчетов
     @Published var makeSolid = false /// запрет плавления (камень))
+    @Published var zeroStoneConductivity = false /// α = 0 ?
 
     // Параметры активного объекта (тело твердой фазы, EPM)
     @Published var activeObjectPos = CGPoint(x: 20, y: 20)

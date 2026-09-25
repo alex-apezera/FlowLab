@@ -35,6 +35,7 @@ struct PhysicalSettings: View {
                 }
                 Section(header: Text("Temperature conditions")) {
                     Toggle("ON/OFF init gradient distribution", isOn: $solver.useInitialGradientT)
+                    Toggle("ON/OFF α = 0 in the solid stone", isOn: $solver.zeroStoneConductivity)
                     Toggle("After the front touched the cold wall: \(solver.params.useNeiman ? "dT/dx=0" : "T=T_cold")", isOn: $solver.params.useNeiman)
                 }
                 Section(header: VStack(alignment: .leading) {

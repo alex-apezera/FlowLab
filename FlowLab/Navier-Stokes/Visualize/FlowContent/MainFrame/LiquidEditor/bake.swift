@@ -28,7 +28,7 @@ extension LiquidFractionEditor {
                     }
                 }
             }
-            // После запекания можно сбросить активный инструмент на кисть
+            // Cброс активного инструмента на кисть
             currentTool = .freehand
         }
     }

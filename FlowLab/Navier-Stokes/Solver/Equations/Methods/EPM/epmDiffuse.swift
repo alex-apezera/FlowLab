@@ -12,38 +12,42 @@ extension NavierStokesSolver {
     /// Подготовка потоков для диффузионных членов  EPM.
     func epmDiffuse(quantity: inout [Double], isMomentum: Bool = false) {
         
+//        getSolidMask()
+        
         // ИЗВЛЕКАЕМ УКАЗАТЕЛИ (Pinning)
         quantity.withUnsafeMutableBufferPointer { quantity in
         liquidFraction.withUnsafeBufferPointer { liquidFraction in
         T.withUnsafeBufferPointer { T in
-                    
-            if useParallelDiffusion {
-                DispatchQueue.concurrentPerform(iterations: workerCount) { wID in
-                    let startY = 1 + (wID * (ny - 2) / workerCount)
-                    let endY = 1 + ((wID + 1) * (ny - 2) / workerCount)
-                    diffuseEpmX(startY: startY, endY: endY, quantity, liquidFraction, T, isMomentum: isMomentum)
-                }
+//        solidMask.withUnsafeBufferPointer { solidMask in
                 
-                DispatchQueue.concurrentPerform(iterations: workerCount) { wID in
-                    let startX = 1 + (wID * (nx - 2) / workerCount)
-                    let endX = 1 + ((wID + 1) * (nx - 2) / workerCount)
-                    diffuseEpmY(startX: startX, endX: endX, quantity, liquidFraction, T, isMomentum: isMomentum)
-                }
-                
-            } else {
-                diffuseEpmX(startY: 1, endY: ny-1, quantity, liquidFraction, T, isMomentum: isMomentum)
-                diffuseEpmY(startX: 1, endX: nx-1, quantity, liquidFraction, T, isMomentum: isMomentum)
+        if useParallelDiffusion {
+            DispatchQueue.concurrentPerform(iterations: workerCount) { wID in
+                let startY = 1 + (wID * (ny - 2) / workerCount)
+                let endY = 1 + ((wID + 1) * (ny - 2) / workerCount)
+                diffuseEpmX(startY: startY, endY: endY, quantity, liquidFraction, T, isMomentum/*, solidMask*/)
             }
             
-        }}}/// Ptr
+            DispatchQueue.concurrentPerform(iterations: workerCount) { wID in
+                let startX = 1 + (wID * (nx - 2) / workerCount)
+                let endX = 1 + ((wID + 1) * (nx - 2) / workerCount)
+            diffuseEpmY(startX: startX, endX: endX, quantity, liquidFraction, T, isMomentum/*, solidMask*/)
+            }
+            
+        } else {
+            diffuseEpmX(startY: 1, endY: ny-1, quantity, liquidFraction, T, isMomentum/*, solidMask*/)
+            diffuseEpmY(startX: 1, endX: nx-1, quantity, liquidFraction, T, isMomentum/*, solidMask*/)
+        }
+                
+        }}}/*}*//// Ptr
     }
     
     /// Вычисление прогоночных коэффициентов для диффузионных членов  по оси X
-    fileprivate func diffuseEpmX(startY: Int, endY: Int,_ quantity: Mutable, _ liquidFraction: ReadOnly, _ T: ReadOnly, isMomentum: Bool) {
+    fileprivate func diffuseEpmX(startY: Int, endY: Int,_ quantity: Mutable, _ liquidFraction: ReadOnly, _ T: ReadOnly, _ isMomentum: Bool/*, _ solidMask: PtrUInt8*/) {
         
         let h2 = h * h, dt_h2 = dt / h2
         let nx = self.nx
         let T_cold = self.T_cold, alpha_solid = self.alpha_solid
+        let zeroSC = self.zeroStoneConductivity
         
         var a = [Double](repeating: 0.0, count: nx)
         var b = [Double](repeating: 0.0, count: nx)
@@ -87,22 +91,24 @@ extension NavierStokesSolver {
                 } else {
                     let T = T[idx]
                     let f = liquidFraction[idx]
-                    /// Определяем коэффициент температуропроводности с учётом фазы
+
                     let alpha_eff: Double
                     if isMomentum {
-                        alpha_eff = nu(T)  // для momentum - вязкость
+                        // для momentum - вязкость
+                        alpha_eff = nu(T)
                     } else if f >= 1-dTm {
-                        alpha_eff = alpha(T)  // жидкая фаза
-                    } else if f <= dTm {
-                        alpha_eff = alpha_solid   // чисто твёрдая фаза
+                        // жидкая фаза
+                        alpha_eff = alpha(T)
+                    } else if f < dTm {
+                        // чисто твёрдая фаза с разной α
+                        alpha_eff = zeroSC ? 0 :  alpha_solid
                     } else {
-                        // Кашица/пористая среда: линейная интерполяция
+                        // пористая среда: линейная интерполяция
                         alpha_eff = alpha_solid + f * (alpha(T) - alpha_solid)
                     }
 
-                    let diff_dt_h2 = /*f < dTm ? 0.0 :*/ alpha_eff * dt_h2
+                    let diff_dt_h2 = alpha_eff * dt_h2
 
-                    // Для всех фаз используем одинаковую трёхточечную схему
                     a[i] = -diff_dt_h2
                     c[i] = -diff_dt_h2
                     b[i] = 1.0 + 2.0 * diff_dt_h2
@@ -116,12 +122,13 @@ extension NavierStokesSolver {
     }
     
     /// Вычисление прогоночных коэффициентов для диффузионных членов  по оси Y
-    fileprivate func diffuseEpmY(startX: Int, endX: Int,_ quantity: Mutable, _ liquidFraction: ReadOnly, _ T: ReadOnly, isMomentum: Bool) {
+    fileprivate func diffuseEpmY(startX: Int, endX: Int,_ quantity: Mutable, _ liquidFraction: ReadOnly, _ T: ReadOnly, _ isMomentum: Bool/*, _ solidMask: PtrUInt8*/) {
         
         let h2 = h * h, dt_h2 = dt / h2
         let nx = self.nx, ny = self.ny
         let alpha_solid = self.alpha_solid
         let useWind = self.params.useWind
+        let zeroSC = self.zeroStoneConductivity
         
         var a = [Double](repeating: 0.0, count: ny)
         var b = [Double](repeating: 0.0, count: ny)
@@ -148,22 +155,24 @@ extension NavierStokesSolver {
                 } else {
                     let T = T[idx]
                     let f = liquidFraction[idx]
-                    /// Определяем коэффициент температуропроводности с учётом фазы
+
                     let alpha_eff: Double
                     if isMomentum {
-                        alpha_eff = nu(T)  // для momentum - вязкость
+                        // для momentum - вязкость
+                        alpha_eff = nu(T)
                     } else if f >= 1-dTm {
-                        alpha_eff = alpha(T)  // жидкая фаза
-                    } else if f <= dTm {
-                        alpha_eff = alpha_solid   // чисто твёрдая фаза
+                        // жидкая фаза
+                        alpha_eff = alpha(T)
+                    } else if f < dTm {
+                        // чисто твёрдая фаза с разной α
+                        alpha_eff = zeroSC ? 0 :  alpha_solid
                     } else {
-                        // Кашица/пористая среда: линейная интерполяция
+                        // пористая среда: линейная интерполяция
                         alpha_eff = alpha_solid + f * (alpha(T) - alpha_solid)
                     }
 
-                    let diff_dt_h2 = /*f < dTm ? 0.0 :*/ alpha_eff * dt_h2
+                    let diff_dt_h2 = alpha_eff * dt_h2
 
-                    // Для всех фаз используем одинаковую трёхточечную схему
                     a[j] = -diff_dt_h2
                     c[j] = -diff_dt_h2
                     b[j] = 1.0 + 2.0 * diff_dt_h2

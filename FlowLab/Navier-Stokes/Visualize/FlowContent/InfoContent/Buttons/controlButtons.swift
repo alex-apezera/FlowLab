@@ -22,12 +22,21 @@ extension Visualizator {
             .keyboardShortcut("z", modifiers: [])
             
             // Сброс к начальному состоянию
-            Button { withAnimation(.easeInOut(duration: 0.5)) { resetSolver() }
+            Button { withAnimation(.easeInOut(duration: 0.5)) { resetSolution = true }
             } label: {
                 HStack { Text("x:").bold(); Text("🪣 Reset") }
             }
             .keyboardShortcut("x", modifiers: [])
             .disabled(isSolving) /// в режиме решения сброс неактивен
+            .confirmationDialog("Reset solution", isPresented: $resetSolution, titleVisibility: .visible) {
+                Button("Reset solver and transformations", role: .confirm) {
+                    resetSolver()
+                    resetSolution = false
+                }
+                .foregroundStyle(.blue)
+                .keyboardShortcut(.return, modifiers: [])
+                Button("Cancel", role: .cancel) { }
+            }
             
             // Управление историей
             Button { withAnimation(.easeInOut(duration: 0.5)) { showHistoryManager.toggle() }
