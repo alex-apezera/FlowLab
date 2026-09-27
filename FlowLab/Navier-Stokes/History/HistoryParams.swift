@@ -4,6 +4,7 @@
 //
 //  Created by Алексей Езерский on 08.05.2026.
 //
+//MARK: - History Methods
 
 import Foundation
 extension HistoryManagerView {
@@ -41,27 +42,38 @@ extension HistoryManagerView {
                     stretch_x: solver.params.stretch_x,
                     stretch_y: solver.params.stretch_y,
                     Rx: solver.params.Rx,
+
                     gravityRotationVelocity: solver.rotationVelocity,
                     gravityInitialAngle: solver.gravityInitialAngle,
                     isGravitySynchronized: solver.params.isGravitySynchronized,
+                    gMagnitude: solver.params.gMagnitude,
+
                     heatingType: solver.params.heatingType,
                     heatingValue: solver.params.heatingValue,
+ 
                     substance: solver.params.substance,
                     customFluidProperties: solver.params.customFluidProperties,
+ 
                     maxTime: solver.params.maxTime,
                     timeStep: solver.dt,
                     timeGap: solver.params.timeGap,
                     timeScale: solver.params.timeScale,
+ 
                     maxIterations: solver.params.maxIterations,
                     relaxationFactor: solver.params.relaxationFactor,
                     criticalError: solver.params.criticalError,
+  
                     countsLimit: solver.params.countsLimit,
                     maxHistorySteps: solver.params.maxHistorySteps,
+
                     hiStabLimit: solver.params.hiStabLimit,
                     lowStabLimit: solver.params.lowStabLimit,
+
                     allowMelt: solver.params.allowMelt,
                     startMeltingStep: solver.params.startMeltingStep,
                     initMeltWidth: solver.params.initMeltWidth,
+                    meltVolumeLimit: solver.params.meltVolumeLimit,
+
                     useAdaptiveRelax: solver.params.useAdaptiveRelax,
                     useEnthalpyMethod: solver.params.useEnthalpyMethod,
                     useConcurrence: solver.params.useConcurrence,
@@ -69,6 +81,8 @@ extension HistoryManagerView {
                     useParallelPressure:  solver.params.useParallelPressure,
                     useStephanScheme: solver.params.useStephanScheme,
                     useNeiman: solver.params.useNeiman,
+                    zeroStoneConductivity: solver.params.zeroStoneConductivity,
+                    
                     comment:  solver.params.comment,
                     dTm: solver.params.dTm,
                     useWind: solver.params.useWind,

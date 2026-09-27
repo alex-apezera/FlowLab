@@ -47,7 +47,7 @@ extension NavierStokesSolver {
         let h2 = h * h, dt_h2 = dt / h2
         let nx = self.nx
         let T_cold = self.T_cold, alpha_solid = self.alpha_solid
-        let zeroSC = self.zeroStoneConductivity
+        let zeroSC = self.params.zeroStoneConductivity
         
         var a = [Double](repeating: 0.0, count: nx)
         var b = [Double](repeating: 0.0, count: nx)
@@ -128,7 +128,7 @@ extension NavierStokesSolver {
         let nx = self.nx, ny = self.ny
         let alpha_solid = self.alpha_solid
         let useWind = self.params.useWind
-        let zeroSC = self.zeroStoneConductivity
+        let zeroSC = self.params.zeroStoneConductivity
         
         var a = [Double](repeating: 0.0, count: ny)
         var b = [Double](repeating: 0.0, count: ny)

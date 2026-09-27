@@ -4,10 +4,11 @@
 //
 //  Created by Алексей Езерский on 13.11.2025.
 //
+// MARK: - History Manager View
 
 import SwiftUI
 
-// MARK: - Представление для управления историей
+/// Представление для управления историей
 
 struct HistoryManagerView: View {
     @Binding var isPresented: Bool

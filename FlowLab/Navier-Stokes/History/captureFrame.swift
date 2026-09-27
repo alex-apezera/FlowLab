@@ -4,11 +4,11 @@
 //
 //  Created by Алексей Езерский on 14.11.2025.
 //
-// MARK: - Frame for visualization current session
+// MARK: - Capture the frame for current session
 
 extension NavierStokesSolver {
         
-    /// Функция для накопления кадров текущего сеанса
+    /// Функция  накопления кадров текущего сеанса
     func captureFrame() -> HistoryFrame {
         return HistoryFrame(
             t: t,

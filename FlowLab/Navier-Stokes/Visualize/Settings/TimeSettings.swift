@@ -39,7 +39,7 @@ struct TimeSettings: View {
         dtInterval = "\(solver.params.timeGap)"
         time_scale = "\(solver.params.timeScale)"
         rangeX = "\(solver.params.Rx)"
-        meltVolumeLimit = "\(solver.meltVolumeLimit)"
+        meltVolumeLimit = "\(solver.params.meltVolumeLimit)"
     }
     
     /// Сохранение настроек
@@ -51,7 +51,7 @@ struct TimeSettings: View {
         if let ts = Double(time_scale) {  solver.params.timeScale = ts }
         if let rx = Double(rangeX) { solver.params.Rx = rx }
         if let dt = Double(dt) { solver.dt = dt }
-        if let ml = Double(meltVolumeLimit) { solver.meltVolumeLimit = ml }
+        if let ml = Double(meltVolumeLimit) { solver.params.meltVolumeLimit = ml }
     }
     
     /// Редактирование настроек

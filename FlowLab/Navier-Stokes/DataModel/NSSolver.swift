@@ -4,7 +4,7 @@
 //
 //  Created by Алексей Езерский on 06.07.2025.
 //
-// MARK: - Solver. Модели данных
+// MARK: - Solver. Data model.
 
 import SwiftUI
 import Combine
@@ -47,10 +47,6 @@ final class NavierStokesSolver: ObservableObject {
     @Published var t: Double = 0.0 ///  время, соответсвующее приращению dt [s]
     @Published var dt: Double = 0.001 /// начальный шаг по времени [s]
     @Published var step: Int = 0 /// итерация (шаг) по решению всех уравнений
-    @Published var meltVolumeLimit = 1.25 /// лимит приращения объёма V𝗆/V₀
-
-    // Гравитация
-    @Published var gMagnitude = 9.81 /// ускорение свободного падения [m/s²]
         
     // Массивы для отслеживания параметров решения (для диагностики)
     @Published var q_hotWall: [Double] = [] /// <q>  на горячей стенке
@@ -83,7 +79,6 @@ final class NavierStokesSolver: ObservableObject {
     // Переключатели и переменные для метода EPM
     @Published var useInitialGradientT = true /// установить  градиент Т для начала расчетов
     @Published var makeSolid = false /// запрет плавления (камень))
-    @Published var zeroStoneConductivity = false /// α = 0 ?
 
     // Параметры активного объекта (тело твердой фазы, EPM)
     @Published var activeObjectPos = CGPoint(x: 20, y: 20)
@@ -109,7 +104,7 @@ final class NavierStokesSolver: ObservableObject {
     // Количество активных ядер процессора (он же шаг распараллеливания)
     @Published var workerCount = ProcessInfo.processInfo.activeProcessorCount
     
-    var tiny = 1e-14 /// малая константа для предотвращения деления на ноль
+    var tiny = 1e-16 /// малая константа для предотвращения деления на ноль
     
     @Published var simulationActivity: NSObjectProtocol?/// активность системы
 

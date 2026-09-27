@@ -4,9 +4,11 @@
 //
 //  Created by Алексей Езерский on 13.11.2025.
 //
-//MARK: - Вещество для моделирования
+//MARK: - Modelling Substances
 
 import SwiftUI
+
+/// Моделируемые вещества
 
 enum Substance: String, Codable, CaseIterable, Sendable {
     case water, eicosane, docosane, wax56, air, custom

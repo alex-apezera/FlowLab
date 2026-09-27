@@ -41,19 +41,19 @@ The software models:
 ## Physical and mathematical model
 
 > **Symbols (SI system):** 
-𝐕 - velocity vector, 
-T - temperature, 
-p - pressure, 
-t - time, 
-$\mathbf{g}$ - gravity vector, 
-α - thermal diffusivity, 
-λ - thermal conductivity, 
-β - volume expansion, 
-ν - cinematic viscosity, 
-L - latent heat, 
-n - normal to the melt surface, 
-ρ - density (liquid), 
-> ψ, ω - stream function.
+𝐕 - velocity vector, [m/s]
+T - temperature, [K]≡[ºC]
+p - pressure, [Pa]
+t - time, [s]
+$\mathbf{g}$ - gravity vector, [m/s²]
+α - thermal diffusivity, [m²/s]
+λ - thermal conductivity, [W/m·K]
+β - volume expansion, [K⁻¹]
+ν - cinematic viscosity, [m²/s]
+L - latent heat, [W·s/kg]=[J/kg]
+n - normal to the melt surface, [m]
+ρ - density (liquid), [kg/m³]
+ψ, ω - stream function.
 
 The following equations are solved:
 
@@ -147,7 +147,7 @@ The visualization screen contains the following areas (see [Examples](#examples)
 > **note** - if an external keyboard is used, button presses can be duplicated using hotkeys highlighted in blue. Hotkeys info is available on [?] button.
 * **Control panel:** contains buttons
 1) Start/Pause - start/pause the solving process, 
-2) History - saving History frames to a file using JSON or a compressed binary format. Loading History frames from a list of files,
+2. History - saving History frames to a file using JSON or a compressed binary format. Loading History frames from a list of files,
 > **note** - after loading the file, you can proceed with the calculation; however, some parameters need to be adjusted if the calculation session is already configured for a different task.
 3) Reset - the initial state of fields and variables is set, with the exception of time, 
 4) Diagnostics - a pop-up window displaying diagnostic parameters and graphs, with the ability to switch the graph content and initiate the iterative process for calculating the stream function ω from the Poisson equation, 
@@ -385,7 +385,20 @@ FlowLab — программный комплекс для численного 
 
 ## Физическая и математическая модель
 
-> **Обозначения (система СИ):** 𝐕 - вектор скорости, T - температура, p - давление, t - время, ḡ - вектор гравитации, α - температуропроводность, λ - теплопроводность, β - коэффициент объемного расширения, ν - кинематическая вязкость, L - скрытая теплота плавления, n - нормаль к поверхности плавления, ρ - плотность жидкой фазы, ψ, ω - функция тока. 
+> **Обозначения (система СИ):** 
+𝐕 - вектор скорости, [m/s]
+T - температура, [K]≡[ºC]
+p - давление, [Pa]
+t - время, [s] 
+ḡ - вектор гравитации, [m/s²]
+α - температуропроводность, [m²/s] 
+λ - теплопроводность, 
+β - коэффициент объемного расширения, 
+ν - кинематическая вязкость, [m²/s] 
+L - скрытая теплота плавления, 
+n - нормаль к поверхности плавления, 
+ρ - плотность жидкой фазы, 
+ψ, ω - функция тока. 
 
 Решаются уравнения
 * Импульса: ∂𝐕/∂t + (𝐕・∇)𝐕 = -(1/ρ)∇p + ν∇²𝐕 + ḡβ(Τ-Τ₀).
@@ -433,7 +446,7 @@ FlowLab — программный комплекс для численного 
 
 * **контрольная панель:** здесь находятся кнопки 
 1) Старта/Паузы - запуск/пауза процесса решения, 
-2) Истории - сохранение кадров Истории в файл с использованием формата JSON или бинарного формата со сжатием. Загрузка кадров Истории из списка файлов,
+2. Истории - сохранение кадров Истории в файл с использованием формата JSON или бинарного формата со сжатием. Загрузка кадров Истории из списка файлов,
 > **примечание** - после загрузки файла можно продолжить расчет, однако требуется донастроить некоторые параметры, если сеанс расчета уже настроен на другую задачу
 3) Сброса - устанавливается начальное состояние полей и переменных, за исключением времени, 
 4) Диагностики - всплывающее окно с диагностическими параметрами и графиками с возможностью переключения содержания графиков и запуском итерационного процесса вычисления функции тока ω из уравнения Пуассона, 

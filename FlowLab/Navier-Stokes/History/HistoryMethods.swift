@@ -4,10 +4,12 @@
 //
 //  Created by Алексей Езерский on 11.12.2025.
 //
+//MARK: - History files manager
+
 import SwiftUI
 extension HistoryManagerView {
-    
-    //MARK: - Методы управления файлами истории
+        
+    /// Методы управления файлами истории
     
     func loadAction(_ fileName: String)  {
         isLoading = true /// Показываем спиннер

@@ -4,7 +4,7 @@
 //
 //  Created by Алексей Езерский on 08.12.2025.
 //
-//MARK: - Helper methods for storing the solution in the current session
+//MARK: - History frame of the solution in the current session
 
 import SwiftUI
 

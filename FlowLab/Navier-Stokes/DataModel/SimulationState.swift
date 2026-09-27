@@ -5,7 +5,7 @@
 //  Created by Алексей Езерский on 13.11.2025.
 //
 
-//MARK: - Состояние симуляции (решения) для сохранения в файл Истории
+//MARK: - State data model for a simulation
 
 /// Состояние решения для сохранения в файл Истории
 struct SimulationState: Codable, Sendable {

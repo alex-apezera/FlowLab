@@ -17,7 +17,9 @@ extension Visualizator {
                     gravityLegend /// управление вектором гравитации
                     buttonFreeze.padding(.top, 20)
                 }
-                parametersInfo /// основные параметры задачи
+                ScrollView(.horizontal, showsIndicators: false) {
+                    parametersInfo /// основные параметры задачи
+                }
             }
             switchContent /// переключатели для визуализации
             historyFrame  /// слайдер истории с кнопками управления

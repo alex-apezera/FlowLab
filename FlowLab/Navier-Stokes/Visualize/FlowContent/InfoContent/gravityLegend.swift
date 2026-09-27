@@ -29,7 +29,7 @@ extension Visualizator {
             }
             .buttonStyle(.borderless)
 
-            if solver.gMagnitude == 0 {
+            if solver.params.gMagnitude == 0 {
                 Text("None Gravity")
             } else {
                 Text("🕗 \(solver.params.gravityRotationVelocity, specifier: "%.1f")\(solver.allowMelt ? "º/day" : "º/min")")

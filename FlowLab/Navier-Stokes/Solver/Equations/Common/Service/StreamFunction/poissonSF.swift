@@ -4,7 +4,7 @@
 //
 //  Created by Алексей Езерский on 24.03.2025.
 //
-//MARK: - Calculate Stream Function by Poisson ∇²ψ = ∂v/∂x - ∂u/∂y (= ω)
+//MARK: - Calculate Stream Function (ψ ≡ ω) by Poisson ∇²ψ = ∂v/∂x - ∂u/∂y
 
 import Foundation
 extension NavierStokesSolver {
@@ -24,7 +24,6 @@ extension NavierStokesSolver {
                 self.psi = newPsi
                 self.isCalculatingStream = false // Убираем индикатор
             }
-//            await Task.sleep(nanoseconds: 500_000_000)
         }
     }
     /// Решение уравнения Пуассона ∇²ψ = ∂v/∂x - ∂u/∂y

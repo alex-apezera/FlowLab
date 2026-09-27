@@ -16,7 +16,7 @@ struct LiquidFractionEditor: View {
     
     // Параметры Состояния редактора тела твердой фазы
     @State var currentTool: EditorTool = .freehand
-    @State var brushSize: CGFloat = 6
+    @State var brushSize: CGFloat = 10
     @State var isShowingImporter = false /// окно "Открыть"
     @State var isShowingExporter = false /// окно "Сохранить"
     @State var exportDoc: SimulationDocument? /// Хранит данные для экспорта

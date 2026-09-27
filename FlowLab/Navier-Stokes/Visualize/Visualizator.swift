@@ -50,22 +50,21 @@ struct Visualizator: View {
     @State var playbackTask: Task<Void, Error>?
     
     // Для кнопок управления состоянием полей и графиками
-    @State var showDiagnostics = false /// показать режим диагностики
-    @State var toggleDiagnostic: Bool = false /// режимы диагностики
-    @State var addVelocityField: Bool = true /// наложение поля скоростей
-    @State var toggleColorScheme: Bool = true /// цветовая схема поля для T, p, ψ
-    @State var toggleVelocityColor: Bool = true /// цветовая схема для вектора V
-    @State var arrowDensity: Int = 4 /// плотность стрелок (прореживание)
-    @State var arrowScale: Double = 0.5 /// масштабирование стрелок
-    @State var showFrontLine: Bool = true /// показ фронта плавления
+    @State var showDiagnostics = false /// показать  диагностику
+    @State var toggleDiagnostic: Bool = false /// режимы диагн.
+    @State var addVelocityField: Bool = true /// наложение поля 𝐕
+    @State var toggleColorScheme: Bool = true /// цветовая схема
+    @State var toggleVelocityColor: Bool = true /// цвета для 𝐕
+    @State var arrowDensity: Int = 4 /// прореживание стрелок
+    @State var arrowScale: Double = 0.5 /// масштаб стрелок
+    @State var showFrontLine: Bool = true ///показ фронта плавления
     @State var needsStream = true /// если необходим пересчёт ω
-    @State var realSize: Bool = false
-    @State var setGravity: Bool = false
-    @State var isLandscape: Bool = false
-    @State var shortKeys: Bool = false
+    @State var realSize: Bool = false /// размерность для meltWidth
+    @State var isLandscape: Bool = false /// поворот для iPhone
+    @State var shortKeys: Bool = false ///  панель горячих клавиш
 
     // Выбор объекта демонстрации
-    @State var selectedVisualization = 0 /// переключается в switchContent
+    @State var selectedVisualization = 0 /// выбор объекта  
     let visualizationOptions = ["T", "p", "ψ", "T(x)", "q(t)", "🟦", "ω"]
 
     /// Заголовок задачи

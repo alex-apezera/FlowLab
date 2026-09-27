@@ -4,10 +4,12 @@
 //
 //  Created by Алексей Езерский on 25.11.2025.
 //
-// MARK: - Вычисляемые физические параметры вещества
+// MARK: - Calculable physical parameters of a substance.
 
 import Foundation
 extension NavierStokesSolver {
+    
+    // Вычисляемые физические параметры вещества
         
     /// α - температуропроводность - thermal diffusivity [m²/s]
     @inline(__always)
@@ -131,7 +133,7 @@ extension NavierStokesSolver {
 
     //MARK: - Вычисление чисел подобия
     
-    var Ra: Double { gMagnitude * beta * deltaT * L*L*L / (nu * alpha) }
+    var Ra: Double { params.gMagnitude * beta * deltaT * L*L*L / (nu * alpha) }
     var Pr: Double { nu / alpha }
     var Re: Double { maxVelocityValue * rho * L / mu }
     var Ste: Double { Cp * deltaT / latentHeat }

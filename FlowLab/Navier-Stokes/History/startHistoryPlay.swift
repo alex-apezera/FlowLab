@@ -4,10 +4,11 @@
 //
 //  Created by Алексей Езерский on 14.11.2025.
 //
-// MARK: - Методы управления Историей
+// MARK: - History play manager
 
 import SwiftUI
 extension Visualizator {
+    
     /// Проигрывание истории
     func startHistoryPlayback() {
         // Отменяем предыдущую задачу, если есть

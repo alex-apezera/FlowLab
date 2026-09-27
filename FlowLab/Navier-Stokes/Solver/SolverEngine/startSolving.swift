@@ -16,7 +16,7 @@ extension Visualizator {
         
         // Создаем новую задачу
         solvingTask = Task { [self] in
-            while !Task.isCancelled && isSolving && solver.t < solver.maxTime && solver.rx_avg < solver.meltVolumeLimit {
+            while !Task.isCancelled && isSolving && solver.t < solver.maxTime && solver.rx_avg < solver.params.meltVolumeLimit {
                 // Выполняем шаг решения
                 guard await solver.solveStep() else { break }
                 

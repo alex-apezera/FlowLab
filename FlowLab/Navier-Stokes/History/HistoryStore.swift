@@ -4,9 +4,11 @@
 //
 //  Created by Алексей Езерский on 07.12.2025.
 //
+//MARK: - History frame manage
 
 import Foundation
 import Combine
+
 /// Управление кадрами Истории для хранения на диске
 class HistoryStore: ObservableObject {
     @Published var frames: [HistoryFrame] = []

@@ -56,7 +56,7 @@ struct GravitySettings: View {
                     Toggle("ON/OFF synchronization", isOn: $isGravitySynchronized)
                 }
                 Section(header: Text("𝐆 magnitude")) {
-                    EditValue(text: "magnitude value [m/s²]", value: $solver.gMagnitude)
+                    EditValue(text: "magnitude value [m/s²]", value: $solver.params.gMagnitude)
                 }
             }
             .padding()

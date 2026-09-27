@@ -5,7 +5,7 @@
 //  Created by Алексей Езерский on 13.11.2025.
 //
 
-// MARK: - Модели данных
+// MARK: - Simulation Parameters Data model.
 
 /// Параметры, необходимые для решения задачи
 struct SimulationParameters: Codable, Sendable {
@@ -22,6 +22,7 @@ struct SimulationParameters: Codable, Sendable {
     var gravityRotationVelocity: Double = 0.0 /// cкорость вращения вектора [º/h]
     var gravityInitialAngle: Double = 0.0 /// начальный угол 0 = 0º ( ↓ ), 90 = 90º ( ← )
     var isGravitySynchronized: Bool = false /// синхронизация угла с вычислениями
+    var gMagnitude = 9.81 /// ускорение свободного падения [m/s²]
     
     // Подвод тепла к левой горячей стенке
     var heatingType: HeatingType = .temperature /// or .heatFlux
@@ -64,17 +65,19 @@ struct SimulationParameters: Codable, Sendable {
 
     // Управление процессом плавления
     var allowMelt = false /// ВКЛ/ВЫКЛ  режим расчета плавления
-    var startMeltingStep: Int = 1_000_000 /// шаг начала процесса плавления
+    var startMeltingStep: Int = 1_000_000 /// шаг начала плавления
     var initMeltWidth = 0.15 /// начальная толщина расплава [m]
+    var meltVolumeLimit = 1.25 /// лимит приращения объёма W𝗆/W₀
     
     // Опции решения уравнений (переключатели)
-    var useAdaptiveRelax = false /// градиентная коррекция второго порядка
+    var useAdaptiveRelax = false /// настраиваемая релаксация для p
     var useEnthalpyMethod = false /// использовать метод EPM
-    var useConcurrence = false /// многопоточность для остальных функций
-    var useParallelDiffusion = false /// многопоточность для диффузии
+    var useConcurrence = false /// многопоточность для остального
+    var useParallelDiffusion = false /// многопоточность для дифф.
     var useParallelPressure = false /// многопоточность для давления
-    var useStephanScheme = false ///  схема расчета теплового потока через границу
-    var useNeiman = false /// ГУ для Т при касании фронта правого края области
+    var useStephanScheme = false /// схема расчета теплового потока
+    var useNeiman = false /// ГУ для Т при касании фронта правого края
+    var zeroStoneConductivity = false /// использовать α = 0  в камне
     
     /// Комментарий к решению, включается в  файл истории
     var comment: String = ""

@@ -4,7 +4,7 @@
 //
 //  Created by Алексей Езерский on 06.11.2025.
 //
-// MARK: - Вычисляемые переменные и свойства
+// MARK: - Calculable variables and properties.
 
 import Foundation
 extension NavierStokesSolver {
@@ -53,6 +53,7 @@ extension NavierStokesSolver {
     var useParallelPressure: Bool {params.useParallelPressure}
     var useStephanScheme: Bool {params.useStephanScheme}
     var useAdaptiveRelax: Bool {params.useAdaptiveRelax}
+    var zeroStoneConductivity: Bool {params.zeroStoneConductivity}
 
     // Параметры плавления -> params
     

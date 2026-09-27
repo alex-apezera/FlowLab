@@ -4,7 +4,7 @@
 //
 //  Created by Алексей Езерский on 05.12.2025.
 //
-// MARK: - Физические свойства вещества
+// MARK: - Physical properties of a substance.
 
 import SwiftUI
 

@@ -12,7 +12,7 @@ extension NavierStokesSolver {
     /// Вычисление вектора гравитации по времени (angle: [rad])
     func gVector(for t: Double) -> (gx: Double, gy: Double) {
         let angle = gravityInitialAngle + .pi/180 * rotationVelocity * t
-            return (gMagnitude * sin(angle), -gMagnitude * cos(angle))
+        return (params.gMagnitude * sin(angle), -params.gMagnitude * cos(angle))
     }
     
     /// Угол вектора гравитации [°], degrees

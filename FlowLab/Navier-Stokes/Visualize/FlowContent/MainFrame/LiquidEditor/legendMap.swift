@@ -19,7 +19,7 @@ extension LiquidFractionEditor {
                 Text("PHASE MODE").font(.headline).bold().padding(.top, 5)
                 Button(solver.makeSolid ? "r: Solid mode ON" : "r: Solid mode OFF") { solver.makeSolid.toggle()}
                     .keyboardShortcut("r", modifiers: [])
-                Button(solver.zeroStoneConductivity ? "⇧ + r: Solid α = 0 -> ON" : "⇧ + r: Solid α = 0 -> OFF") { solver.zeroStoneConductivity.toggle()}
+                Button(solver.zeroStoneConductivity ? "⇧ + r: Solid α = 0 -> ON" : "⇧ + r: Solid α = 0 -> OFF") { solver.params.zeroStoneConductivity.toggle()}
                     .keyboardShortcut("r", modifiers: [.shift])
 
                 // Смена типа объекта
