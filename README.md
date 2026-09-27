@@ -228,7 +228,7 @@ The following parameters can be modified in the **Settings** panel:
 
 * **Gravity:** initial angle and the angle variation rate in degrees per second or day. The thermal map may be synchronized with the simulation time (or with the physical time in melting mode). For forced convection, the magnitude may be equal to zero.
 
-* **Time parameters:** total simulation time, final time at which the simulation is stopped, final value of the relative volume (thickness) increment of the melt, simulation time step for recording to History, and the time scale used to accelerate the simulation for meltimg. Increasing the time scale reduces the accuracy of the solution.
+* **Time parameters:** total simulation time, final time at which the simulation is stopped, final value of the relative volume (thickness or width) increment of the melt, simulation time step for recording to History, and the time scale used to accelerate the simulation for meltimg. Increasing the time scale reduces the accuracy of the solution.
 
 * **Simulation controls:** the Courant-number range used to adapt the time step (including the hybrid scheme, which is not recommended); pressure-solver tolerance and relax factor; the number of iterations for the Poisson equation; limits of array dimensions for Diagnostics parameters and Hostory.
 
@@ -519,7 +519,7 @@ n - нормаль к поверхности плавления,
 
 * Состояние экрана визуализации для задачи на основе метода ALE "Естественная конвекция (без плавления) внутри полости с Эйкозаном" с диагностическими графиками. Время моделирования - 90 секунд):
 
-  **fig. 2** промежуточный вариант (t=60c) с линиями тока ("тепловая карта" - ТК)  
+ **fig. 2** промежуточный вариант (t=60c) с линиями тока ("тепловая карта" - ТК)  
 <img width="1256" height="973" alt="fig2" src="https://github.com/user-attachments/assets/17880486-2851-4e2e-a5a4-d2bd292ff906" />
 
   **fig. 3** поле температуры ("тепловая карта") 
