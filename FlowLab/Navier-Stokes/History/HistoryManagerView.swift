@@ -32,51 +32,11 @@ struct HistoryManagerView: View {
         NavigationView {
             ZStack {
                 VStack {
-                    // Панель сохранения
-                    Section(header: Text("Save history").font(.headline)) {
-                        
-                        HStack{
-                            editString("File name", $fileName)
-                            Button { saveAction() }
-                            label: {Image(systemName: "square.and.arrow.down")}
-                                .disabled(fileName.isEmpty || history.frames.isEmpty)
-                            editString("Enter comment", $comment)
-                        }
-                        .padding(.horizontal, 10)
-                        
-                        Toggle("OFF: -> .bin, ON: -> .json", isOn: $useJSON)
-                            .clipMode(350)
-                    }.padding(.horizontal, 5)
+                    // Панель сохранения файла истории
+                    saveHistoryFile
                     
                     // Список файлов с действиями
-                    Section(header: Text("History files, total size: \(HistoryManager.shared.getHistoryFolderSize)")
-                        .font(.callout).foregroundStyle(.tertiary)) {
-                            List {
-                                ForEach(savedFiles, id: \.self) { file in
-                                    HStack {
-                                        Text(file)
-                                        Spacer()
-                                        let comment = file == activeFile ? loadedComment : "File not loaded"
-                                        Text(comment)
-                                            .foregroundColor(.secondary)
-                                        Spacer()
-                                        HStack {
-                                            if file == activeFile {
-                                                Image(systemName: "checkmark")
-                                            }
-                                            Text(HistoryManager.shared.getFileSize(file))
-                                                .foregroundColor(.secondary)
-                                        }
-                                    }
-                                .contentShape(Rectangle())
-                                .onTapGesture {
-                                    selectedFile = file
-                                    showingFileActions = true
-                                }
-                            }
-                            .onDelete(perform: deleteHistory)
-                        }
-                    }
+                    listHistoryFiles
                 }
                 .disabled(isLoading) /// Блокируем кнопки при загрузке
                 .navigationModifier("History service")
@@ -115,4 +75,52 @@ struct HistoryManagerView: View {
         }
     }
     
+    private var saveHistoryFile: some View {
+        Section(header: Text("Save history").font(.headline)) {
+            
+            HStack{
+                editString("File name", $fileName)
+                Button { saveAction() }
+                label: {Image(systemName: "square.and.arrow.down")}
+                    .disabled(fileName.isEmpty || history.frames.isEmpty)
+                editString("Enter comment", $comment)
+            }
+            .padding(.horizontal, 10)
+            
+            Toggle("OFF: -> .bin, ON: -> .json", isOn: $useJSON)
+                .clipMode(350)
+        }
+        .padding(.horizontal, 5)
+    }
+    
+    private var listHistoryFiles: some View {
+        Section(header: Text("History files, total size: \(HistoryManager.shared.getHistoryFolderSize)")
+            .font(.callout).foregroundStyle(.tertiary)) {
+                List {
+                    ForEach(savedFiles, id: \.self) { file in
+                        HStack {
+                            Text(file)
+                            Spacer()
+                            let comment = file == activeFile ? loadedComment : "File not loaded"
+                            Text(comment)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            HStack {
+                                if file == activeFile {
+                                    Image(systemName: "checkmark")
+                                }
+                                Text(HistoryManager.shared.getFileSize(file))
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        selectedFile = file
+                        showingFileActions = true
+                    }
+                }
+                .onDelete(perform: deleteHistory)
+            }
+        }
+    }
 }
