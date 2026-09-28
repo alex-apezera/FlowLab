@@ -148,8 +148,8 @@ The visualization screen contains the following areas (see [Examples](#examples)
 * **Control panel:** contains buttons
 1) Start/Pause - start/pause the solving process, 
 2. History - saving History frames to a file using JSON or a compressed binary format. Loading History frames from a list of files,
-> **note** - after loading the file, you can proceed with the calculation; however, some parameters need to be adjusted if the calculation session is already configured for a different task.
-3) Reset - the initial state of fields and variables is set, with the exception of time, 
+> **note** - after loading the file, you can proceed with the calculation; however, some parameters need to be adjusted if the calculation session is already configured for a different task. In this case, it is recommended to reload the same file and continue the calculation, modifying the termination conditions.
+3) Reset - the initial state of fields and variables is set, 
 4) Diagnostics - a pop-up window displaying diagnostic parameters and graphs, with the ability to switch the graph content and initiate the iterative process for calculating the stream function ω from the Poisson equation, 
 5) Settings - pop-up window with adjustable solution process parameters, 
 6) Acceleration commands - disables the Main chart area to speed up calculations.
@@ -447,8 +447,8 @@ n - нормаль к поверхности плавления,
 * **контрольная панель:** здесь находятся кнопки 
 1) Старта/Паузы - запуск/пауза процесса решения, 
 2. Истории - сохранение кадров Истории в файл с использованием формата JSON или бинарного формата со сжатием. Загрузка кадров Истории из списка файлов,
-> **примечание** - после загрузки файла можно продолжить расчет, однако требуется донастроить некоторые параметры, если сеанс расчета уже настроен на другую задачу
-3) Сброса - устанавливается начальное состояние полей и переменных, за исключением времени, 
+> **примечание** - после загрузки файла можно продолжить расчет, однако требуется донастроить некоторые параметры, если сеанс расчета уже настроен на другую задачу, в этом случае рекомендуется повторно загрузить этот же файл и продолжить расчет, изменив условия окончания расчета.
+3) Сброса - устанавливается начальное состояние полей и переменных,
 4) Диагностики - всплывающее окно с диагностическими параметрами и графиками с возможностью переключения содержания графиков и запуском итерационного процесса вычисления функции тока ω из уравнения Пуассона, 
 5) Настройки - всплывающее окно с изменяемыми параметрами процесса решения, 
 6) Ускорения - с целью ускорения вычислений выключает Область основного графика.
