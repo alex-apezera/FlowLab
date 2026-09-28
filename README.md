@@ -40,19 +40,32 @@ The software models:
 
 ## Physical and mathematical model
 
-> **Symbols (SI system):** 
-𝐕 - velocity vector, [m/s]
-T - temperature, [K]≡[ºC]
-p - pressure, [Pa]
-t - time, [s]
-$\mathbf{g}$ - gravity vector, [m/s²]
-α - thermal diffusivity, [m²/s]
-λ - thermal conductivity, [W/m·K]
-β - volume expansion, [K⁻¹]
-ν - cinematic viscosity, [m²/s]
-L - latent heat, [W·s/kg]=[J/kg]
-n - normal to the melt surface, [m]
-ρ - density (liquid), [kg/m³]
+**Symbols (SI system):**
+
+𝐕 - velocity vector, [m/s];
+
+T - temperature, [K]≡[ºC];
+
+p - pressure, [Pa];
+
+t - time, [s];
+
+$\mathbf{g}$ - gravity vector, [m/s²];
+
+α - thermal diffusivity, [m²/s];
+
+λ - thermal conductivity, [W/m·K];
+
+β - volume expansion, [K⁻¹];
+
+ν - cinematic viscosity, [m²/s];
+
+L - latent heat, [W·s/kg], [J/kg];
+
+n - normal to the melt surface, [m];
+
+ρ - density (liquid), [kg/m³];
+
 ψ, ω - stream function.
 
 The following equations are solved:
@@ -385,19 +398,33 @@ FlowLab — программный комплекс для численного 
 
 ## Физическая и математическая модель
 
-> **Обозначения (система СИ):** 
+**Обозначения (система СИ):**
+
+
 𝐕 - вектор скорости, [m/s]
+
 T - температура, [K]≡[ºC]
+
 p - давление, [Pa]
+
 t - время, [s] 
+
 ḡ - вектор гравитации, [m/s²]
+
 α - температуропроводность, [m²/s] 
-λ - теплопроводность, 
+
+λ - теплопроводность, [W/m·K];
+
 β - коэффициент объемного расширения, 
+
 ν - кинематическая вязкость, [m²/s] 
-L - скрытая теплота плавления, 
-n - нормаль к поверхности плавления, 
-ρ - плотность жидкой фазы, 
+
+L - скрытая теплота плавления, [W·s/kg], [J/kg]
+
+n - нормаль к поверхности плавления, [m]
+
+ρ - плотность жидкой фазы, [kg/m³]
+
 ψ, ω - функция тока. 
 
 Решаются уравнения
