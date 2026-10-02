@@ -9,7 +9,6 @@
 import SwiftUI
 
 /// Представление для управления историей
-
 struct HistoryManagerView: View {
     @Binding var isPresented: Bool
     @ObservedObject var solver: NavierStokesSolver
@@ -24,7 +23,7 @@ struct HistoryManagerView: View {
     @State var showingFileActions = false
     @State var selectedFile: String?
     @AppStorage("useJSON") var useJSON: Bool = false
-    @State var isLoading = false /// Состояние для спиннера
+    @State var isLoading = false /// Состояние спиннера
         
     var body: some View {
         @State var params = solver.params
@@ -32,13 +31,10 @@ struct HistoryManagerView: View {
         NavigationView {
             ZStack {
                 VStack {
-                    // Панель сохранения файла истории
                     saveHistoryFile
-                    
-                    // Список файлов с действиями
                     listHistoryFiles
                 }
-                .disabled(isLoading) /// Блокируем кнопки при загрузке
+                .disabled(isLoading) /// Блокируем кнопки
                 .navigationModifier("History service")
                 .done($isPresented)
                 .onAppear(perform: refreshFileList)
@@ -61,9 +57,9 @@ struct HistoryManagerView: View {
                     Text(selectedFile ?? "") /// имя файла
                 }
 
-                // Спиннер поверх всего (не работает с айФоном)
+                // Спиннер поверх всего
                 if isLoading {
-                    Color.black.opacity(0.2) /// Darkening the background
+                    Color.black.opacity(0.2) /// затемнение
                         .ignoresSafeArea()
                     ProgressView("Data processing...")
                         .padding()
@@ -75,6 +71,7 @@ struct HistoryManagerView: View {
         }
     }
     
+    /// Панель сохранения файла истории
     private var saveHistoryFile: some View {
         Section(header: Text("Save history").font(.headline)) {
             
@@ -93,6 +90,7 @@ struct HistoryManagerView: View {
         .padding(.horizontal, 5)
     }
     
+    /// Список файлов с действиями
     private var listHistoryFiles: some View {
         Section(header: Text("History files, total size: \(HistoryManager.shared.getHistoryFolderSize)")
             .font(.callout).foregroundStyle(.tertiary)) {

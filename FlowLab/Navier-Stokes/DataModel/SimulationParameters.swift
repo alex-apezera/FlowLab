@@ -9,20 +9,27 @@
 
 /// Параметры, необходимые для решения задачи
 struct SimulationParameters: Codable, Sendable {
+    
     //Геометрия
-    var nx: Int = 100 /// число узлов по ширине
-    var ny: Int = 100 /// число узлов по высоте
-    var Lx: Double = 0.15 /// ширина [m]
-    var Ly: Double = 0.15 /// высота [m]
-    var stretch_x: Double = 0.0 /// коэф растяжения сетки от центра к границе по x
-    var stretch_y: Double = 0.0 /// коэф растяжения сетки от центра к границе по y
-    var Rx: Double = 3.0 /// ограничение по ширине расплава ( > 1 )
+    var nx: Int = 100 /// число узлов по ширине (>1)
+    var ny: Int = 100 /// число узлов по высоте (>1)
+    var Lx: Double = 0.15 /// ширина [m] (>0)
+    var Ly: Double = 0.15 /// высота [m] (>0)
+    /// коэффициенты  растяжения сетки от центра к границам для метода ALE (≥0)
+    var stretch_x: Double = 0.0
+    var stretch_y: Double = 0.0
+    /// ограничение по ширине расплава для метода ALE ( > 1 )
+    var Rx: Double = 3.0
     
     // Гравитация
-    var gravityRotationVelocity: Double = 0.0 /// cкорость вращения вектора [º/h]
-    var gravityInitialAngle: Double = 0.0 /// начальный угол 0 = 0º ( ↓ ), 90 = 90º ( ← )
-    var isGravitySynchronized: Bool = false /// синхронизация угла с вычислениями
-    var gMagnitude = 9.81 /// ускорение свободного падения [m/s²]
+    /// cкорость вращения вектора [º/h]
+    var gravityRotationVelocity: Double = 0.0
+    /// начальный угол вектора  0 = 0º ( ↓ ), 90 = 90º ( ← )
+    var gravityInitialAngle: Double = 0.0
+    /// синхронизация угла вектора с тепловыми картами полей
+    var isGravitySynchronized: Bool = false
+    /// ускорение свободного падения [m/s²]
+    var gMagnitude = 9.81
     
     // Подвод тепла к левой горячей стенке
     var heatingType: HeatingType = .temperature /// or .heatFlux
@@ -52,14 +59,14 @@ struct SimulationParameters: Codable, Sendable {
     
     // Управление итерациями для давления
     var maxIterations: Int = 250 /// для давления
-    var relaxationFactor: Double = 0.5 /// для давления
+    var relaxationFactor: Double = 0.55 /// для давления
     var criticalError: Double = 1e-4 /// критическая ошибка
 
     // Диагностика и история
     var countsLimit: Int = 3000 /// лимит шагов для диагностики
     var maxHistorySteps: Int = 1000 /// лимит кадров  истории
 
-    // Число Куранта
+    // Число Куранта (CFL)
     var hiStabLimit: Double = 0.38 /// верхний лимит для CFL
     var lowStabLimit: Double = 0.28 /// нижний лимит для числа  CFL
 
@@ -67,7 +74,7 @@ struct SimulationParameters: Codable, Sendable {
     var allowMelt = false /// ВКЛ/ВЫКЛ  режим расчета плавления
     var startMeltingStep: Int = 1_000_000 /// шаг начала плавления
     var initMeltWidth = 0.15 /// начальная толщина расплава [m]
-    var meltVolumeLimit = 1.25 /// лимит приращения объёма W𝗆/W₀
+    var meltVolumeLimit = 1.25 /// лимит приращения объёма W/W₀
     
     // Опции решения уравнений (переключатели)
     var useAdaptiveRelax = false /// настраиваемая релаксация для p
@@ -82,14 +89,16 @@ struct SimulationParameters: Codable, Sendable {
     /// Комментарий к решению, включается в  файл истории
     var comment: String = ""
 
-    /// Интервал плавления [K] 0.01 ÷ 0.1
-    var dTm = 0.01 /// T melt - T cold [K] - для метода EPM
+    /// Интервал плавления  для метода EPM (T melt - T cold) ≈ 0.01÷0.1  [K]
+    var dTm = 0.01
     
-    /// Управление вынужденной конвекцией
+    // Управление вынужденной конвекцией
     var useWind: Bool = false /// использовать входящий поток
     var windSpeed: Double = 0.03/// скорость входящего потока [m/s]
     var windAngle: Double = 0.0/// угол входящего потока [degrees]
-    var y_start = 0.4, y_end = 0.6 /// границы вдува относительно высоты области
-    var windDeltaTemp: Double = 10.0 /// температурный напор (Tin - Twall) [℃]
+    /// границы вдува относительно высоты области
+    var y_start = 0.4, y_end = 0.6
+    /// температурный напор (Tin - Twall)  [℃]
+    var windDeltaTemp: Double = 10.0
     var leftSink: Bool = false /// сток  влево (true) или верх/низ (false)
 }

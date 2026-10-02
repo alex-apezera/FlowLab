@@ -14,7 +14,7 @@ extension NavierStokesSolver {
     /// α - температуропроводность - thermal diffusivity [m²/s]
     @inline(__always)
     var alpha: Double { params.currentProperties.thermalDiffusivity }
-
+    /// α - температуропроводность  для твердого тела
     var alpha_solid: Double {
         switch substance {
         case .water, .eicosane, .docosane, .wax56, .air:
@@ -23,7 +23,7 @@ extension NavierStokesSolver {
             return params.customFluidProperties.lambda_solid / (params.customFluidProperties.rho_solid * params.customFluidProperties.Cp_solid)
         }
     }
-
+    /// α(T) - зависимость  от температуры (в диапазоне T melt + 40℃)
     @inline(__always) func alpha(_ T: Double) -> Double {
         switch substance {
         case .water: return 1.33E-7 + 4.75E-10 * T

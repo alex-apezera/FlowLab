@@ -7,6 +7,7 @@
 // MARK: - Save/load History file in different formats
 
 import SwiftUI
+
 /// Управление файлами истории
 class HistoryManager {
     static let shared = HistoryManager()
