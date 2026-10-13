@@ -20,7 +20,7 @@ struct ShortKeysView: View {
                     Text("q: Start/Pause solving")
                     Text("z: Diagnostics view")
                     Text("x: Reset solver")
-                    Text("c: Shortkeys info")
+                    Text("c: History files")
                     Text("/: Settings view")
                     Text(".tab: Accelerate mode")
                 }
@@ -28,7 +28,7 @@ struct ShortKeysView: View {
                 // Информация о процессе плавления
                 Section(header: Text("Melting")) {
                     Text("m: Activate/deactivate melting process")
-                    Text("f: Change dimension info")
+                    Text("f: Toggle melt width dimension info")
                 }
                 // Заморозка скоростей
                 Section(header: Text("Velocity")) {
