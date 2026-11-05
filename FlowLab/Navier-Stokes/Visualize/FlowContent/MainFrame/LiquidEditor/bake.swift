@@ -23,7 +23,7 @@ extension LiquidFractionEditor {
                     if isPointInsidePreview(col: c, row: r) {
                         solver.liquidFraction[idx] = 0.0
                         solver.u[idx] = 0; solver.v[idx] = 0
-                        solver.T[idx] = solver.T_cold
+                        solver.T[idx] = solver.T_cold + solver.dT_stone
                         solver.isStone[idx] = solver.makeSolid ? 1 : 0
                     }
                 }

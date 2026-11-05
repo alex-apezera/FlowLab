@@ -132,8 +132,10 @@ final class NavierStokesSolver: ObservableObject {
     @Published var useInitialGradientT = true
     /// запрет плавления (камень)
     @Published var makeSolid = false
-    /// Режим "заморозки" скоростей
+    /// режим "заморозки" скоростей
     @Published var isFrozen: Bool = false
+    ///  начальный перегрев твердого тела (камня) ΔT над T cold
+    @Published var dT_stone: Double = 0.0
 
     // Параметры активного объекта (тело твердой фазы, EPM)
     
@@ -153,6 +155,7 @@ final class NavierStokesSolver: ObservableObject {
     var prevTotalLiquidVol: Double = 0.0
     
     // Очередь последних стабильных состояний для возобновления расчетов
+    
     var stateBuffer: [SolverState] = []
     let bufferLimit = 10
     @Published var statusMessage: String = ""
