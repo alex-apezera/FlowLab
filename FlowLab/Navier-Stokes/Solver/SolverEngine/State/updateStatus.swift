@@ -19,7 +19,7 @@ extension NavierStokesSolver {
         let soundID: SystemSoundID = msg.contains("⚠️") ? 1003 : 1004
         AudioServicesPlaySystemSound(soundID)
         
-        print("📢 [Step: \(step)] \(msg)")
+        print("ℹ️📢 [Step: \(step)] \(msg)")
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
             if self.statusMessage == msg { self.statusMessage = "" }

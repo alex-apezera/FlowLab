@@ -70,7 +70,7 @@ extension LiquidFractionEditor {
                     }
                 }
             }
-            print("Stone cells count: \(solver.isStone.filter{$0==1}.count)")
+            print("ℹ️ Stone cells count: \(solver.isStone.filter{$0==1}.count)")
             solver.objectWillChange.send()
         }
     }

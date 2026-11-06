@@ -49,7 +49,7 @@ extension HistoryManagerView {
             try historyManager.saveHistory(steps, fileName, comment) :
             try historyManager.saveHistoryPlist(steps, fileName, comment)
             refreshFileList()
-        } catch { print("Save history error: \(error)") }
+        } catch { print("🅾️ Save history error: \(error)") }
     }
     
     /// Загрузка файла истории из разных форматов
@@ -60,7 +60,7 @@ extension HistoryManagerView {
                 try historyManager.loadHistoryPlist(fileName)
             else { return}
             loadHistorySteps(steps, fileName)
-        } catch { print("Load history error: \(error)") }
+        } catch { print("🅾️ Load history error: \(error)") }
     }
     
     /// Удаление файла из списка
@@ -71,7 +71,7 @@ extension HistoryManagerView {
             let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
                 .appendingPathComponent("\(fileName).\(ext)")
             do { try FileManager.default.removeItem(at: url); refreshFileList() }
-            catch { print("Delete file error: \(error)") }
+            catch { print("🅾️ Delete file error: \(error)") }
         }
     }
     
@@ -81,7 +81,7 @@ extension HistoryManagerView {
         let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             .appendingPathComponent("\(fileName).\(ext)")
         do { try FileManager.default.removeItem(at: url); refreshFileList() }
-        catch { print(#function, "Delete file error: \(error)") }
+        catch { print(#function, "🅾️ Delete file error: \(error)") }
     }
     
 }

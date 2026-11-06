@@ -101,7 +101,7 @@ struct SolveSettings: View {
         if let cl = Int(countsLimit) { solver.params.countsLimit = cl }
         if let mhs = Int(maxHistorySteps) {
             solver.params.maxHistorySteps = mhs }
-        print("Новые параметры: \(solver.params)")
+        print("ℹ️ Новые параметры: \(solver.params)")
     }
 
 }

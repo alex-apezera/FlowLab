@@ -61,7 +61,7 @@ extension NavierStokesSolver {
         T[idx(nx-1,0)] = T_cold
         T[idx(nx-1,ny-1)] = T_cold
         
-//        print("T[row=50] = \(T[idx(0,ny/2)])")
+//        print("ℹ️T[row=50] = \(T[idx(0,ny/2)])")
     }
     }///ptr
 }

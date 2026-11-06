@@ -49,6 +49,6 @@ extension NavierStokesSolver {
         dx = (0..<nx-1).map { x[$0+1] - x[$0] }
         dy = [Double](repeating: 0, count: ny-1)
         dy = (0..<ny-1).map { y[$0+1] - y[$0] }
-//        print("h=", h, dx.min()!, dy.min()!, separator: ", ")
+//        print("ℹ️h=", h, dx.min()!, dy.min()!, separator: ", ")
     }
 }
