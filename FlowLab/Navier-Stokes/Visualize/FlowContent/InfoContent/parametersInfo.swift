@@ -13,7 +13,7 @@ extension Visualizator {
     var parametersInfo: some View {
         VStack(alignment: .leading, spacing: 10) {
             methodsInfo
-            domain
+            numbers
             substance
             if solver.allowMelt { meltInfo }
             infoLine
@@ -22,35 +22,10 @@ extension Visualizator {
         .padding(.horizontal)
     }
     
-    /// Методы, числа подобия
+    /// Методы, геометрия, опции
     private var methodsInfo: some View {
         HStack {
             let epm = solver.useEnthalpyMethod
-            Text("Solve. ").bold().font(.body)
-            Text("Method (by melting):").bold()
-            Text("\(epm ? "Enthalpy-Porous Media (EPM)" : "Arbitrary Lagrangian-Eulerian (ALE)").")
-            Text("Numbers:").bold()
-            Text("Ra \(solver.Ra, specifier: "%.3e"),")
-            Text("Re \(solver.Re, specifier: "%.3e"),")
-            Text("Pr \(solver.Pr, specifier: "%.2f"),")
-            if solver.allowMelt {
-                Text("Ste \(solver.Ste, specifier: "%.2f"),")
-                Text("Fo \(solver.Fo, specifier: "%.2f"),")
-            }
-            Text("Nu = q・L/(λ・ΔT):").bold()
-            let inf = solver.allowMelt ? "front" : "cold"
-            let q_hot = solver.q_hotWall.last ?? 0
-            let q_cold = solver.q_coldWall.last ?? 0
-            let Nu_hot = solver.Nu(q: q_hot, T: solver.averageTempHotwall)
-            let Nu_cold = solver.Nu(q: q_cold, T: solver.T_melt)
-            Text("hot \(Nu_hot, specifier: "%.3f")")
-            Text("\(inf) \(Nu_cold, specifier: "%.3f").")
-        }
-    }
-    
-    /// Геометрия, опции
-    private var domain: some View {
-        HStack {
             let conc = solver.useConcurrence
             let pd = solver.useParallelDiffusion
             let pp = solver.useParallelPressure
@@ -60,10 +35,13 @@ extension Visualizator {
             let wa = solver.params.windAngle
             let wt = solver.params.windDeltaTemp
             let sink = solver.params.leftSink
+            Text("Solve. ").bold().font(.body)
+            Text("Method:").bold()
+            Text("\(epm ? "EPM" : "ALE").")
             Text("Domain. ").bold().font(.body)
-            Text("Size w・h [mm]:").bold() /// •
+            Text("Size w・h [mm]:").bold()
             Text("\(solver.params.Lx * 1000 , specifier: "%.0f")x\(solver.params.Ly * 1000, specifier: "%.0f").")
-            Text("N:").bold()
+            Text("Grid:").bold()
             Text("\(solver.params.nx)x\(solver.params.ny), \(solver.useEnthalpyMethod ? "square" : "st= \(solver.stretch_x, specifier: "%.1f")x\(solver.stretch_y, specifier: "%.1f")").")
             if solver.params.useWind {
                 Text("Wind:").bold()
@@ -73,10 +51,7 @@ extension Visualizator {
                 Text(sink ? "left sink." : "top/bottom sink.")
             }
             if ste { Text("Ste scheme is ON. ") }
-            if adr {
-                Text("Adaptive").bold()
-                Text("p-realax.")
-            }
+            if adr { Text("Adaptive p-realax.") }
             if conc || pd || pp {
                 Image(systemName: "cpu.fill")
                 Text("\(solver.workerCount):")
@@ -84,8 +59,32 @@ extension Visualizator {
                 if pd  { Text("diff,") }
                 if pp { Text("press.") }
             }
-            Text("Qwall [W/m²]:").bold()
+
+        }
+    }
+    
+    /// Числа подобия
+    private var numbers: some View {
+        HStack {
             let inf = solver.allowMelt ? "front" : "cold"
+            let q_hot = solver.q_hotWall.last ?? 0
+            let q_cold = solver.q_coldWall.last ?? 0
+            let Nu_hot = solver.Nu(q: q_hot, T: solver.averageTempHotwall)
+            let Nu_cold = solver.Nu(q: q_cold, T: solver.T_melt)
+
+            Text("Numbers.").bold().font(.body)
+            Text("Ra: gβΔT·W³/(να)").bold()
+            Text("\(solver.Ra, specifier: "%.3e"),")
+            Text("Re: 𝐕ᵐW/ν \(solver.Re, specifier: "%.3e"),")
+            Text("Pr: ν/α \(solver.Pr, specifier: "%.2f"),")
+            if solver.allowMelt {
+                Text("Ste: CpΔT/Lʰ \(solver.Ste, specifier: "%.2f"),")
+                Text("Fo: αt/W² \(solver.Fo, specifier: "%.2f"),")
+            }
+            Text("Nu: q・W/(λ・ΔT)").bold()
+            Text("hot \(Nu_hot, specifier: "%.3f")")
+            Text("\(inf) \(Nu_cold, specifier: "%.3f").")
+            Text("Q:").bold()
             Text("hot \(solver.q_hotWall.last ?? 0, specifier: "%.0f")")
             Text("\(inf) \(solver.q_coldWall.last ?? 0, specifier: "%.0f")")
         }
@@ -94,10 +93,11 @@ extension Visualizator {
     /// Праметры вещества и температуры
     private var substance: some View {
         HStack {
+            let value = solver.params.heatingValue
+
             Text("Substance. ").bold().font(.body)
             Text("\(solver.substance.properties.name):").bold()
             Text("T₀ \(solver.T_melt, specifier: "%.0f")ºC,")
-            let value = solver.params.heatingValue
             switch solver.params.heatingType {
             case .temperature:
                 Text("ΔT \(value, specifier: "%.0f")ºC,")
@@ -108,9 +108,9 @@ extension Visualizator {
             Text("β \(solver.beta, specifier: "%.1e")[K⁻¹],")
             Text("ν \(solver.nu, specifier: "%.2e")[m²/s],")
             Text("λ \(solver.lambda, specifier: "%.2f")[W/(m·K)],")
-            Text("ρ₀ \(solver.rho, specifier: "%.2f")[kg/m³],")
+            Text("ρ \(solver.rho, specifier: "%.2f")[kg/m³],")
             if solver.allowMelt {
-                Text("latent heat \(solver.latentHeat, specifier: "%.2e")[W·s/kg].")
+                Text("Lʰ \(solver.latentHeat, specifier: "%.2e")[W·s/kg].")
             }
         }
     }

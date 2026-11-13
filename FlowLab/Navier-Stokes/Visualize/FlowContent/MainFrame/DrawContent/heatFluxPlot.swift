@@ -26,7 +26,7 @@ extension Visualizator {
 
                 HStack {
                     let frameHeight: CGFloat = iPadDevice ? geometry.size.height*0.85: geometry.size.height*0.75
-                    plotForHeat(heatFluxW, heatFluxE, time, timeFirst, xTitle: "time", yTitle:  "q = λ・dT/dx [W/m²]", yTitleNu: "Nu = q・L/(λ・ΔT)", frameHeight)
+                    plotForHeat(heatFluxW, heatFluxE, time, timeFirst, xTitle: "time", yTitle:  "q = λ・dT/dx [W/m²]", yTitleNu: "Nu = q・W/(λ・ΔT)", frameHeight)
                 }
                 .font(iPadDevice ? .caption : .footnote)
                 .padding(.bottom, 10)
