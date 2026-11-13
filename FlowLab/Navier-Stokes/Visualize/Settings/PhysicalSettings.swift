@@ -46,7 +46,7 @@ struct PhysicalSettings: View {
                     Text("●● for some substances parameters depend on temperature").font(.footnote)
                 }) {
                     Picker("Substance", selection: $substance) {
-                        ForEach(Substance.allCases, id: \.self) {fluid in
+                        ForEach(Substance.allCases, id: \.self) { fluid in
                             Text(fluid.localizedName).tag(fluid)
                         }
                     }
@@ -58,10 +58,8 @@ struct PhysicalSettings: View {
                     
                     HStack {
                         switch substance {
-                        case .water, .eicosane, .docosane, .wax56, .air:
-                            substanceProperties
-                        case .custom:
-                            customProperties
+                        case .water, .eicosane, .docosane, .wax56, .air: substanceProperties
+                        case .custom: customProperties
                         }
                     }
                 }

@@ -30,23 +30,43 @@ extension NavierStokesSolver {
         params.gravityRotationVelocity / 86400 : ///[º/day]
         params.gravityRotationVelocity / 60 }  ///[º/min]
     
-    // Температурные параметры -> params
-    var heatingValue: Double {params.heatingValue} /// [K] or [W/m²]
-    var heatingType: HeatingType {params.heatingType}/// T or q
-    /// Величина нагрева в зависимости от способа нагрева
+    // Температурные (T, [ºC]) параметры -> params
+    
+    /// Способ нагрева горячей стенки -> T=const  или  q=const
+    var heatingType: HeatingType {params.heatingType}
+
+    /// Величина нагрева горячей стенки, [K] or [W/m²]
+    var heatingValue: Double {params.heatingValue}
+    
+    // Опорная T, [ºC] равна T холодной стенки (T_cold) или T плавления (T_melt), при которой задаются постоянные свойства веществ в FluidProperties
+
+    /// Референсная T, [ºC],  при которой вычисляются свойства веществ в информационных целях
+    var T_ref: Double { T_melt + 0.5 * deltaT }
+    
+    /// Разница температур в зависимости от способа нагрева
     @inline(__always) var deltaT: Double { switch heatingType {
         case .temperature: return heatingValue
         case .heatFlux: return meltWidth*heatingValue/lambda }
     }
+    
     /// Температура плавления вещества [ºC]
-    @inline(__always) var T_melt: Double {substance.properties.T_melt}
+    @inline(__always) var T_melt: Double {
+        switch substance {
+        case .water, .eicosane, .docosane, .wax56, .air:
+            return params.currentProperties.T_melt
+        case .custom: return params.customFluidProperties.T_melt
+        }
+    }
+
     /// Температура твёрдого тела или правой границы области [ºC]
     @inline(__always) var T_cold: Double { useEnthalpyMethod ?
         (allowMelt ? T_melt - dTm : T_melt) : T_melt }
-    /// Максимальная вычисленная температура [ºC]
+    
+    /// Максимальная  температура [ºC]
     var T_max: Double { T_cold + deltaT }
  
-    /// Управление решением (переключатели) ->  см. params
+    // Управление решением (переключатели) ->  см. params
+    
     var useEnthalpyMethod: Bool {params.useEnthalpyMethod}
     var useConcurrence: Bool {params.useConcurrence}
     var useParallelDiffusion: Bool {params.useParallelDiffusion}

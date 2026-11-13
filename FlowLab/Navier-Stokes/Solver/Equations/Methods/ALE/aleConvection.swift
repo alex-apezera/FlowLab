@@ -91,7 +91,8 @@ extension NavierStokesSolver {
     func convectionV(_ uNew: inout Mutable, _ vNew: inout Mutable, _ T: ReadOnly, _ p: ReadOnly, _ x: ReadOnly, _ y: ReadOnly, _ u: ReadOnly, _ v: ReadOnly, startY: Int, endY: Int) {
         let nx = self.nx, ny = self.ny, dt = self.dt
         let (gx, gy) = gVector(for: time)
-        let T_ref = 0.5 * (T_max + T_cold) /// для β - плотность берется при T_ref
+//        let T_ref = 0.5 * (T_max + T_cold) /// для β - плотность берется при T_ref
+        let T_ref = self.T_ref
         let inv_rho = 1.0 / rho
         
         for j in startY..<endY {

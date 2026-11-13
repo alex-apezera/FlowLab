@@ -166,7 +166,7 @@ final class NavierStokesSolver: ObservableObject {
     @Published var workerCount = ProcessInfo.processInfo.activeProcessorCount
     
     /// малая константа для предотвращения деления на ноль
-    var tiny = 1e-16
+    let tiny = 1e-16
     
     /// активность системы
     @Published var simulationActivity: NSObjectProtocol?

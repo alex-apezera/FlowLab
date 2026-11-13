@@ -4,15 +4,17 @@
 //
 //  Created by Алексей Езерский on 21.11.2025.
 //
-//MARK: - Heat flow versus time graph
+//MARK: - Wall Heat flow versus time graph
 
 import SwiftUI
 extension Visualizator {
     
-    /// График зависимости тепловых потоков от времени
-    func plotForHeat(_ values: [Double], _ values1: [Double], _ time: Double, _ timeFirst: Double, xTitle: String, yTitle: String,  _ frameHeight: CGFloat) -> some View {
+    /// График зависимости тепловых потоков  и чисел Нуссельта от времени
+    func plotForHeat(_ values: [Double], _ values1: [Double], _ time: Double, _ timeFirst: Double, xTitle: String, yTitle: String, yTitleNu: String, _ frameHeight: CGFloat) -> some View {
             
         VStack {
+            
+            // Константы
             let maxValue = max(values.max() ?? 1.0, values1.max() ?? 1.0)
             let minValue = min(values.min() ?? 0.0, values1.min() ?? 0.0)
             let range = maxValue - minValue > 0 ? maxValue - minValue : 1.0
@@ -21,11 +23,33 @@ extension Visualizator {
             let rangeTime = maxTime - minTime > 0 ? maxTime - minTime : 1.0
             let fontValueSize: CGFloat = iPadDevice ? 10 : 8
             let s_rightWall = solver.allowMelt ? "Melt front" : "Cold wall"
+            let q_hot = values.last ?? 0
+            let T_hot = solver.T_cold + solver.deltaT
+            let L = solver.L
+            let deltaT = solver.deltaT
+            let Nu_hot = q_hot * L / solver.lambda(T_hot) / deltaT
+            let q_cold = values1.last ?? 0
+            let T_cold = solver.T_cold
+            let Nu_cold = q_cold * L / solver.lambda(T_cold) / deltaT
+            let lambda = solver.lambda(0.5 * (T_cold + T_hot))
 
             //Заголовок
-            Text("\(yTitle): Hot wall = \(values.last ?? 0, specifier: "%0.f"), \(s_rightWall) = \(values1.last ?? 0, specifier: "%0.f")")
-                .font(iPadDevice ? .caption : Font.system(size: 8))
-                .padding(.bottom, 2)
+            VStack {
+                HStack {
+                    Text("\(yTitle):").bold()
+                    Text("Hot wall = \(values.last ?? 0, specifier: "%.3f"),").foregroundStyle(.red)
+                    Text("\(s_rightWall) = \(values1.last ?? 0, specifier: "%.3f")").foregroundStyle(.blue)
+                }
+                HStack {
+                    Text("\(yTitleNu):").bold().foregroundStyle(.cyan)
+                    Text("Hot wall = \(Nu_hot, specifier: "%.3f"),").foregroundStyle(.red)
+                    Text("\(s_rightWall) = \(Nu_cold, specifier: "%.3f")").foregroundStyle(.blue)
+                }
+            }
+            .font(iPadDevice ? .caption : Font.system(size: 8))
+            .padding(.bottom, 2)
+            
+            // Непосредственно график
             GeometryReader { geometry in
                 let width = geometry.size.width
                 let height = geometry.size.height
@@ -49,9 +73,13 @@ extension Visualizator {
                 .stroke(Color.black, lineWidth: 1)
                 
                 // Линии сетки и подписи
-                ForEach(0..<5, id: \.self) { i in
-                    let yValue = minValue + range * Double(i)/4
-                    let yPos = height * (1 - CGFloat(i)/4)
+                /// количество горизонтальных линий минус одна
+                let hLines = 6
+                
+                ForEach(0...hLines, id: \.self) { i in
+                    let yValue = minValue + range * Double(i)/Double(hLines)
+                    let yPos = height * (1 - CGFloat(i)/CGFloat(hLines))
+                    let yValueNu = yValue * L / lambda / deltaT
                     
                     // Горизонтальные линии
                     Path { path in
@@ -61,26 +89,42 @@ extension Visualizator {
                     .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
                     
                     // Подписи оси Y со сдвигом внутрь графика
-                    Text("\(yValue, specifier: "%.0f")")
+                    Text("\(yValue, specifier: "%.1f")")
                         .font(.system(size: fontValueSize))
-                        .position(x: yValue < 1000 ? 14 : 20, y: yPos - 5)
+                        .position(x: yValue < 1000 ? 20 : 25, y: yPos - 7)
+                    if i > 0 { Text("\(yValueNu, specifier: "%.1f")")
+                            .foregroundStyle(.cyan)
+                            .font(.system(size: fontValueSize))
+                            .position(x: yValue < 2000 ? 20 : 25, y: yPos + 7)
+                    }
                 }
                 
                 // Значения величин по оси X
-                ForEach(0..<4, id: \.self) { i in
-                    let xValue = minTime + rangeTime * Double(3-i)/3
-                    let xPos = width * (1 - CGFloat(i)/3)
+                /// количество вертикальных линий минус одна
+                let vLines = 5
+                
+                ForEach(0...vLines, id: \.self) { i in
+                    let xValue = minTime + rangeTime * Double(vLines-i)/Double(vLines)
+                    let xPos = width * (1 - CGFloat(i)/CGFloat(vLines))
                     let timeString = solver.allowMelt ? formattedTime(xValue) : String(format: "%.2f", xValue)
 
-                    Path { path in /// засечка высотой в 4 пункта
+                    // Засечка высотой в 4 пункта
+                    Path { path in
                         path.move(to: CGPoint(x: xPos, y: height))
                         path.addLine(to: CGPoint(x: xPos, y: height + 4))
                     }
                     .stroke(lineWidth: 1)
                     
+                    // Вертикальная координатная линия
+                    Path { path in
+                        path.move(to: CGPoint(x: xPos, y: height))
+                        path.addLine(to: CGPoint(x: xPos, y: 0))
+                    }
+                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                    
                     let xPosShift = /// корректировка позиции
                         i == 0 ? xPos - 30 :
-                        i == 3 ? xPos + 30 : xPos
+                        i == vLines ? xPos + 30 : xPos
                     Text("\(timeString)") /// значение со сдвигом вниз от оси х
                         .font(.system(size: fontValueSize))
                         .position(x: xPosShift, y: height + 10)
@@ -92,7 +136,10 @@ extension Visualizator {
                     .position(x: width/2, y: height + 10)
                 
                 // Заголовок оси Y с вертикальным расположением
-                Text(yTitle)
+                HStack {
+                    Text(yTitleNu).foregroundStyle(.cyan)
+                    Text(yTitle)
+               }
                     .font(.system(size: fontValueSize))
                     .rotationEffect(.degrees(-90))
                     .position(x: -8, y: height/2)

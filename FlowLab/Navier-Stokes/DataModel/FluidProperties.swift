@@ -25,15 +25,15 @@ struct FluidProperties: Codable, Sendable {
     
     // Статические переменные, которые возвращают набор свойств
  
-    static var water: FluidProperties { /// 0 ÷ 40°C
+    static var water: FluidProperties { /// 0°C
         return FluidProperties(
             name: "Water",
             density: 1000,
-            viscosity: 1.306e-6,
-            thermalDiffusivity: 1.42e-7,
-            thermalConductivity: 0.6, /// зависит от температуры (calculatedVars)
+            viscosity: 1.787e-6,
+            thermalDiffusivity: 1.33E-7,
+            thermalConductivity: 0.561,
             specificHeat: 4217,/// Cp =  4217[0°]÷ 4178[40°C]
-            expansionCoefficient: 8.8e-5,
+            expansionCoefficient: 6.4e-5,
             T_melt: 0.0, /// [°C]
             latentHeat: 333000, ///  [W•s/kg]
             rho_solid: 917.0,
@@ -42,45 +42,45 @@ struct FluidProperties: Codable, Sendable {
         )
         
     }
-    static var eicosane: FluidProperties {  /// +40°C
+    static var eicosane: FluidProperties {  /// 36°C
         return FluidProperties(
             name: "Eicosane",
             density: 780,///780→750 кг/м³
-            viscosity: 2.85e-5, /// 23°C
-            thermalDiffusivity: 1.12e-7,
-            thermalConductivity: 0.15, ///  ~0,15→0,14 Вт/(м·К)
-            specificHeat: 2300, ///2200→2400 Дж/(кг·К).
-            expansionCoefficient: 0.00085,
-            T_melt: 36.0, /// [°C]
+            viscosity: 4.49e-6,
+            thermalDiffusivity: 8.86e-8,
+            thermalConductivity: 0.152, ///  ~0,15→0,14 Вт/(м·К)
+            specificHeat: 2500, ///2200→2400 Дж/(кг·К).
+            expansionCoefficient: 85e-5,
+            T_melt: 36.7, /// [°C]
             latentHeat: 247000, ///  [W•s/kg]
-            rho_solid: 820,
+            rho_solid: 815,
             lambda_solid: 0.425,
-            Cp_solid: 1900
+            Cp_solid: 2200
         )
     }
-    static var docosane: FluidProperties {
+    static var docosane: FluidProperties { /// 44°C
         return FluidProperties(
             name: "Docosane",
             density: 765,///~775→745 кг/м³.
-            viscosity: 2.84e-5,
-            thermalDiffusivity: 1.12e-7,
-            thermalConductivity: 0.14,
+            viscosity: 5.16e-6,
+            thermalDiffusivity: 8.49e-8,
+            thermalConductivity: 0.148,
             specificHeat: 2400, /// ~2250→2500 Дж/(кг·К).
-            expansionCoefficient: 0.00082,
+            expansionCoefficient: 82e-5,
             T_melt: 44.0, /// [°C]
             latentHeat: 230000, ///  [W•s/kg]
             rho_solid: 810,
             lambda_solid: 0.37,
-            Cp_solid: 1900
+            Cp_solid: 2100
         )
     }
-    static var wax56: FluidProperties {
+    static var wax56: FluidProperties { /// 56°C
         return FluidProperties(
             name: "Wax",
             density: 770,
-            viscosity: 2.82e-5,
-            thermalDiffusivity: 1.12e-7,
-            thermalConductivity: 0.14,
+            viscosity: 5.77e-6,
+            thermalDiffusivity: 7.15e-8,
+            thermalConductivity: 0.145,
             specificHeat: 2700, /// ~2600→2800 Дж/(кг·К)
             expansionCoefficient: 0.0008,
             T_melt: 56.0, /// [°C]
@@ -90,15 +90,15 @@ struct FluidProperties: Codable, Sendable {
             Cp_solid: 2000
         )
     }
-    static var air: FluidProperties { /// 0 - 100°C
+    static var air: FluidProperties { /// 0°C
         return FluidProperties(
             name: "Air",
             density: 1.248,
-            viscosity: 14.2e-6,
-            thermalDiffusivity: 19.88e-6,
+            viscosity: 13.28e-6,
+            thermalDiffusivity: 18.6e-6,
             thermalConductivity: 0.026,
             specificHeat: 1006,
-            expansionCoefficient: 0.0035317,
+            expansionCoefficient: 1/273.15,
             T_melt: 0.0, /// условная температура
             latentHeat: 1e10, ///  [W•s/kg] (запрет плавления)
             rho_solid: 810, /// not used
@@ -108,19 +108,19 @@ struct FluidProperties: Codable, Sendable {
     }
     /// This properties may edited in Settings/Object/Substance
     static var custom: FluidProperties {
-        return FluidProperties( /// =  eicosane, ρ, λ, Cp: solid = liquid
+        return FluidProperties( /// =  eicosane, benchmark
             name: "Custom",
             density: 780,
-            viscosity: 2.85e-5,
-            thermalDiffusivity: 1.12e-7,
-            thermalConductivity: 0.15,
-            specificHeat: 2300,
-            expansionCoefficient: 0.00085,
-            T_melt: 36.0,/// [°C]
+            viscosity: 4.49e-6,
+            thermalDiffusivity: 8.86e-8,
+            thermalConductivity: 0.152,
+            specificHeat: 2500,
+            expansionCoefficient: 8.5e-4,
+            T_melt: 36.7,/// [°C]
             latentHeat: 247000, /// свыше 1е6 - плавления нет
-            rho_solid: 820,
+            rho_solid: 815,
             lambda_solid: 0.425,
-            Cp_solid: 1900
+            Cp_solid: 2200
         )
     }
 }

@@ -22,44 +22,40 @@ extension Visualizator {
         .padding(.horizontal)
     }
     
-    /// Методы и опции
+    /// Методы, числа подобия
     private var methodsInfo: some View {
         HStack {
             let epm = solver.useEnthalpyMethod
+            Text("Solve. ").bold().font(.body)
+            Text("Method (by melting):").bold()
+            Text("\(epm ? "Enthalpy-Porous Media (EPM)" : "Arbitrary Lagrangian-Eulerian (ALE)").")
+            Text("Numbers:").bold()
+            Text("Ra \(solver.Ra, specifier: "%.3e"),")
+            Text("Re \(solver.Re, specifier: "%.3e"),")
+            Text("Pr \(solver.Pr, specifier: "%.2f"),")
+            if solver.allowMelt {
+                Text("Ste \(solver.Ste, specifier: "%.2f"),")
+                Text("Fo \(solver.Fo, specifier: "%.2f"),")
+            }
+            Text("Nu = q・L/(λ・ΔT):").bold()
+            let inf = solver.allowMelt ? "front" : "cold"
+            let q_hot = solver.q_hotWall.last ?? 0
+            let q_cold = solver.q_coldWall.last ?? 0
+            let Nu_hot = solver.Nu(q: q_hot, T: solver.averageTempHotwall)
+            let Nu_cold = solver.Nu(q: q_cold, T: solver.T_melt)
+            Text("hot \(Nu_hot, specifier: "%.3f")")
+            Text("\(inf) \(Nu_cold, specifier: "%.3f").")
+        }
+    }
+    
+    /// Геометрия, опции
+    private var domain: some View {
+        HStack {
             let conc = solver.useConcurrence
             let pd = solver.useParallelDiffusion
             let pp = solver.useParallelPressure
             let ste = solver.useStephanScheme
             let adr = solver.useAdaptiveRelax
-            Text("Solve. ").bold().font(.body)
-            Text("Method (by melting):").bold()
-            Text("\(epm ? "Enthalpy-Porous Media (EPM)" : "Arbitrary Lagrangian-Eulerian (ALE)").")
-            Text("Numbers:").bold()
-            Text("Ra \(solver.Ra, specifier: "%.0f"),")
-            Text("Re \(solver.Re, specifier: "%.0f"),")
-            Text("Pr \(solver.Pr, specifier: "%.2f").")
-            if solver.allowMelt {
-                Text("Ste \(solver.Ste, specifier: "%.2f"),")
-                Text("Fo \(solver.Fo, specifier: "%.2f").")
-            }
-            if ste { Text("Ste scheme is ON. ") }
-            if adr {
-                Text("Adaptive").bold()
-                Text("p-realax.")
-            }
-            if conc || pd || pp {
-                Image(systemName: "cpu.fill")
-                Text("\(solver.workerCount):")
-                if conc { Text("conv, 𝐕 corr & div,") }
-                if pd  { Text("diff,") }
-                if pp { Text("press.") }
-            }
-        }
-    }
-    
-    /// Геометрия, числа подобия
-    private var domain: some View {
-        HStack {
             let ws = solver.params.windSpeed*1000
             let wa = solver.params.windAngle
             let wt = solver.params.windDeltaTemp
@@ -76,6 +72,18 @@ extension Visualizator {
                 Text("ΔT_in \(wt, specifier: "%.0f")°C,")
                 Text(sink ? "left sink." : "top/bottom sink.")
             }
+            if ste { Text("Ste scheme is ON. ") }
+            if adr {
+                Text("Adaptive").bold()
+                Text("p-realax.")
+            }
+            if conc || pd || pp {
+                Image(systemName: "cpu.fill")
+                Text("\(solver.workerCount):")
+                if conc { Text("conv, 𝐕 corr & div,") }
+                if pd  { Text("diff,") }
+                if pp { Text("press.") }
+            }
             Text("Qwall [W/m²]:").bold()
             let inf = solver.allowMelt ? "front" : "cold"
             Text("hot \(solver.q_hotWall.last ?? 0, specifier: "%.0f")")
@@ -88,7 +96,7 @@ extension Visualizator {
         HStack {
             Text("Substance. ").bold().font(.body)
             Text("\(solver.substance.properties.name):").bold()
-            Text("T₀ \(solver.substance.properties.T_melt, specifier: "%.0f")ºC,")
+            Text("T₀ \(solver.T_melt, specifier: "%.0f")ºC,")
             let value = solver.params.heatingValue
             switch solver.params.heatingType {
             case .temperature:

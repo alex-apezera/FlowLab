@@ -15,7 +15,7 @@ struct SimulationParameters: Codable, Sendable {
     var ny: Int = 100 /// число узлов по высоте (>1)
     var Lx: Double = 0.15 /// ширина [m] (>0)
     var Ly: Double = 0.15 /// высота [m] (>0)
-    /// коэффициенты  растяжения сетки от центра к границам для метода ALE (≥0)
+    /// коэфф-ты  растяжения сетки от центра к границам для метода ALE (≥0)
     var stretch_x: Double = 0.0
     var stretch_y: Double = 0.0
     /// ограничение по ширине расплава для метода ALE ( > 1 )

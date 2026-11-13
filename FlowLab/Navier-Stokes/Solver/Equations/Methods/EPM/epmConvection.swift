@@ -65,7 +65,7 @@ extension NavierStokesSolver {
         let nx_max = nx-1, ny_max = ny-1
         let dt = self.dt
         let (gx, gy) = gVector(for: time)
-        let T_ref = 0.5 * (T_max + T_cold)
+        let T_ref = self.T_ref /*0.5 * (T_max + T_cold)*/
         let inv2h = 1 / (2*h)
         
         for j in startY..<endY {
