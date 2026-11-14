@@ -23,7 +23,7 @@ FlowLab is a software package for the numerical solution of two-dimensional Navi
 - [Installation and running a simulation](#installation-and-running-a-simulation)
 - [Input parameters](#input-parameters)
 - [Output data](#output-data)
-- [Verification tests](#verification tests)
+- [Verification tests](#verification-tests)
 - [Examples](#examples)
 - [Performance](#performance)
 - [Model limitations](#model-limitations)
@@ -270,13 +270,14 @@ Most input and output parameters are clearly displayed at the top of the start p
 
 ## Verification tests
 
-### Problem 1. Natural convection in a square cavity filled with air
+**Task 1. Natural convection in a square cavity filled**
+
 A classic test case is that of *de Vahl Davis (1983)*, with refinements by *Le Quéré (1991)*. The setup consists of a square cavity where the side walls are maintained at temperatures $T_h$ and $T_c$, while the top and bottom walls are adiabatic.
 *Reference values.* The literature typically cites the Nusselt number ($Nu$) averaged over the hot wall. For a cavity width $W = 0.15$ m containing air at 300 K, the properties are: $\nu \approx 1.57 \times 10^{-5}$ m²/s, $\alpha \approx 2.2 \times 10^{-5}$ m²/s, $\beta \approx 1/300$ K⁻¹, and $\lambda \approx 0.026$ W/(m·K). Consequently, the Rayleigh number (.custom) $Ra = g\beta\Delta T W^3 / (\nu\alpha)$ reaches $10^6$ at $\Delta T \approx 3.134$ K.
 
 Two problem formulations are considered:
 
-constant material properties (defined as `.custom`) at $T_c = 18$ °C (300 K);
+constant material properties for an air (defined as `.custom`) at $T_c = 18$ °C (300 K);
 the built-in `.air` material, with properties interpolated based on temperature, at $T_c = 0$ °C (273.15 K).
 
 Computational grids: $128 \times 128$; for $Ra = 10^7$, a $384 \times 384$ grid is used.
@@ -576,13 +577,14 @@ W - минимальный характерный размер или средн
 
 ## Тестирование (верификация)
 
-### Задача 1. Естественная конвекция в квадратной полости с воздухом
+**Задача 1. Естественная конвекция в квадратной полости**
+
 Классический тестовый пример — *de Vahl Davis (1983)* и его уточнение *Le Quéré (1991)*. Квадратная полость, боковые стенки при температурах T_h и T_c, верх/низ адиабатные.
 *Опорные величины.* В литературе приводят осреднённый по горячей стенке Nu. При W = 0,15 м и воздухе при 300 K: ν ≈ 1,57·10⁻⁵ м²/с, α ≈ 2,2·10⁻⁵ м²/с, β ≈ 1/300 K⁻¹, λ ≈ 0,026 Вт/(м·К). Тогда число Рэлея (.custom) Ra = gβΔT·W³/(να) равен 10⁶ при ΔT ≈ 3,134 K.
 
 Рассмотрены два варианта постановки:
 
-постоянные свойства, заданные для материала `.custom` при T_c = 18 °C (300 K);
+постоянные свойства для воздуха, заданные для материала `.custom` при T_c = 18 °C (300 K);
 предустановленный материал `.air` с интерполированными по температуре свойствами, T_c = 0 °C (273,15 K).
 
 Сетки: 128×128, для Ra = 10⁷ — 384×384.
