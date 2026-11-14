@@ -23,6 +23,7 @@ FlowLab is a software package for the numerical solution of two-dimensional Navi
 - [Installation and running a simulation](#installation-and-running-a-simulation)
 - [Input parameters](#input-parameters)
 - [Output data](#output-data)
+- [Verification tests](#verification tests)
 - [Examples](#examples)
 - [Performance](#performance)
 - [Model limitations](#model-limitations)
@@ -66,7 +67,10 @@ n - normal to the melt surface, [m];
 
 ρ - density (liquid), [kg/m³];
 
-ψ, ω - stream function.
+ψ, ω - stream function;
+
+W - minimal width/height or average melting width, [m].
+
 
 The following equations are solved:
 
@@ -245,7 +249,7 @@ The following parameters can be modified in the **Settings** panel:
 
 * **Simulation controls:** the Courant-number range used to adapt the time step (including the hybrid scheme, which is not recommended); pressure-solver tolerance and relax factor; the number of iterations for the Poisson equation; limits of array dimensions for Diagnostics parameters and Hostory.
 
-* **Object parameters:** heating type (T or q), heating value; initial temperature distribution in the cavity; temperature conditions at the point where the phase transition boundary touches the solid right-hand wall; material (substance) selection for modeling. Custom substance may be selected.  Parameters of Custom substance may be modified.
+* **Object parameters:** heating type (T or q), heating value; initial temperature distribution in the cavity; the initial temperature difference upon placing a solid body ("stone")—which may have zero or non-zero thermal conductivity, or consist of an unmelted solid phase—into a liquid or a melt; temperature conditions at the point where the phase transition boundary touches the solid right-hand wall; material (substance) selection for modeling. Custom substance may be selected.  Parameters of Custom substance may be modified.
 
 * **Forced convection ("Wind"):** can be enabled or disabled. The following parameters can be specified: inlet flow velocity, temperature excess relative to the temperature specified on the hot wall, inflow angle, and inflow-section coordinates; enable/disable free outflow at the top and bottom of the left boundary (by default, free outflow is on the horizontal boundaries)
 
@@ -262,7 +266,33 @@ The main data includes:
 * Diagnostics data.
 
 Diagnostics data is not changed when the simulation history is playing.
-Most input and output parameters are clearly displayed at the top of the start page.
+Most input and output parameters are clearly displayed at the top of the start page. In addition to the solution process control panel (covering solution initiation, diagnostic plots, history files, reset, settings, acceleration, and speed freezing) and the display of gravity-related information, the interface includes sections for the following parameter groups: solution method (including geometry and other options), dimensionless numbers (with their respective formulas), material properties, melting process parameters (melt volume, melting rate, and melting time), and statistics on the solution progress.
+
+## Verification tests
+
+### Problem 1. Natural convection in a square cavity filled with air
+A classic test case is that of *de Vahl Davis (1983)*, with refinements by *Le Quéré (1991)*. The setup consists of a square cavity where the side walls are maintained at temperatures $T_h$ and $T_c$, while the top and bottom walls are adiabatic.
+*Reference values.* The literature typically cites the Nusselt number ($Nu$) averaged over the hot wall. For a cavity width $W = 0.15$ m containing air at 300 K, the properties are: $\nu \approx 1.57 \times 10^{-5}$ m²/s, $\alpha \approx 2.2 \times 10^{-5}$ m²/s, $\beta \approx 1/300$ K⁻¹, and $\lambda \approx 0.026$ W/(m·K). Consequently, the Rayleigh number (.custom) $Ra = g\beta\Delta T W^3 / (\nu\alpha)$ reaches $10^6$ at $\Delta T \approx 3.134$ K.
+
+Two problem formulations are considered:
+
+constant material properties (defined as `.custom`) at $T_c = 18$ °C (300 K);
+the built-in `.air` material, with properties interpolated based on temperature, at $T_c = 0$ °C (273.15 K).
+
+Computational grids: $128 \times 128$; for $Ra = 10^7$, a $384 \times 384$ grid is used.
+
+**Test Results (EPM)**
+
+| $Ra$ | Medium | $Nu$ (de Vahl Davis) | $Nu$ (Le Quéré) | $Nu$ (FlowLab) | Deviation from Le Quéré | $\Delta T$, K |
+|---:|:---:|---:|---:|---:|---:|---:|
+| $10^5$ | `.air` | 4.519 | — | 4.510 | −0.2% | 0.2039 |
+| 10⁶ | .custom | 8.800 | 8.825 | 8.707 | −1.3% | 3.134 |
+| 10⁶ | .air | 8.800 | 8.825 | 8.703 | −1.4% | 2.046 |
+| 10⁷ | .air | — | 16.523 | 16.794 | +1.6% | 21.1 |
+
+>**Notes:** In the "Deviation from Le Quéré" column, the value provided by de Vahl Davis (4.519) is used as the reference for Ra = 10⁵, as data from Le Quéré for this regime are not included in the table.
+
+For Ra = 10⁷, the steady-state regime gives way to an oscillatory one with a variation of more than 3%; in the literature, an averaged Nu value of approximately 16.4–16.6 is reported for this regime.
 
 ## Examples
 
@@ -383,6 +413,7 @@ FlowLab — программный комплекс для численного 
 - [Установка и запуск расчета](#установка-и-запуск-расчета)
 - [Входные параметры](#входные-параметры)
 - [Выходные данные](#выходные-данные)
+- [Тестирование](#тестирование)
 - [Примеры расчетов](#примеры-расчетов)
 - [Производительность](#производительность)
 - [Ограничения модели](#ограничения-модели)
@@ -414,9 +445,9 @@ t - время, [s]
 
 α - температуропроводность, [m²/s] 
 
-λ - теплопроводность, [W/m·K];
+λ - теплопроводность, [W/m·K]
 
-β - коэффициент объемного расширения, 
+β - коэффициент объемного расширения, [K⁻¹]
 
 ν - кинематическая вязкость, [m²/s] 
 
@@ -425,6 +456,8 @@ L - скрытая теплота плавления, [W·s/kg], [J/kg]
 n - нормаль к поверхности плавления, [m]
 
 ρ - плотность жидкой фазы, [kg/m³]
+
+W - минимальный характерный размер или средняя толщина расплава, [m]
 
 ψ, ω - функция тока. 
 
@@ -531,7 +564,7 @@ n - нормаль к поверхности плавления, [m]
 
 * **управление процессом моделирования** - диапазон чисел Куранта для адаптации временного шага включая гибридную схему (не рекомендуется), допустимая погрешность при вычислении функции тока ω из уравнения Пуассона, параметры итерационного процесса для давления, лимиты длин массивов для Диагностики и Истории;
 
-* **параметры объекта** - тип нагрева (температура или тепловой поток), величина нагрева, начальное распределение температуры в полости, условия для температуры при касании границей фазового перехода твердой правой стенки, выбор вещества для моделирования включая произвольное (у которого можно назначить любые параметры);
+* **параметры объекта** - тип нагрева (температура или тепловой поток), величина нагрева, начальное распределение температуры в полости, начальная разница температур при размещении в жидкости или расплаве твердого тела ("камень") с нулевой или ненулевой теплопроводностью или нерасплавленной твердой фазой, условия для температуры при касании границей фазового перехода твердой правой стенки, выбор вещества для моделирования включая произвольное (у которого можно назначить любые параметры);
 
 * **включение/выключение вынужденной конвекции** -  установить/редактировать: скорость вдува, превышение температуры вдува относительно установленной на горячей стенке, угол вдува, координаты участка вдува; включить/выключить свободный сток вверху и внизу на левой границе (по умолчанию сток - на горизонтальных границах).
 
@@ -539,7 +572,33 @@ n - нормаль к поверхности плавления, [m]
 
 Данные расчетов представлены в визуализаторе в основном в режиме реального времени, а также в ходе прокрутки Истории. Главные данные это тепловые карты температуры, давления, функции тока с наложением поля скоростей; график распределения температуры по горизонтальным сечениям; график зависимости от времени удельных тепловых потоков и чисел Нуссельта на вертикальных стенках, включая границу фронта плавления. Имеются также данные Диагностики (не меняются в ходе прокрутки Истории).
 
-Большинство входных и выходных параметров наглядно представлены в верхней части стартовой страницы.
+Большинство входных и выходных параметров наглядно представлены в верхней части стартовой страницы. Помимо блока управления процессом решения (запуск решения, графики диагностики, файлы истории, сброс, настройки, ускорение, а также заморозка скорости) и отображения информации о гравитации, - представлены строки по следующим группам параметров: Метод решения с геометрией и другими опцииями, Числа подобия с формулами, Параметры вещества, Параметры процесса плавления (объем расплава, скорость плавления, время плавления), Статистика хода решения.
+
+## Тестирование (верификация)
+
+### Задача 1. Естественная конвекция в квадратной полости с воздухом
+Классический тестовый пример — *de Vahl Davis (1983)* и его уточнение *Le Quéré (1991)*. Квадратная полость, боковые стенки при температурах T_h и T_c, верх/низ адиабатные.
+*Опорные величины.* В литературе приводят осреднённый по горячей стенке Nu. При W = 0,15 м и воздухе при 300 K: ν ≈ 1,57·10⁻⁵ м²/с, α ≈ 2,2·10⁻⁵ м²/с, β ≈ 1/300 K⁻¹, λ ≈ 0,026 Вт/(м·К). Тогда число Рэлея (.custom) Ra = gβΔT·W³/(να) равен 10⁶ при ΔT ≈ 3,134 K.
+
+Рассмотрены два варианта постановки:
+
+постоянные свойства, заданные для материала `.custom` при T_c = 18 °C (300 K);
+предустановленный материал `.air` с интерполированными по температуре свойствами, T_c = 0 °C (273,15 K).
+
+Сетки: 128×128, для Ra = 10⁷ — 384×384.
+
+**Результаты тестов (EPM)**
+
+| Ra | Вещество | Nu (de Vahl Davis) | Nu (Le Quéré) | Nu (FlowLab) | Отклонение от Le Quéré | ΔT, K |
+|---:|:---:|---:|---:|---:|---:|---:|
+| 10⁵ | .air | 4,519 | — | 4,510 | −0,2 % | 0,2039 |
+| 10⁶ | .custom | 8,800 | 8,825 | 8,707 | −1,3 % | 3,134 |
+| 10⁶ | .air | 8,800 | 8,825 | 8,703 | −1,4 % | 2,046 |
+| 10⁷ | .air | — | 16,523 | 16,794 | +1,6 % | 21,1 |
+
+>**Примечания:** В столбце «Отклонение от Le Quéré» для Ra = 10⁵ опорным принято значение de Vahl Davis (4,519), так как данные Le Quéré для этого режима в таблице отсутствуют.
+
+Для Ra = 10⁷ стационарный режим сменяется колебательным с разбросом более 3 %; в литературе для этого режима приводят осреднённый Nu ≈ 16,4–16,6.
 
 ## Примеры расчетов
 

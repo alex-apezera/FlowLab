@@ -176,7 +176,7 @@ extension Visualizator {
         }
     }
     
-    /// Информация о ходе решения
+    /// Статистика о ходе решения
     private var infoLine: some View {
         HStack {
             Text("Process.").bold().font(.body)
